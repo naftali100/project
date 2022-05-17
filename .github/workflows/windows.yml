@@ -1,0 +1,47 @@
+name: windows build ci
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build: 
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+      
+      
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: add cmake
+      uses: jwlawson/actions-setup-cmake@latest
+      # uses: lukka/get-cmake@latest
+
+    - name: download and extract SFML
+      run: |
+        Invoke-WebRequest https://www.sfml-dev.org/files/SFML-2.5.1-windows-vc15-64-bit.zip -Outfile sfml.zip -UseBasicParsing
+        Expand-Archive -LiteralPath "sfml.zip"  -DestinationPath C:/SFML/
+ 
+    - name: Configure CMake
+      env:
+          CXX: msvc
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build
+      #  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
+
+
+    - name: MSBuild
+      working-directory: ${{github.workspace}}/build
+      run: cmake --build .
+      # run: msbuild /m ex4.sln

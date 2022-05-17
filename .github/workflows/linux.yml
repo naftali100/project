@@ -1,0 +1,62 @@
+name: linux build ci
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: recursive
+
+    # - name: checkout submodules
+    #   run: |
+    #     git pull --recurse-submodules
+    #     git submodule update --remote --recursive
+    
+    - name: setup linux environment
+      run: |
+        echo install sfml =====================================================================
+        sudo apt-get install libsfml-dev
+        echo update gcc =====================================================================
+        echo gcc version before
+        gcc --version
+        echo add gcc ppa
+        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+        sudo apt-get update
+        sudo apt install build-essential
+        sudo apt-get install ninja-build cmake g++-11 gcc-11
+        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 90 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
+        echo gcc version after
+        gcc --version
+
+        # echo Update ninja =======================================================================
+        # echo ninja version before
+        # ninja --version
+        # wget https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
+        # sudo unzip ninja-linux.zip -d /usr/local/bin/
+        # sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
+        # echo ninja version after
+        # ninja --version
+
+        sudo apt install lld
+          
+    - name: Configure CMake
+      shell: bash
+      # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
+      # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -G "Ninja"
+
+    - name: Build
+      shell: bash
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
