@@ -1,11 +1,10 @@
 #include "Game.h"
 
-
 #include "Colors.h"
 #include "Config.h"
-#include "SfmlUtil.h"
-#include "States/MainMenu.h"
+#include "Game/States/WelcomeState.h"
 #include "Resources.h"
+#include "SfmlUtil.h"
 
 Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
 
@@ -44,7 +43,7 @@ void Game::run() {
     m_win.setKeyRepeatEnabled(false);
 
     // initial state
-    m_stateManager.pushState(std::make_unique<MainMenu>(m_stateManager));
+    m_stateManager.pushState(std::make_unique<WelcomeState>(m_stateManager));
 
     sf::Clock clock;
     while (m_stateManager.isRunning()) {
@@ -97,12 +96,16 @@ void Game::update(sf::Time deltaTime) {
 
 void Game::showStatWin() {
     static bool open = true;
-    if (open) {
-        if (ImGui::Begin("stat window", &open)) {
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
-                        ImGui::GetIO().Framerate);
+    IF_PLOG(plog::verbose) {
+        if (open) {
+            if (ImGui::Begin("stat window", &open)) {
+                ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
+                            ImGui::GetIO().Framerate);
+                ImGui::Text("mouse position: %f, %f", sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+                // add more useful debug info
+            }
+            ImGui::End();
         }
-        ImGui::End();
     }
 }
 
