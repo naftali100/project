@@ -24,8 +24,7 @@ jobs:
       uses: microsoft/setup-msbuild@v1.0.2
 
     - name: add cmake
-      uses: jwlawson/actions-setup-cmake@v1.12
-      # uses: lukka/get-cmake@latest
+      uses: lukka/get-cmake@latest
 
     - name: download and extract SFML
       run: |
