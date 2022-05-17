@@ -35,19 +35,10 @@ jobs:
         sudo apt install \
         libsfml-dev \
         build-essential \
-        ninja-build g++-11 gcc-11 \
+        g++-11 gcc-11 \
         lld
 
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 90 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
-
-        # echo Update ninja =======================================================================
-        # echo ninja version before
-        # ninja --version
-        # wget https://github.com/ninja-build/ninja/releases/latest/download/ninja-linux.zip
-        # sudo unzip ninja-linux.zip -d /usr/local/bin/
-        # sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
-        # echo ninja version after
-        # ninja --version
           
     - name: Configure CMake
       shell: bash

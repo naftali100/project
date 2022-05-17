@@ -19,7 +19,6 @@ jobs:
       with:
         submodules: recursive
       
-      
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
@@ -38,7 +37,6 @@ jobs:
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
       run: cmake -B ${{github.workspace}}/build
       #  -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-
 
     - name: MSBuild
       working-directory: ${{github.workspace}}/build
