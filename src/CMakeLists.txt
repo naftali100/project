@@ -15,13 +15,13 @@ if( WIN32 )
 endif()
 
 find_package(OpenGL REQUIRED)
-find_package (SFML 2.5 COMPONENTS graphics audio network REQUIRED)
+find_package (SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 if( WIN32 ) 
     # sfml-main - is windows only 
-    set_target_properties (sfml-main sfml-system sfml-window sfml-graphics sfml-audio sfml-network PROPERTIES MAP_IMPORTED_CONFIG_RELWITHDEBINFO RELEASE)
-    target_link_libraries (${SOURCES_LIB} PUBLIC sfml-system sfml-graphics sfml-audio sfml-main sfml‑network ${OPENGL_LIBRARIES})
+    set_target_properties (sfml-main sfml-system sfml-window sfml-graphics sfml-audio PROPERTIES MAP_IMPORTED_CONFIG_RELWITHDEBINFO RELEASE)
+    target_link_libraries (${SOURCES_LIB} PUBLIC sfml-system sfml-graphics sfml-audio sfml-main ${OPENGL_LIBRARIES})
 else()
-    set_target_properties (sfml-system sfml-window sfml-graphics sfml-audio sfml-network PROPERTIES MAP_IMPORTED_CONFIG_RELWITHDEBINFO RELEASE)
-    target_link_libraries (${SOURCES_LIB} PUBLIC sfml-system sfml-graphics sfml-audio sfml-network ${OPENGL_LIBRARIES})
+    set_target_properties (sfml-system sfml-window sfml-graphics sfml-audio PROPERTIES MAP_IMPORTED_CONFIG_RELWITHDEBINFO RELEASE)
+    target_link_libraries (${SOURCES_LIB} PUBLIC sfml-system sfml-graphics sfml-audio ${OPENGL_LIBRARIES})
 endif()
