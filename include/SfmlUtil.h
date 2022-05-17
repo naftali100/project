@@ -30,6 +30,14 @@
 #ifndef SFMLUTIL_H
 #define SFMLUTIL_H
 
+#if __has_include("concepts") && __cpp_concepts <= __cplusplus && __cpp_lib_concepts <= __cplusplus && !_MSC_VER
+    #define has_concepts
+#endif
+
+#ifdef has_concepts
+#include <concepts>
+
+
 template <typename T>
 concept hasGlobal = requires(T t) {
     t.getGlobalBounds();
@@ -85,5 +93,24 @@ namespace sf {
 }  // namespace sf
 
 #include "SfmlUtil.tpp"
+
+#else // don't has concepts
+
+namespace sf {
+namespace util {
+template <typename T>
+inline sf::Vector2f getGlobalCenter(const T& object) {
+    const sf::FloatRect bounds{object.getGlobalBounds()};
+    return {bounds.left + bounds.width / 2.f, bounds.top + bounds.height / 2.f};
+}
+template <typename T>
+inline sf::Vector2f getGlobalTopRight(const T& object) {
+    const sf::FloatRect bounds{object.getGlobalBounds()};
+    return {bounds.left + bounds.width, bounds.top};
+}
+}  // namespace util
+}  // namespace sf
+
+#endif // has concepts
 
 #endif
