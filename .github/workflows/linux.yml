@@ -33,7 +33,7 @@ jobs:
         libsfml-dev \
         build-essential \
         ninja-build cmake g++-11 gcc-11 \
-        dll
+        lld
 
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 90 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
 
