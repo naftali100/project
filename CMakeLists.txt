@@ -14,4 +14,3 @@ target_link_libraries(${PROJECT_NAME} PUBLIC ${SOURCES_LIB})
 
 add_subdirectory(lib)
 add_subdirectory(resources)
-add_subdirectory(tests)
