@@ -1,0 +1,6 @@
+file(GLOB sub-dirs ${CMAKE_CURRENT_LIST_DIR}/*)
+foreach(dir ${sub-dirs})
+    IF(IS_DIRECTORY ${dir})
+        file(COPY ${dir} DESTINATION ${CMAKE_BINARY_DIR})
+    endif()
+endforeach()
