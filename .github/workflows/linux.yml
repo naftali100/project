@@ -26,19 +26,16 @@ jobs:
     
     - name: setup linux environment
       run: |
-        echo install sfml =====================================================================
-        sudo apt-get install libsfml-dev
-        echo update gcc =====================================================================
-        echo gcc version before
-        gcc --version
-        echo add gcc ppa
+        echo install all ==================
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt-get update
-        sudo apt install build-essential
-        sudo apt-get install ninja-build cmake g++-11 gcc-11
+        sudo apt update
+        sudo apt install \
+        libsfml-dev \
+        build-essential \
+        ninja-build cmake g++-11 gcc-11 \
+        dll
+
         sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-11 90 --slave /usr/bin/g++ g++ /usr/bin/g++-11 --slave /usr/bin/gcov gcov /usr/bin/gcov-11
-        echo gcc version after
-        gcc --version
 
         # echo Update ninja =======================================================================
         # echo ninja version before
@@ -48,8 +45,6 @@ jobs:
         # sudo update-alternatives --install /usr/bin/ninja ninja /usr/local/bin/ninja 1 --force
         # echo ninja version after
         # ninja --version
-
-        sudo apt install lld
           
     - name: Configure CMake
       shell: bash
