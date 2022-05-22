@@ -8,11 +8,6 @@ struct Frame {
 };
 
 class Animation {
-    std::vector<Frame> frames;
-    double totalLength;
-    double progress;
-    sf::Sprite &target;
-
 public:
     Animation(sf::Sprite &target);
     // virtual ~Animation();
@@ -21,6 +16,12 @@ public:
     const double getLength() const {
         return totalLength;
     }
+
+private:
+    std::vector<Frame> frames;
+    double totalLength;
+    double progress;
+    sf::Sprite &target;
 };
 
 #endif

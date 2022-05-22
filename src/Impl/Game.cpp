@@ -6,7 +6,7 @@
 #include "Resources.h"
 #include "SfmlUtil.h"
 
-Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
+Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
 
 void Game::loadResources() {
     TextureHolder::load(Textures::Player, "textures/player.png");
@@ -96,17 +96,17 @@ void Game::update(sf::Time deltaTime) {
 
 void Game::showStatWin() {
     static bool open = true;
-    IF_PLOG(plog::verbose) {
+    // IF_PLOG(plog::verbose) {
         if (open) {
             if (ImGui::Begin("stat window", &open)) {
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
                             ImGui::GetIO().Framerate);
-                ImGui::Text("mouse position: %f, %f", sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
+                ImGui::Text("mouse position: %d, %d", sf::Mouse::getPosition().x, sf::Mouse::getPosition().y);
                 // add more useful debug info
             }
             ImGui::End();
         }
-    }
+    // }
 }
 
 void Game::draw() {

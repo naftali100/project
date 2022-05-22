@@ -45,7 +45,7 @@ class RoundedRectangleShape : public sf::Shape
         /// \param cornerPointCount Number of points of each corner
         ///
         ////////////////////////////////////////////////////////////
-        explicit RoundedRectangleShape(const Vector2f& size = Vector2f(0, 0), float radius = 0, unsigned int cornerPointCount = 0);
+        explicit RoundedRectangleShape(const Vector2f& size = Vector2f(0, 0), float radius = 5, unsigned int cornerPointCount = 30);
 
         ////////////////////////////////////////////////////////////
         /// \brief Set the size of the rounded rectangle

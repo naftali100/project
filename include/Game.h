@@ -18,8 +18,6 @@ public:
 
 private:
     sf::RenderWindow m_win;
-    sf::Font m_font;
-    std::map<sf::Keyboard::Key, bool> pressedKeys;
     StateManager m_stateManager;
 };
 
