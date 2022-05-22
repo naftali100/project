@@ -5,7 +5,9 @@
 class Gift: public MovingObjects {
 public:
 
-    virtual bool isTimeout() override {};
+    virtual bool isTimeout() override {
+        return false;
+    };
 
     void handleEvent(const sf::Event& e) override {
         Entity::handleEvent(e);

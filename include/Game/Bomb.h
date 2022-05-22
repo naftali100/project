@@ -8,7 +8,9 @@ public:
         setCollisionTag(bomb);
     }
 
-    virtual bool isTimeout() override{};
+    virtual bool isTimeout() override{
+        return false;
+    };
 
     virtual void update(const sf::Time& dt) override{
         // drag
