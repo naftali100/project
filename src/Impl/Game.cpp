@@ -6,13 +6,15 @@
 #include "Resources.h"
 #include "SfmlUtil.h"
 
-Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
+Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
+// Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
 
 void Game::loadResources() {
     TextureHolder::load(Textures::Player, "textures/player.png");
     TextureHolder::load(Textures::FireAnimationSheet, "textures/fireSheet.png");
     TextureHolder::load(Textures::Run, "textures/run.png");
     TextureHolder::load(Textures::Map, "textures/map1.png");
+    TextureHolder::load(Textures::Bomb, "textures/bomb.png");
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
     SoundBufferHolder::load(SoundEffect::Main, "music/background.ogg");

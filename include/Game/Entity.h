@@ -12,6 +12,7 @@ enum CollisionTag
 {
     player,
     wall,
+    jail,
     enemy,
     bomb,
     none

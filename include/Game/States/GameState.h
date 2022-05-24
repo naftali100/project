@@ -1,18 +1,24 @@
-#pragma once
+#ifndef __GAMESTATE_H__
+#define __GAMESTATE_H__
 
+#pragma once
 
 #include "State.h"
 
 #include "Game/MovingObjects.h"
 #include "Game/Bomb.h"
 #include "Game/Gift.h"
+#include "Game/Jail.h"
 
 class GameState: public State{
 public:
     using State::State;
 
-    void init( ) override {
+    void init() override {
         m_moving.push_back(std::make_unique<Bomb>());
+
+        initJail();        
+
         // std::make_unique<Gift>();
         auto g = Gift();
         g.onEvent(sf::Event::MouseButtonReleased, [&](){
@@ -23,21 +29,12 @@ public:
         });
     }
 
+    void initLayout();
+    void initJail();
+
+
     virtual void handleEvent(const sf::Event&) override {};
-    virtual void update(const sf::Time& dt) override {
-        for(auto& m: m_moving){
-            m->update(dt);
-        }
-
-        for(auto& m: m_moving){
-            // check if need to remove
-            // check if exploded
-            // check if collided
-            // for(auto& n: m_nonMoving){
-
-            // }
-        }
-    };
+    virtual void update(const sf::Time& dt) override ;
     virtual void draw(sf::RenderTarget& win) const override {
         for(auto& m: m_moving){
             m->draw(win);
@@ -45,5 +42,8 @@ public:
     };
 
 private:
-    std::vector<std::unique_ptr<MovingObjects>> m_moving;
+    std::vector<std::unique_ptr<Entity>> m_moving;
 };
+
+
+#endif // __GAMESTATE_H__

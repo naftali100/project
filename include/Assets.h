@@ -29,7 +29,10 @@ enum ID
     Player,
     FireAnimationSheet,
     Run,
-    Map
+    Map,
+    Background,
+    Bomb,
+    Btn
 };  // add textures here
 }  // namespace Textures
 
