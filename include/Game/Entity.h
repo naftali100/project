@@ -8,7 +8,9 @@
 // some sort of id that can use to identify derived entities
 #pragma once
 
-enum CollisionTag
+#include <typeinfo>
+
+enum class CollisionTag
 {
     player,
     wall,
@@ -66,15 +68,17 @@ public:
     }
 
     virtual sf::FloatRect getGlobalBounds() const {
+        // getTransform().transformRect()
         return sf::FloatRect(getPosition(), m_size);
     }
 
-    virtual std::string getType() {
+    virtual std::string getType() const {
         return typeid(*this).name();
+        // return std::type_info(typeid(*this));
     }
 
 private:
-    CollisionTag m_colTag = none;  // by default collision disabled
+    CollisionTag m_colTag = CollisionTag::none;  // by default collision disabled
     sf::Vector2f m_size;
     float m_gravity;  // ???
 };

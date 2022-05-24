@@ -6,8 +6,8 @@
 #include "Resources.h"
 #include "SfmlUtil.h"
 
-Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
-// Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
+// Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
+Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
 
 void Game::loadResources() {
     TextureHolder::load(Textures::Player, "textures/player.png");
@@ -50,8 +50,7 @@ void Game::run() {
     sf::Clock clock;
     while (m_stateManager.isRunning()) {
         processEvents();
-        sf::Time deltaTime = clock.restart();
-        update(deltaTime);
+        update(clock.restart());
         showStatWin();
         draw();
     }

@@ -11,7 +11,7 @@ public:
     Jail();
     void setColor(const sf::Color& c);
 
-    sf::FloatRect getGlobalBounds() const override;
+    sf::FloatRect getGlobalBounds() const;
 
     virtual void update(const sf::Time& dt) override {};
     virtual void handleEvent(const sf::Event& e){};

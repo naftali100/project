@@ -1,14 +1,13 @@
+#pragma once
 #ifndef __BOMB_H__
 #define __BOMB_H__
 
-#pragma once
-
 #include "Game/MovingObjects.h"
 #include "Resources.h"
+#include "Log.h"
 
 class Bomb : public MovingObjects {
 public:
-    void func();
     Bomb();
 
     virtual bool isTimeout() override{
@@ -18,17 +17,22 @@ public:
     virtual void update(const sf::Time& dt) override{
         // drag
         // update movement
-        // setPosition();
+
+        move(m_direction * m_speed * dt.asSeconds());
     };
+
+    sf::FloatRect getGlobalBounds() const {
+        return getTransform().transformRect(m_sprite.getGlobalBounds());
+    }
+
+    void handleCollision(Entity* e) override;
     virtual void handleEvent(const sf::Event& e) override{};
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
-        sf::Sprite s(TextureHolder::get(Textures::Bomb));
-
         states.transform *= getTransform();
-        target.draw(s, states);
+        target.draw(m_sprite, states);
     }
 
 private:
-
+    sf::Sprite m_sprite;
 };
 #endif // __BOMB_H__

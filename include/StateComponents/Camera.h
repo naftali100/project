@@ -142,7 +142,7 @@ public:
 
         ImGui::Separator();
 
-        static bool pinViewToWindowCorenr = true;
+        static bool pinViewToWindowCorenr = false;
         ImGui::Checkbox("pin view up-left corner to window's 0,0", &pinViewToWindowCorenr);
         if (pinViewToWindowCorenr) {
             auto size = m_view.getSize();
