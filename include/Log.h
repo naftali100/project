@@ -8,6 +8,8 @@
 #include <utility>
 // #define PLOG_OMIT_LOG_DEFINES - disable LOG* prefix
 
+#ifdef has_concepts
+
 template <typename T>
 concept PrintableVec = requires(T t) {
     t.x;
@@ -43,6 +45,7 @@ Record& operator<<(Record& record, const V& v) {
 }
 }  // namespace plog
 
+#endif
 
 // HACK ... probably not thread safe (maybe replace with std::once)
 #define PLOG_ONCE(severity) \
