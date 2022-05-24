@@ -90,7 +90,8 @@ void GameState::update(const sf::Time& dt) {
             // LOGI << PLOG_PRINT_VAR(m->getType()) << ". " << PLOG_PRINT_VAR(n->getType());
             if (m->getGlobalBounds().intersects(n->getGlobalBounds(), in)){
                 m->handleCollision(n.get());
-                if(auto f = col.getCollisionHandler(*m, *n); f != nullptr){
+                auto f = col.getCollisionHandler(*m, *n); 
+                if(f != nullptr){
                     (*f)(*m, *n);
                 };
             }
