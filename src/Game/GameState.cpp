@@ -42,7 +42,7 @@ void GameState::initJail() {
     m_static.back()->setPosition(winSize.x - 50, winSize.y / 2);
 
     auto b = std::make_unique<Bomb>();
-    b->setDirection({50, winSize.y / 2});
+    b->setDirection({50, winSize.y / 2.f});
     m_moving.push_back(std::move(b));
 }
 
