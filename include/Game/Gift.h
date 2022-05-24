@@ -2,9 +2,8 @@
 
 #include "Game/MovingObjects.h"
 
-class Gift: public MovingObjects {
+class Gift : public MovingObjects {
 public:
-
     virtual bool isTimeout() override {
         return false;
     };
@@ -16,13 +15,12 @@ public:
         // check for click
     }
 
-    void runAnimation(){
+    void runAnimation() {
         // run animation
     }
+
 private:
     sf::Sprite m_sprite;
     sf::Texture m_texture;
     // Animation m_animation{m_sprite};
-
-
 };

@@ -1,11 +1,10 @@
 #pragma once
 
-#include "Gui/button.h"
-#include "State.h"
-#include "SfmlUtil.h"
-#include "imgui_internal.h"
-#include "Resources.h"
 #include "GameState.h"
+#include "Gui/button.h"
+#include "Resources.h"
+#include "SfmlUtil.h"
+#include "State.h"
 
 class WelcomeState : public State {
 public:
@@ -14,9 +13,7 @@ public:
     void init() override {
         auto btnXPos = (m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
         m_btn.setPosition({btnXPos, 100});
-        m_btn.setFunction([&](){
-            m_stateManager.pushState(std::make_unique<GameState>(m_stateManager));
-        });
+        m_btn.setFunction([&]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager)); });
 
         auto s = sf::Sprite(TextureHolder::get(Textures::Player));
     }
@@ -27,7 +24,7 @@ public:
     virtual void update(const sf::Time& dt) override {
         m_btn.update();
         ImGui::ShowDemoWindow();
-        if(ImGui::Button("close state")){
+        if (ImGui::Button("close state")) {
             m_stateManager.popState();
             return;
         }

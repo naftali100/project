@@ -12,7 +12,7 @@ class State {
 public:
     State(StateManager& sm) : m_stateManager(sm){};
     /* for state init when `using State::State`. called by stateManager */
-    virtual void init(){}; 
+    virtual void init(){};
     virtual void handleEvent(const sf::Event&) = 0;
     virtual void update(const sf::Time&) = 0;
     virtual void draw(sf::RenderTarget&) const = 0;

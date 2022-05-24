@@ -3,18 +3,18 @@
 #define __BOMB_H__
 
 #include "Game/MovingObjects.h"
-#include "Resources.h"
 #include "Log.h"
+#include "Resources.h"
 
 class Bomb : public MovingObjects {
 public:
     Bomb();
 
-    virtual bool isTimeout() override{
+    virtual bool isTimeout() override {
         return false;
     };
 
-    virtual void update(const sf::Time& dt) override{
+    virtual void update(const sf::Time& dt) override {
         // drag
         // update movement
 
@@ -35,4 +35,4 @@ public:
 private:
     sf::Sprite m_sprite;
 };
-#endif // __BOMB_H__
+#endif  // __BOMB_H__

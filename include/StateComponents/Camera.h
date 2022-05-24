@@ -3,6 +3,7 @@
 #define CAMERA_H
 
 #include <imgui.h>
+
 #include <SFML/Graphics/View.hpp>
 
 enum winResizeStrategy

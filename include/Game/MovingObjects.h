@@ -10,7 +10,7 @@ public:
         m_direction = normalize(v);
     }
 
-    void setSpeed(float s){
+    void setSpeed(float s) {
         m_speed = s;
     }
 

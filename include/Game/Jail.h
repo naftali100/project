@@ -3,8 +3,8 @@
 
 #pragma once
 
-#include "Game/Entity.h"
 #include "Game/Bomb.h"
+#include "Game/Entity.h"
 
 class Jail : public Entity {
 public:
@@ -13,7 +13,7 @@ public:
 
     sf::FloatRect getGlobalBounds() const;
 
-    virtual void update(const sf::Time& dt) override {};
+    virtual void update(const sf::Time& dt) override{};
     virtual void handleEvent(const sf::Event& e){};
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
@@ -22,4 +22,4 @@ private:
     std::vector<Bomb*> m_bombs;
     sf::RectangleShape m_rec;
 };
-#endif // __JAIL_H__
+#endif  // __JAIL_H__

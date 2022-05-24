@@ -31,12 +31,11 @@
 #define SFMLUTIL_H
 
 #if __has_include("concepts") && __cpp_concepts <= __cplusplus && __cpp_lib_concepts <= __cplusplus && !_MSC_VER
-    #define has_concepts
+#define has_concepts
 #endif
 
 #ifdef has_concepts
 #include <concepts>
-
 
 template <typename T>
 concept hasGlobal = requires(T t) {
@@ -94,7 +93,7 @@ namespace sf {
 
 #include "SfmlUtil.tpp"
 
-#else // don't has concepts
+#else  // don't has concepts
 
 namespace sf {
 namespace util {
@@ -111,6 +110,6 @@ inline sf::Vector2f getGlobalTopRight(const T& object) {
 }  // namespace util
 }  // namespace sf
 
-#endif // has concepts
+#endif  // has concepts
 
 #endif

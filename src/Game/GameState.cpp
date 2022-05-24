@@ -73,25 +73,25 @@ void GameState::initLayout() {
     w_upper->setSize(winSize.x, 1);
 }
 
-void GameState::handleEvent(const sf::Event& e){
+void GameState::handleEvent(const sf::Event& e) {
     m_cam.handleEvent(e);
 }
 
 void GameState::update(const sf::Time& dt) {
     m_cam.update(dt);
 
-    for (auto& m : m_moving) { m->update(dt); }
     sf::FloatRect in;
     for (auto& m : m_moving) {
+        m->update(dt);
         // check if need to remove
         // check if exploded
         // check if collided
         for (auto& n : m_static) {
             // LOGI << PLOG_PRINT_VAR(m->getType()) << ". " << PLOG_PRINT_VAR(n->getType());
-            if (m->getGlobalBounds().intersects(n->getGlobalBounds(), in)){
+            if (m->getGlobalBounds().intersects(n->getGlobalBounds(), in)) {
                 m->handleCollision(n.get());
-                auto f = col.getCollisionHandler(*m, *n); 
-                if(f != nullptr){
+                auto f = col.getCollisionHandler(*m, *n);
+                if (f != nullptr) {
                     (*f)(*m, *n);
                 };
             }
@@ -102,4 +102,11 @@ void GameState::update(const sf::Time& dt) {
         m_stateManager.popState();
         return;
     }
+};
+
+void GameState::draw(sf::RenderTarget& win) const {
+    m_cam.draw(win);  // set view
+
+    for (auto& m : m_static) { m->draw(win); }
+    for (auto& m : m_moving) { m->draw(win); }
 };

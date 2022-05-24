@@ -21,7 +21,7 @@ public:
         m_tileSize = tileSize;
     }
     void setOffset(const sf::Vector2f& offset) {}
-    
+
     void setLayout(const std::vector<TileName>& layout) {
         m_layout.reserve(layout.size());
         for (int i : layout) { m_layout.emplace_back(i); }

@@ -6,10 +6,10 @@
 
 class Wall : public Entity {
 public:
-    Wall(){
+    Wall() {
         setCollisionTag(CollisionTag::wall);
     }
-    virtual void update(const sf::Time& dt) override {};
+    virtual void update(const sf::Time& dt) override{};
     virtual void handleEvent(const sf::Event& e){
         // check in events map
     };
@@ -20,8 +20,8 @@ public:
         r.setPosition(getPosition());
         target.draw(r);
     }
-private:
 
+private:
 };
 
-#endif // __WALL_H__
+#endif  // __WALL_H__
