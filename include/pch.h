@@ -3,6 +3,7 @@
 #include <imgui-SFML.h>
 #include <imgui.h>
 #include <plog/Log.h>
+#include <plog/Helpers/PrintVar.h>
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
