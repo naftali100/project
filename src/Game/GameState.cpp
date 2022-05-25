@@ -51,26 +51,26 @@ void GameState::initLayout() {
     // left wall
     m_static.push_back(std::make_unique<Wall>());
     auto& w_left = m_static.back();
-    w_left->setPosition(-1, -1);
-    w_left->setSize(1, winSize.y + 1);
+    w_left->setPosition(-10, -10);
+    w_left->setSize(10, winSize.y + 20);
 
     // bottom wall
     m_static.push_back(std::make_unique<Wall>());
     auto& w_bottom = m_static.back();
-    w_bottom->setPosition(-1, winSize.y);
-    w_bottom->setSize(winSize.x + 5, 1);
+    w_bottom->setPosition(-10, winSize.y);
+    w_bottom->setSize(winSize.x + 20, 10);
 
     // right wall
     m_static.push_back(std::make_unique<Wall>());
     auto& w_right = m_static.back();
-    w_right->setPosition(winSize.x - 1, -1);
-    w_right->setSize(1, winSize.x + 5);
+    w_right->setPosition(winSize.x + 10, -10);
+    w_right->setSize(10, winSize.y + 20);
 
     // upper wall
     m_static.push_back(std::make_unique<Wall>());
     auto& w_upper = m_static.back();
-    w_upper->setPosition(-1, -1);
-    w_upper->setSize(winSize.x, 1);
+    w_upper->setPosition(-10, -10);
+    w_upper->setSize(winSize.x + 20, 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
@@ -98,6 +98,10 @@ void GameState::update(const sf::Time& dt) {
                 };
             }
         }
+    }
+
+    if (ImGui::Button("reset view")) {
+        m_cam.resetView();
     }
 
     if (ImGui::Button("exit state")) {
