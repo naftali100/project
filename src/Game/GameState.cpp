@@ -78,6 +78,19 @@ void GameState::handleEvent(const sf::Event& e) {
 }
 
 void GameState::update(const sf::Time& dt) {
+    if (ImGui::Button("reset view")) {
+        m_cam.resetView();
+    }
+
+    if (ImGui::Button("exit state")) {
+        m_stateManager.popState();
+        return;
+    }
+    if (ImGui::Button("exit program")) {
+        m_stateManager.stop();
+        return;
+    }
+
     m_cam.update(dt);
 
     sf::FloatRect in;
@@ -100,18 +113,7 @@ void GameState::update(const sf::Time& dt) {
         }
     }
 
-    if (ImGui::Button("reset view")) {
-        m_cam.resetView();
-    }
-
-    if (ImGui::Button("exit state")) {
-        m_stateManager.popState();
-        return;
-    }
-    if (ImGui::Button("exit program")) {
-        m_stateManager.stop();
-        return;
-    }
+    
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
