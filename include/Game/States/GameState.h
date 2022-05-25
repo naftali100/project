@@ -9,6 +9,7 @@
 #include "Game/MovingObjects.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
+#include "Animation.h"
 
 class GameState : public State {
 public:
@@ -28,6 +29,9 @@ private:
     CollisionHandler col;
     Camera m_cam;
     bool m_isGameOver = false;
+
+    mutable sf::Sprite m_stars{TextureHolder::get(Textures::Stars)};
+    Animation m_starAnimation{m_stars};
 };
 
 #endif  // __GAMESTATE_H__

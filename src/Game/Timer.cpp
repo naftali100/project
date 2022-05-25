@@ -1,5 +1,13 @@
 #include "Game/Timer.h"
 
+
+void MyTimer::setTime(sf::Time t){
+    *this += t;
+}
+
+void MyTimer::update(sf::Time dt){
+    *this-= dt;
+}
 void MyTimer::setTimeout(Func function, int delay) {
     active = true;
     std::thread t([=]() {
