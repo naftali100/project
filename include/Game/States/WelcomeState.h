@@ -13,7 +13,7 @@ public:
     void init() override {
         auto btnXPos = (m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
         m_btn.setPosition({btnXPos, 100});
-        m_btn.setFunction([&]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager)); });
+        m_btn.setFunction([&]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager), true); });
 
         auto s = sf::Sprite(TextureHolder::get(Textures::Player));
     }

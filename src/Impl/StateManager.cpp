@@ -1,10 +1,8 @@
 #include "StateManager.h"
 
-void HelpMarker(const char* desc)
-{
+void HelpMarker(const char* desc) {
     ImGui::TextDisabled("what is this");
-    if (ImGui::IsItemHovered())
-    {
+    if (ImGui::IsItemHovered()) {
         ImGui::BeginTooltip();
         ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
         ImGui::TextUnformatted(desc);
@@ -28,7 +26,7 @@ void StateManager::pushState(StatePtr ptr, bool pauseCurrent) {
     m_states.top()->init();
 }
 
-void StateManager::replaceState(StatePtr ptr){
+void StateManager::replaceState(StatePtr ptr) {
     m_states.pop();
     m_states.push(std::move(ptr));
     m_states.top()->init();
@@ -69,12 +67,17 @@ void StateManager::update(const sf::Time& td) {
         window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
         // ImGui::SetNextWindowPos(sf::Vector2f(10, 10));
         if (ImGui::Begin("game window", &m_showImGuiGameWindow, window_flags)) {
-            HelpMarker("my game state manager's default window\nyou can close this by setting show to false\nyou can add stuff to the window for consistant\nif you close this and add stuff they go to debug window");
+            HelpMarker(
+                "my game state manager's default window\nyou can close this by setting show to false\nyou can add "
+                "stuff to the window for consistant\nif you close this and add stuff they go to debug window");
         }
     }
 
     if (!m_states.empty()) {
-        m_states.top()->update(td);
+        static bool noDraw = false;
+        ImGui::Checkbox("pause", &noDraw);
+        if (!noDraw)
+            m_states.top()->update(td);
     }
     else
         LOGD << "empty states stack";
@@ -109,8 +112,8 @@ void StateManager::resume() {
 
 void StateManager::stop() {
     LOGV << "state Manager stop - start";
-    
-    while(!m_states.empty()) m_states.pop();
+
+    while (!m_states.empty()) m_states.pop();
     m_states = {};
 
     LOGV << "state Manager stop - finish";

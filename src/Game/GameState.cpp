@@ -89,7 +89,9 @@ void GameState::update(const sf::Time& dt) {
         for (auto& n : m_static) {
             // LOGI << PLOG_PRINT_VAR(m->getType()) << ". " << PLOG_PRINT_VAR(n->getType());
             if (m->getGlobalBounds().intersects(n->getGlobalBounds(), in)) {
+                // A.
                 m->handleCollision(n.get());
+                // B.
                 auto f = col.getCollisionHandler(*m, *n);
                 if (f != nullptr) {
                     (*f)(*m, *n);
@@ -98,8 +100,12 @@ void GameState::update(const sf::Time& dt) {
         }
     }
 
-    if (ImGui::Button("exit")) {
+    if (ImGui::Button("exit state")) {
         m_stateManager.popState();
+        return;
+    }
+    if (ImGui::Button("exit program")) {
+        m_stateManager.stop();
         return;
     }
 };
