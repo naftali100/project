@@ -16,3 +16,4 @@
 #include <array>
 #include <functional>
 #include <utility>
+#include <memory>

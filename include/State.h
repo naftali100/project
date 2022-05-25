@@ -2,9 +2,6 @@
 #ifndef state_h
 #define state_h
 
-#include <SFML/Graphics.hpp>
-#include <memory>
-
 class StateManager;
 
 // template for states
