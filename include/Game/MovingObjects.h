@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Timer.h"
 #include "Game/Entity.h"
 // #include <math.h>
 #include <cmath>
@@ -28,8 +29,10 @@ public:
 protected:
     sf::Vector2f m_direction;  // < normalized vector
     bool m_isSelected;
-    // timer m_timer
+    MyTimer m_timer;
     float m_speed;
+    bool m_isTimeOut = false;
+
 
 private:
     template <typename T>

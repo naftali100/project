@@ -13,18 +13,18 @@ void GameState::init() {
     initJail();
     initLayout();
 
-    col.addCollision(Bomb(), Jail(), [&](const Entity& bomb, const Entity& jail) {
+    col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
         ImGui::Text("bomb and jail collision function handler");
     });
 
     // std::make_unique<Gift>();
-    auto g = Gift();
-    g.onEvent(sf::Event::MouseButtonReleased, [&]() {
+     Gift g;
+    //g.onEvent(sf::Event::MouseButtonReleased, [&]() {
         // check if clicked
         // run animation
 
         // std::erase_if(m_moving, [](auto item){ return item == g});
-    });
+    //});
 }
 
 void GameState::initJail() {
@@ -41,7 +41,7 @@ void GameState::initJail() {
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition(winSize.x - 50, winSize.y / 2);
 
-    auto b = std::make_unique<Bomb>();
+    auto b = std::make_unique<Bomb>(m_isGameOver);
     b->setDirection({50, winSize.y / 2.f});
     m_moving.push_back(std::move(b));
 }

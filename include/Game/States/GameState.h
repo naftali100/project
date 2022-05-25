@@ -27,6 +27,7 @@ private:
     std::vector<std::unique_ptr<Entity>> m_static;
     CollisionHandler col;
     Camera m_cam;
+    bool m_isGameOver = false;
 };
 
 #endif  // __GAMESTATE_H__

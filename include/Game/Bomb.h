@@ -8,10 +8,11 @@
 
 class Bomb : public MovingObjects {
 public:
-    Bomb();
+    Bomb(bool & isGameOver);
+    using MovingObjects::m_timer;
 
     virtual bool isTimeout() override {
-        return false;
+        return m_isTimeOut;
     };
 
     virtual void update(const sf::Time& dt) override {
@@ -34,5 +35,9 @@ public:
 
 private:
     sf::Sprite m_sprite;
+    bool& m_isGameOver;
+
+    //void explode();
+  
 };
 #endif  // __BOMB_H__

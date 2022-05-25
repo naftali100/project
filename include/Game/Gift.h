@@ -4,8 +4,10 @@
 
 class Gift : public MovingObjects {
 public:
+    Gift() = default;
+    //using MovingObjects::m_isTimeOut;
     virtual bool isTimeout() override {
-        return false;
+        return m_isTimeOut;
     };
 
     void handleEvent(const sf::Event& e) override {
