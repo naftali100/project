@@ -14,6 +14,8 @@ public:
         m_map.emplace(std::pair<std::string, std::string>{e2.getType(), e1.getType()}, function);
     }
 
+    // TODO: maybe this function should also trigger the handler function
+    // so when calling it you don't have to do: f = getCollisionHandler(m, n); if(f != nullptr) (*f)(m,n)
     CollisionHandlerFunction* getCollisionHandler(const Entity& e1, const Entity& e2) {
         if (m_map.find({e1.getType(), e2.getType()}) != m_map.end()) {
             return &m_map.at({e1.getType(), e2.getType()});
