@@ -32,7 +32,8 @@ enum ID
     Map,
     Background,
     Bomb,
-    Btn
+    Btn,
+    Stars
 };  // add textures here
 }  // namespace Textures
 

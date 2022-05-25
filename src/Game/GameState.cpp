@@ -17,6 +17,20 @@ void GameState::init() {
         ImGui::Text("bomb and jail collision function handler");
     });
 
+    sf::Vector2u textureSize = m_stars.getTexture()->getSize();
+
+    int textureRows = 1;
+    int textureCols = 9;
+
+    int FrameXSize = textureSize.x / textureCols;
+    int FrameYSize = textureSize.y / textureRows;
+
+    for (int i = 0; i < textureRows; i++) {
+        for (int j = 0; j < textureCols; j++) {
+            m_starAnimation.addFrame({sf::IntRect(j * FrameXSize, i * FrameYSize, FrameXSize, FrameYSize), 0.1});
+        }
+    }
+
     // std::make_unique<Gift>();
      Gift g;
     //g.onEvent(sf::Event::MouseButtonReleased, [&]() {
@@ -92,6 +106,7 @@ void GameState::update(const sf::Time& dt) {
     }
 
     m_cam.update(dt);
+    m_starAnimation.update(dt.asSeconds());
 
     sf::FloatRect in;
     for (auto& m : m_moving) {
@@ -118,6 +133,13 @@ void GameState::update(const sf::Time& dt) {
 
 void GameState::draw(sf::RenderTarget& win) const {
     m_cam.draw(win);  // set view
+    
+    m_stars.setPosition(0,0);
+    win.draw(m_stars);
+    m_stars.setPosition(100,0);
+    win.draw(m_stars);
+    m_stars.setPosition(200,0);
+    win.draw(m_stars);
 
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
