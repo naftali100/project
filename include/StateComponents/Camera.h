@@ -2,10 +2,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <imgui.h>
-
-#include <SFML/Graphics/View.hpp>
-
 enum winResizeStrategy
 {
     LatterBox,  // change the viewport to math new window size
@@ -57,7 +53,7 @@ public:
     }
 
     //////////////////////////////////
-    // GETERS
+    // GETTERS
     //////////////////////////////////
 
     winResizeStrategy getResizeStrategy() const {
@@ -72,7 +68,7 @@ public:
     }
 
     //////////////////////////////////////////////
-    // handle events, update, draw
+    /// handle events, update, draw
     //////////////////////////////////////////////
 
     virtual void handleEvent(const sf::Event& e) {
@@ -125,6 +121,12 @@ public:
             m_view.zoom(1 + zoomSpeed);
         }
 
+        ImGui::Separator();
+        static bool disableCameraGui = true;
+        ImGui::Checkbox("disable camera gui", &disableCameraGui);
+        if (disableCameraGui)
+            return;
+
         ImGui::Text("camera view size: %f, %f", m_view.getSize().x, m_view.getSize().y);
         float sizeX, sizeY;
         sizeX = m_view.getSize().x;
@@ -152,6 +154,8 @@ public:
         }
 
         ImGui::Text("win ratio: %f", m_windowRatio);
+
+        ImGui::Separator();
     }
 
     // set the view to window
@@ -160,8 +164,8 @@ public:
     }
 
     ////////////////////////////////////////
-    // UTILITES
-    // for varios operations on views
+    // UTILITIES
+    // for various operations on views
     ////////////////////////////////////////
 
     void zoomViewAt(sf::Vector2i pixel, sf::RenderTarget& window, float zoom) {
