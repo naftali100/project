@@ -60,7 +60,7 @@ void GameState::initJail() {
     // spawn bomb
     for(int i = 0; i < 150; i++){  // TODO: replace this with std "do_it_n_times" function
         auto b = std::make_unique<Bomb>(m_isGameOver);
-        b->setDirection({Random::rnd(1.f,100.f), Random::rnd(1.f,100.f)});
+        b->setDirection({Random::rnd(1.0,100.0), Random::rnd(1.0,100.0)});
         b->setPosition(Random::rnd(10, winSize.x - 10), Random::rnd(10, winSize.y - 10));
         m_moving.push_back(std::move(b));
     }
