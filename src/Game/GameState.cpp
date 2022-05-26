@@ -1,9 +1,9 @@
 #include "Game/States/GameState.h"
 
 #include "Game/Wall.h"
+#include "Random.h"
 #include "SfmlUtil.h"
 #include "StateManager.h"
-#include "Random.h"
 
 void GameState::init() {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
@@ -58,9 +58,10 @@ void GameState::initJail() {
     m_static.back()->setPosition(winSize.x - 50, winSize.y / 2);
 
     // spawn bomb
-    for(int i = 0; i < 150; i++){  // TODO: replace this with std "do_it_n_times" function
+    for (int i = 0; i < 150; i++) {  // TODO: replace this with std "do_it_n_times" function
         auto b = std::make_unique<Bomb>(m_isGameOver);
-        b->setDirection({Random::rnd(1.0,100.0), Random::rnd(1.0,100.0)});
+        b->setDirection({Random::rnd(static_cast<double>(1.0), static_cast<double>(100.0)),
+                         Random::rnd(static_cast<double>(1.0), static_cast<double>(100.0))});
         b->setPosition(Random::rnd(10, winSize.x - 10), Random::rnd(10, winSize.y - 10));
         m_moving.push_back(std::move(b));
     }
