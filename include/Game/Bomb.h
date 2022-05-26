@@ -18,7 +18,6 @@ public:
     virtual void update(const sf::Time& dt) override {
         // drag
         // update movement
-
         move(m_direction * m_speed * dt.asSeconds());
     };
 
@@ -26,7 +25,6 @@ public:
         return getTransform().transformRect(m_sprite.getGlobalBounds());
     }
 
-    void handleCollision(Entity* e) override;
     virtual void handleEvent(const sf::Event& e) override{};
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
         states.transform *= getTransform();

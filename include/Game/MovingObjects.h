@@ -2,13 +2,13 @@
 
 #include "Timer.h"
 #include "Game/Entity.h"
-// #include <math.h>
 #include <cmath>
+#include "SfmlUtil.h"
 
 class MovingObjects : public Entity {
 public:
     void setDirection(const sf::Vector2f& v) {
-        m_direction = normalize(v);
+        m_direction = sf::util::normalize(v);
     }
 
     void setSpeed(float s) {
@@ -20,9 +20,7 @@ public:
 
     virtual bool isTimeout() = 0;
     // bomb and gifts handle collision in the same way
-    virtual void handleCollision(Entity* e) override{
-
-    };
+    virtual void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
     virtual ~MovingObjects() = default;
 
@@ -35,12 +33,6 @@ protected:
 
 
 private:
-    template <typename T>
-    sf::Vector2<T> normalize(const sf::Vector2<T>& v) {
-        float length = std::sqrt((v.x * v.x) + (v.y * v.y));
-        if (length != 0)
-            return sf::Vector2<T>(v.x / length, v.y / length);
-        else
-            return v;
-    }
+    void resolveCollision(const sf::Vector3f& manifold);
+
 };

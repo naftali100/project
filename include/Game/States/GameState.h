@@ -24,6 +24,9 @@ public:
     virtual void draw(sf::RenderTarget& win) const override;
 
 private:
+    sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal);
+
+private:
     std::vector<std::unique_ptr<Entity>> m_moving;
     std::vector<std::unique_ptr<Entity>> m_static;
     CollisionHandler col;

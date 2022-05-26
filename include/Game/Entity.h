@@ -41,13 +41,12 @@ public:
 
     /// collision handling
 
-    //////////////
     // usage example
     // check by tag
     // if(e->getCollisionTag() == enemy){
     //     m_health --;
     // }
-    virtual void handleCollision(Entity* e){};
+    virtual void handleCollision(Entity* e, const sf::Vector3f& manifold = {}){};
     void setCollisionTag(CollisionTag tag) {
         m_colTag = tag;
     };

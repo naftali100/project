@@ -112,4 +112,28 @@ inline sf::Vector2f getGlobalTopRight(const T& object) {
 
 #endif  // has concepts
 
+namespace sf {
+namespace util {
+template <typename T>
+inline sf::Vector2<T> normalize(const sf::Vector2<T>& v) {
+    float length = std::sqrt((v.x * v.x) + (v.y * v.y));
+    if (length != 0)
+        return sf::Vector2<T>(v.x / length, v.y / length);
+    else
+        return v;
+}
+// TODO: make template
+inline float dot(const sf::Vector2f& lv, const sf::Vector2f& rv)
+{
+    return lv.x * rv.x + lv.y * rv.y;
+}
+
+inline sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal)
+{
+    return -2.f * dot(velocity, normal) * normal + velocity;
+}
+
+}  // namespace util
+}  // namespace sf
+
 #endif

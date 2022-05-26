@@ -3,6 +3,7 @@
 #include "Game/Wall.h"
 #include "SfmlUtil.h"
 #include "StateManager.h"
+#include "Random.h"
 
 void GameState::init() {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
@@ -13,9 +14,10 @@ void GameState::init() {
     initJail();
     initLayout();
 
-    col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
-        ImGui::Text("bomb and jail collision function handler");
-    });
+    // example how to use collision manager
+    // col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
+    //     ImGui::Text("bomb and jail collision function handler");
+    // });
 
     sf::Vector2u textureSize = m_stars.getTexture()->getSize();
 
@@ -32,12 +34,12 @@ void GameState::init() {
     }
 
     // std::make_unique<Gift>();
-     Gift g;
-    //g.onEvent(sf::Event::MouseButtonReleased, [&]() {
-        // check if clicked
-        // run animation
+    Gift g;
+    // g.onEvent(sf::Event::MouseButtonReleased, [&]() {
+    //  check if clicked
+    //  run animation
 
-        // std::erase_if(m_moving, [](auto item){ return item == g});
+    // std::erase_if(m_moving, [](auto item){ return item == g});
     //});
 }
 
@@ -55,9 +57,13 @@ void GameState::initJail() {
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition(winSize.x - 50, winSize.y / 2);
 
-    auto b = std::make_unique<Bomb>(m_isGameOver);
-    b->setDirection({50, winSize.y / 2.f});
-    m_moving.push_back(std::move(b));
+    // spawn bomb
+    for(int i = 0; i < 150; i++){  // TODO: replace this with std "do_it_n_times" function
+        auto b = std::make_unique<Bomb>(m_isGameOver);
+        b->setDirection({Random::rnd(1.f,100.f), Random::rnd(1.f,100.f)});
+        b->setPosition(Random::rnd(10, winSize.x - 10), Random::rnd(10, winSize.y - 10));
+        m_moving.push_back(std::move(b));
+    }
 }
 
 void GameState::initLayout() {
@@ -108,7 +114,7 @@ void GameState::update(const sf::Time& dt) {
     m_cam.update(dt);
     m_starAnimation.update(dt.asSeconds());
 
-    sf::FloatRect in;
+    sf::FloatRect overlap;
     for (auto& m : m_moving) {
         m->update(dt);
         // check if need to remove
@@ -116,9 +122,11 @@ void GameState::update(const sf::Time& dt) {
         // check if collided
         for (auto& n : m_static) {
             // LOGI << PLOG_PRINT_VAR(m->getType()) << ". " << PLOG_PRINT_VAR(n->getType());
-            if (m->getGlobalBounds().intersects(n->getGlobalBounds(), in)) {
+            if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
                 // A.
-                m->handleCollision(n.get());
+                auto collisionNormal = n->getPosition() - m->getPosition();
+                auto manifold = getManifold(overlap, collisionNormal);
+                m->handleCollision(n.get(), manifold);
                 // B.
                 auto f = col.getCollisionHandler(*m, *n);
                 if (f != nullptr) {
@@ -127,20 +135,35 @@ void GameState::update(const sf::Time& dt) {
             }
         }
     }
-
-    
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
     m_cam.draw(win);  // set view
-    
-    m_stars.setPosition(0,0);
+
+    m_stars.setPosition(0, 0);
     win.draw(m_stars);
-    m_stars.setPosition(100,0);
+    m_stars.setPosition(100, 0);
     win.draw(m_stars);
-    m_stars.setPosition(200,0);
+    m_stars.setPosition(200, 0);
     win.draw(m_stars);
 
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
 };
+
+// from: https://gist.github.com/fallahn/f81d23137409313e7de6
+sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) {
+    // the collision normal is stored in x and y, with the penetration in z
+    sf::Vector3f manifold;
+
+    if (overlap.width < overlap.height) {
+        manifold.x = (collisionNormal.x < 0) ? 1.f : -1.f;
+        manifold.z = overlap.width;
+    }
+    else {
+        manifold.y = (collisionNormal.y < 0) ? 1.f : -1.f;
+        manifold.z = overlap.height;
+    }
+
+    return manifold;
+}
