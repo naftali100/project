@@ -10,9 +10,9 @@ using Func = std::function<void()>;
 class MyTimer : public sf::Time {
 public:
     MyTimer() = default;
-    MyTimer(Func function, const int delay);
+    MyTimer(const Func& function, const float delay);
     void setTime(const sf::Time&);
-    void set(Func function, const int);
+    void set(const Func& function, const float);
     void update(const sf::Time&);
     //void setTimeout(Func function, int delay);
     //void setInterval(Func function, int interval);

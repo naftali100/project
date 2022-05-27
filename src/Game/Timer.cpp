@@ -1,6 +1,6 @@
 #include "Game/Timer.h"
 
-MyTimer::MyTimer(Func function, const int delay)
+MyTimer::MyTimer(const Func& function, const float delay)
     :m_function(function)
 {
     setTime(sf::seconds(delay));
@@ -10,14 +10,14 @@ void MyTimer::setTime(const sf::Time& t){
     *this += t;
 }
 
-void MyTimer::set(Func function, const int seconds)
+void MyTimer::set(const Func& function, const float seconds)
 {
     m_function = function;
     setTime(sf::seconds(seconds));
 }
 
 void MyTimer::update(const sf::Time& dt){
-    *this-= dt;
+    *this -= dt;
     if (*this < sf::seconds(0))
         m_function();
 }
