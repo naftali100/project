@@ -1,7 +1,12 @@
 #include "Game/States/GameState.h"
 
+#include "Game/Bomb.h"
+#include "Game/Door.h"
+#include "Game/Gift.h"
+#include "Game/Jail.h"
 #include "Game/Wall.h"
 #include "Random.h"
+#include "Resources.h"
 #include "SfmlUtil.h"
 #include "StateManager.h"
 
@@ -10,6 +15,8 @@ void GameState::init() {
     m_cam.setInitialView();
     m_cam.setWinRatio(m_stateManager.getWin().getSize());
     m_cam.setResizeStrategy(LatterBox);
+
+    m_stars.setTexture(TextureHolder::get(Textures::Stars));
 
     initJail();
     initLayout();
@@ -50,48 +57,49 @@ void GameState::initJail() {
     j->setColor(sf::Color::Red);
     m_static.push_back(std::move(j));
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
-    m_static.back()->setPosition(50, winSize.y / 2);
+    m_static.back()->setPosition(50, (float)winSize.y / 2);
 
     // right jail
     m_static.push_back(std::make_unique<Jail>());
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
-    m_static.back()->setPosition(winSize.x - 50, winSize.y / 2);
+    m_static.back()->setPosition((float)winSize.x - 50, (float)winSize.y / 2);
 
     // spawn bomb
-    for (int i = 0; i < 150; i++) {  // TODO: replace this with std "do_it_n_times" function
+    for (int i = 0; i < 10; i++) {  // TODO: replace this with std "do_it_n_times" function
         auto b = std::make_unique<Bomb>(m_isGameOver);
-        b->setDirection({static_cast<float>(Random::rnd(static_cast<double>(1.0), static_cast<double>(100.0))),
-                         static_cast<float>(Random::rnd(static_cast<double>(1.0), static_cast<double>(100.0)))});
-        b->setPosition(Random::rnd(10, winSize.x - 10), Random::rnd(10, winSize.y - 10));
+        b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
+        b->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
+                       static_cast<float>(Random::rnd(10, winSize.y - 10)));
         m_moving.push_back(std::move(b));
     }
 }
 
 void GameState::initLayout() {
     auto winSize = m_stateManager.getWin().getSize();
+
     // left wall
     m_static.push_back(std::make_unique<Wall>());
-    auto& w_left = m_static.back();
+    auto const& w_left = m_static.back();
     w_left->setPosition(-10, -10);
-    w_left->setSize(10, winSize.y + 20);
+    w_left->setSize(10, (float)winSize.y + 20);
 
     // bottom wall
     m_static.push_back(std::make_unique<Wall>());
-    auto& w_bottom = m_static.back();
-    w_bottom->setPosition(-10, winSize.y);
-    w_bottom->setSize(winSize.x + 20, 10);
+    auto const& w_bottom = m_static.back();
+    w_bottom->setPosition(-10, (float)winSize.y);
+    w_bottom->setSize((float)winSize.x + 20, 10);
 
     // right wall
     m_static.push_back(std::make_unique<Wall>());
-    auto& w_right = m_static.back();
-    w_right->setPosition(winSize.x + 10, -10);
-    w_right->setSize(10, winSize.y + 20);
+    auto const& w_right = m_static.back();
+    w_right->setPosition((float)winSize.x + 10, -10);
+    w_right->setSize(10, (float)winSize.y + 20);
 
     // upper wall
     m_static.push_back(std::make_unique<Wall>());
-    auto& w_upper = m_static.back();
+    auto const& w_upper = m_static.back();
     w_upper->setPosition(-10, -10);
-    w_upper->setSize(winSize.x + 20, 10);
+    w_upper->setSize((float)winSize.x + 20, 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
@@ -99,6 +107,14 @@ void GameState::handleEvent(const sf::Event& e) {
 }
 
 void GameState::update(const sf::Time& dt) {
+    auto winSize = m_stateManager.getWin().getSize();
+
+    if (ImGui::Button("spawn bomb")) {
+        auto b = std::make_unique<Bomb>(m_isGameOver);
+        b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
+        b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
+        m_moving.push_back(std::move(b));
+    }
     if (ImGui::Button("reset view")) {
         m_cam.resetView();
     }
@@ -115,45 +131,26 @@ void GameState::update(const sf::Time& dt) {
     m_cam.update(dt);
     m_starAnimation.update(dt.asSeconds());
 
-    sf::FloatRect overlap;
-    for (auto& m : m_moving) {
-        m->update(dt);
-        // check if need to remove
-        // check if exploded
-        // check if collided
-        for (auto& n : m_static) {
-            // LOGI << PLOG_PRINT_VAR(m->getType()) << ". " << PLOG_PRINT_VAR(n->getType());
-            if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
-                // A.
-                auto collisionNormal = n->getPosition() - m->getPosition();
-                auto manifold = getManifold(overlap, collisionNormal);
-                m->handleCollision(n.get(), manifold);
-                // B.
-                auto f = col.getCollisionHandler(*m, *n);
-                if (f != nullptr) {
-                    (*f)(*m, *n);
-                };
-            }
-        }
-    }
+    handleCollisions(dt);
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
     m_cam.draw(win);  // set view
 
-    m_stars.setPosition(0, 0);
-    win.draw(m_stars);
-    m_stars.setPosition(100, 0);
-    win.draw(m_stars);
-    m_stars.setPosition(200, 0);
-    win.draw(m_stars);
+    auto localStars = m_stars;
+    localStars.setPosition(0, 0);
+    win.draw(localStars);
+    localStars.setPosition(100, 0);
+    win.draw(localStars);
+    localStars.setPosition(200, 0);
+    win.draw(localStars);
 
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
 };
 
 // from: https://gist.github.com/fallahn/f81d23137409313e7de6
-sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) {
+sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vector2f& collisionNormal) const {
     // the collision normal is stored in x and y, with the penetration in z
     sf::Vector3f manifold;
 
@@ -167,4 +164,28 @@ sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vect
     }
 
     return manifold;
+}
+
+void GameState::handleCollisions(const sf::Time& dt) {
+    sf::FloatRect overlap;
+
+    for (auto const& m : m_moving) {
+        m->update(dt);
+        // check if need to remove
+        // check if exploded
+        // check if collided
+        for (auto const& n : m_static) {
+            if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
+                // method A.
+                auto collisionNormal = n->getPosition() - m->getPosition();
+                auto manifold = getManifold(overlap, collisionNormal);
+                m->handleCollision(n.get(), manifold);
+                // method B.
+                auto f = col.getCollisionHandler(*m, *n);
+                if (f != nullptr) {
+                    (*f)(*m, *n);
+                }
+            }
+        }
+    }
 }

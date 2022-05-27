@@ -8,12 +8,12 @@ class Game {
 public:
     Game();
     void run();
-    void loadResources();
+    void loadResources()  const;
     void initImGui();
 
     void processEvents();
     void update(sf::Time elapsedTime);
-    void showStatWin();
+    void showStatWin() const;
     void draw();
 
 private:

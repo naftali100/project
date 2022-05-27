@@ -1,13 +1,31 @@
 #include "Game/Bomb.h"
 
+#include <mutex>
+
 #include "SfmlUtil.h"
 
-Bomb::Bomb(bool & isGameOver): m_isGameOver(isGameOver) {
+Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
+    // for ImGui to print only once.
+    // see update()
+    static std::once_flag flag;
+    std::call_once(flag, [this]() { m_first = true; });
+
     setCollisionTag(CollisionTag::bomb);
-    // setPosition(100, 100);
-    setSpeed(200);
+    setSpeed(300);
     m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
     setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize()));
     setOrigin(getSize() / 2.f);
-    m_timer.setTimeout([&]() {m_isGameOver = m_isTimeOut =  true;}, 10); //TODO: calc delay
+    m_timer.setTimeout([this]() { m_isGameOver = m_isTimeOut = true; }, 10);  // TODO: calc delay
 }
+
+void Bomb::update(const sf::Time& dt) {
+    static float speed = m_speed;
+    if (m_first)
+        ImGui::SliderFloat("bomb speed", &speed, 0, 1000);
+
+    m_speed = speed;
+
+    // drag
+    // update movement
+    move(m_direction * m_speed * dt.asSeconds());
+};

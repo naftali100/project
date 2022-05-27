@@ -36,7 +36,6 @@ namespace sf
 class RoundedRectangleShape : public sf::Shape
 {
     public:
-        // RoundedRectangleShape();
         ////////////////////////////////////////////////////////////
         /// \brief Default constructor
         ///

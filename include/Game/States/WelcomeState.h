@@ -14,7 +14,7 @@ public:
         m_cam.setView(m_stateManager.getWin().getDefaultView());
         m_cam.setInitialView();
 
-        auto btnXPos = (m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
+        auto btnXPos = ((float)m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
         m_btn.setPosition({btnXPos, 100});
         m_btn.setFunction([&]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager), true); });
 

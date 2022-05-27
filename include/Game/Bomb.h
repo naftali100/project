@@ -8,34 +8,32 @@
 
 class Bomb : public MovingObjects {
 public:
-    Bomb(bool & isGameOver);
+    explicit Bomb(bool & isGameOver);
     using MovingObjects::m_timer;
 
-    virtual bool isTimeout() override {
+    bool isTimeout() override {
         return m_isTimeOut;
     };
 
-    virtual void update(const sf::Time& dt) override {
-        // drag
-        // update movement
-        move(m_direction * m_speed * dt.asSeconds());
-    };
+    void update(const sf::Time& dt) override;
 
-    sf::FloatRect getGlobalBounds() const {
+    sf::FloatRect getGlobalBounds() const override {
         return getTransform().transformRect(m_sprite.getGlobalBounds());
     }
 
-    virtual void handleEvent(const sf::Event& e) override{};
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+    void handleEvent(const sf::Event& e) override{
+        // 
+    };
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
         states.transform *= getTransform();
         target.draw(m_sprite, states);
     }
 
 private:
+    bool m_first = false;
     sf::Sprite m_sprite;
     bool& m_isGameOver;
 
     //void explode();
-  
 };
 #endif  // __BOMB_H__
