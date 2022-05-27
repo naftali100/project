@@ -11,10 +11,6 @@ public:
     explicit Bomb(bool & isGameOver);
     using MovingObjects::m_timer;
 
-    /*virtual bool isTimeout() override {
-        return m_isTimeOut;
-    };*/
-
     void update(const sf::Time& dt) override;
 
     sf::FloatRect getGlobalBounds() const override {

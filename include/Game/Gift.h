@@ -13,10 +13,6 @@ public:
     }
     using MovingObjects::m_isTimeOut;
 
-    // virtual bool isTimeout() override {
-    //     return m_isTimeOut;
-    // };
-
     void handleEvent(const sf::Event& e) override {
         Entity::handleEvent(e);
         if (e.MouseButtonPressed)

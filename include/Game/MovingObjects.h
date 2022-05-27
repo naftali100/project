@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Timer.h"
-#include "Game/Entity.h"
 #include <cmath>
+
+#include "Game/Entity.h"
 #include "SfmlUtil.h"
+#include "Timer.h"
 
 class MovingObjects : public Entity {
 public:
@@ -27,7 +28,9 @@ public:
     // that to do when timeout
     // virtual void timeoutAction() = 0;
 
-    bool isTimeout() { return m_isTimeOut; };
+    bool isTimeout() {
+        return m_isTimeOut;
+    };
     // bomb and gifts handle collision in the same way
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
@@ -43,5 +46,4 @@ protected:
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);
-
 };
