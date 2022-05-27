@@ -71,7 +71,7 @@ public:
     /// handle events, update, draw
     //////////////////////////////////////////////
 
-    virtual void handleEvent(const sf::Event& e) {
+    void handleEvent(const sf::Event& e) {
         switch (e.type) {
             case sf::Event::Resized:
                 m_windowRatio = (float)e.size.width / (float)e.size.height;
@@ -95,7 +95,7 @@ public:
         }
     }
 
-    virtual void update(const sf::Time& dt) {
+    void update(const sf::Time& dt) {
         float cameraSpeed = 100 * dt.asSeconds();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             m_view.move(0, cameraSpeed);
@@ -145,9 +145,9 @@ public:
 
         ImGui::Separator();
 
-        static bool pinViewToWindowCorenr = false;
-        ImGui::Checkbox("pin view up-left corner to window's 0,0", &pinViewToWindowCorenr);
-        if (pinViewToWindowCorenr) {
+        static bool pinViewToWindowCorner = false;
+        ImGui::Checkbox("pin view up-left corner to window's 0,0", &pinViewToWindowCorner);
+        if (pinViewToWindowCorner) {
             auto size = m_view.getSize();
             sf::Vector2f halfSize{size.x / 2, size.y / 2};
             m_view.setCenter(halfSize);
@@ -159,7 +159,7 @@ public:
     }
 
     // set the view to window
-    virtual void draw(sf::RenderTarget& win) const {
+    void draw(sf::RenderTarget& win) const {
         win.setView(m_view);
     }
 
@@ -192,7 +192,7 @@ public:
 
     sf::View getLetterboxView(sf::View view) {
         // Compares the aspect ratio of the window to the aspect ratio of the view,
-        // and sets the view's viewport accordingly in order to archieve a letterbox effect.
+        // and sets the view's viewport accordingly in order to archive a letterbox effect.
         // A new view (with a new viewport set) is returned.
 
         float windowRatio = m_windowRatio;

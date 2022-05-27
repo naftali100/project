@@ -2,14 +2,11 @@
 #define __GAMESTATE_H__
 #pragma once
 
+#include "Animation.h"
 #include "CollisionHandler.h"
-#include "Game/Bomb.h"
-#include "Game/Gift.h"
-#include "Game/Jail.h"
 #include "Game/MovingObjects.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
-#include "Animation.h"
 
 class GameState : public State {
 public:
@@ -19,12 +16,13 @@ public:
     void initLayout();
     void initJail();
 
-    virtual void handleEvent(const sf::Event&) override;
-    virtual void update(const sf::Time& dt) override;
-    virtual void draw(sf::RenderTarget& win) const override;
+    void handleEvent(const sf::Event&) override;
+    void update(const sf::Time& dt) override;
+    void draw(sf::RenderTarget& win) const override;
 
 private:
-    sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal);
+    void handleCollisions(const sf::Time&);
+    sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal) const;
 
 private:
     std::vector<std::unique_ptr<Entity>> m_moving;
@@ -33,7 +31,7 @@ private:
     Camera m_cam;
     bool m_isGameOver = false;
 
-    mutable sf::Sprite m_stars{TextureHolder::get(Textures::Stars)};
+    sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
 };
 

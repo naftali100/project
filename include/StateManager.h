@@ -6,7 +6,7 @@
 
 class StateManager {
 public:
-    StateManager(sf::RenderWindow& win);
+    explicit StateManager(sf::RenderWindow& win);
 
     // TODO
     // template <typename T, typename... Args>
@@ -34,9 +34,8 @@ public:
     void pause();
     void resume();
 
-    bool m_showImGuiGameWindow = true;
-
 private:
+    bool m_showImGuiGameWindow = true;
     sf::RenderWindow& m_win;
     std::stack<StatePtr> m_states;
     bool m_paused = false;

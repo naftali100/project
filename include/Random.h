@@ -5,10 +5,8 @@
 #include <random>
 
 namespace Random {
-//inline 
- std::random_device device_;
-//inline 
- std::default_random_engine engine_(device_());
+std::random_device device_;
+std::default_random_engine engine_(device_());
 
 inline int rnd(int a, int b) {
     std::uniform_int_distribution<int> uni_dist(a, b);

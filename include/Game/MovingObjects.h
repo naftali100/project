@@ -24,7 +24,7 @@ public:
 
     bool isTimeout() { return m_isTimeOut; };
     // bomb and gifts handle collision in the same way
-    virtual void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
+    void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
     virtual ~MovingObjects() = default;
 
@@ -34,7 +34,6 @@ protected:
     MyTimer m_timer;
     float m_speed;
     bool m_isTimeOut = false;
-
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);
