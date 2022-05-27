@@ -152,10 +152,10 @@ void GameState::draw(sf::RenderTarget& win) const {
     localStars.setPosition(200, 0);
     win.draw(localStars);
 
-    std::erase_if(m_moving, [](auto& item)->bool { return item.isTimeout(); });
+    std::erase_if(m_moving, [](const std::unique_ptr<MovingObjects> item)->bool { return item->isTimeout(); });
     
     for (auto& m : m_static) { m->draw(win); }
-    for (auto& m : m_moving) { m->draw(win); }
+    for (auto& m : m_moving) { m->draw(win, sf::RenderStates::Default); }   //I added default without knowing what is it
 };
 
 // from: https://gist.github.com/fallahn/f81d23137409313e7de6

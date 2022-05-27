@@ -25,7 +25,7 @@ private:
     sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal) const;
 
 private:
-    std::vector<std::unique_ptr<Entity>> m_moving;
+    std::vector<std::unique_ptr<MovingObjects>> m_moving;
     std::vector<std::unique_ptr<Entity>> m_static;
     CollisionHandler col;
     Camera m_cam;
