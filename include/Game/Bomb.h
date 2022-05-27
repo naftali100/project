@@ -11,9 +11,9 @@ public:
     Bomb(bool & isGameOver);
     using MovingObjects::m_timer;
 
-    virtual bool isTimeout() override {
+    /*virtual bool isTimeout() override {
         return m_isTimeOut;
-    };
+    };*/
 
     virtual void update(const sf::Time& dt) override {
         // drag
@@ -35,7 +35,6 @@ private:
     sf::Sprite m_sprite;
     bool& m_isGameOver;
 
-    //void explode();
   
 };
 #endif  // __BOMB_H__

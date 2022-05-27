@@ -15,10 +15,14 @@ public:
         m_speed = s;
     }
 
+    void runAnimation() {
+        // run animation
+    }
+
     // that to do when timeout
     // virtual void timeoutAction() = 0;
 
-    virtual bool isTimeout() = 0;
+    bool isTimeout() { return m_isTimeOut; };
     // bomb and gifts handle collision in the same way
     virtual void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 

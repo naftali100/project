@@ -1,36 +1,27 @@
 #include "Game/Timer.h"
 
+MyTimer::MyTimer(Func function, const int delay)
+    :m_function(function)
+{
+    setTime(sf::seconds(delay));
+}
 
-void MyTimer::setTime(sf::Time t){
+void MyTimer::setTime(const sf::Time& t){
     *this += t;
 }
 
-void MyTimer::update(sf::Time dt){
+void MyTimer::set(Func function, const int seconds)
+{
+    m_function = function;
+    setTime(sf::seconds(seconds));
+}
+
+void MyTimer::update(const sf::Time& dt){
     *this-= dt;
-}
-void MyTimer::setTimeout(Func function, int delay) {
-    // active = true;
-    // std::thread t([=]() {
-    //     if (!active.load()) return;
-    //     std::this_thread::sleep_for(std::chrono::milliseconds(delay));
-    //     if (!active.load()) return;
-    //     function();
-    //     });
-    // t.detach();
+    if (*this < sf::seconds(0))
+        m_function();
 }
 
-void MyTimer::setInterval(Func function, int interval) {
-    // active = true;
-    // std::thread t([=]() {
-    //     while (active.load()) {
-    //         std::this_thread::sleep_for(std::chrono::milliseconds(interval));
-    //         if (!active.load()) return;
-    //         function();
-    //     }
-    //     });
-    // t.detach();
-}
-
-void MyTimer::stop() {
-    active = false;
-}
+//void MyTimer::stop() {
+//    m_isActive = false;
+//}
