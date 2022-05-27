@@ -85,7 +85,8 @@ sf::Vector2f RoundedRectangleShape::getPoint(std::size_t index) const
     float deltaAngle = 90.0f/(myCornerPointCount-1);
     sf::Vector2f center;
     unsigned int centerIndex = index/myCornerPointCount;
-    static const float pi = std::numbers::pi_v<float>;
+    static const float pi = 3.141592741f;
+    // static const float pi = std::numbers::pi_v<float>;
 
     switch(centerIndex)
     {
