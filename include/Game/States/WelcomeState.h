@@ -11,6 +11,7 @@ public:
     using State::State;
 
     void init() override {
+        sf::util::getLocalCenterLeft(sf::RectangleShape());
         m_cam.setView(m_stateManager.getWin().getDefaultView());
         m_cam.setInitialView();
 
