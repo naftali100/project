@@ -24,14 +24,10 @@ public:
     void handleEvent(const sf::Event& e) override{
         // 
     };
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
-        states.transform *= getTransform();
-        target.draw(m_sprite, states);
-    }
+    
 
 private:
     bool m_first = false;
-    sf::Sprite m_sprite;
     bool& m_isGameOver;
 
   

@@ -15,7 +15,7 @@ Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
     m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
     setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize()));
     setOrigin(getSize() / 2.f);
-    m_timer.setTimeout([this]() { m_isGameOver = m_isTimeOut = true; }, 10);  // TODO: calc delay
+    m_timer.set([this]() { m_isGameOver = m_isTimeOut = true; }, 10);  // TODO: calc delay
 }
 
 void Bomb::update(const sf::Time& dt) {

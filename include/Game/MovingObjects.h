@@ -15,6 +15,11 @@ public:
         m_speed = s;
     }
 
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+        states.transform *= getTransform();
+        target.draw(m_sprite, states);
+    }
+
     void runAnimation() {
         // run animation
     }
@@ -34,6 +39,7 @@ protected:
     MyTimer m_timer;
     float m_speed;
     bool m_isTimeOut = false;
+    sf::Sprite m_sprite;
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);

@@ -1,5 +1,4 @@
 #include "Game/States/GameState.h"
-
 #include "Game/Bomb.h"
 #include "Game/Door.h"
 #include "Game/Gift.h"
@@ -9,6 +8,7 @@
 #include "Resources.h"
 #include "SfmlUtil.h"
 #include "StateManager.h"
+#include <memory>
 
 void GameState::init() {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
@@ -41,7 +41,7 @@ void GameState::init() {
     }
 
     // std::make_unique<Gift>();
-    Gift g;
+    //Gift g;
     // g.onEvent(sf::Event::MouseButtonReleased, [&]() {
     //  check if clicked
     //  run animation
@@ -55,7 +55,7 @@ void GameState::initJail() {
     // left jail
     auto j = std::make_unique<Jail>();
     j->setColor(sf::Color::Red);
-    m_static.push_back(std::move(j));
+    m_static.push_back(std::move(j));   //it's dangerous!
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition(50, (float)winSize.y / 2);
 
@@ -71,6 +71,13 @@ void GameState::initJail() {
         b->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
                        static_cast<float>(Random::rnd(10, winSize.y - 10)));
         m_moving.push_back(std::move(b));
+
+    // spawn gift (currently is stars image)
+        auto g = std::make_unique<Gift>();
+        g->setDirection({ static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0)) });
+        g->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
+            static_cast<float>(Random::rnd(10, winSize.y - 10)));
+        m_moving.push_back(std::move(g));       // dangerous
     }
 }
 
@@ -145,6 +152,8 @@ void GameState::draw(sf::RenderTarget& win) const {
     localStars.setPosition(200, 0);
     win.draw(localStars);
 
+    std::erase_if(m_moving, [](auto& item)->bool { return item.isTimeout(); });
+    
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
 };
