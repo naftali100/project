@@ -24,6 +24,7 @@
 ////////////////////////////////////////////////////////////
 #include <RoundedRectangle.h>
 #include <cmath>
+#include <numbers>
 
 namespace sf
 {
