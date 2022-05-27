@@ -24,7 +24,7 @@ endfunction()
 
 
 if (MSVC)
-    add_compile_options (/W4 /permissive- /Zc:externConstexpr /Zc:inline /analyze)
+    add_compile_options (/W4 /permissive- /Zc:externConstexpr /Zc:inline /Zc:__cplusplus /analyze)
     # add_compile_options (/std:c++17 /std:c++20 /std:c++latest)
     # add_compile_options (/W4 /permissive- /Zc:externConstexpr /Zc:inline /analyze
     #     /w14242 # 'identifier': conversion from 'type1' to 'type1', possible loss of data

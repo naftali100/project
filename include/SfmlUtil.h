@@ -30,7 +30,15 @@
 #ifndef SFMLUTIL_H
 #define SFMLUTIL_H
 
-#if __has_include("concepts") && __cpp_concepts >= 201707 && __cpp_lib_concepts >= 201707
+#if _MSVC_LANG
+#define CPP_VERSION _MSVC_LANG
+#elif defined(__linux__)
+#define CPP_VERSION __cplusplus
+#else
+#define CPP_VERSION 201707
+#endif
+
+#if __has_include("concepts") && __cpp_concepts <= CPP_VERSION && __cpp_lib_concepts <= CPP_VERSION 
 #define has_concepts
 #endif
 
