@@ -29,7 +29,5 @@ public:
 private:
     bool m_first = false;
     bool& m_isGameOver;
-
-  
 };
 #endif  // __BOMB_H__

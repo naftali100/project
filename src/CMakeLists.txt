@@ -4,8 +4,6 @@ list(REMOVE_ITEM source_files "${CMAKE_CURRENT_LIST_DIR}/main.cpp")
 add_library(${SOURCES_LIB} OBJECT ${source_files})
 target_link_libraries(${SOURCES_LIB} PUBLIC plog)
 
-include(../cmake/conf.cmake)
-
 target_precompile_headers(${SOURCES_LIB} PUBLIC "${CMAKE_SOURCE_DIR}/include/pch.h")
 
 if( WIN32 ) 

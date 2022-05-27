@@ -11,7 +11,7 @@ public:
         m_sprite.setTexture(TextureHolder::get(Textures::Stars));
         setSize(sf::Vector2f(TextureHolder::get(Textures::Stars).getSize()));
         setOrigin(getSize() / 2.f);
-        m_timer.set([&]() {m_isTimeOut = true; }, 10); //TODO: calc delay
+        m_timer.set([&]() {m_isTimeOut = true; }, 5); //TODO: calc delay
     }
     using MovingObjects::m_isTimeOut;
 
@@ -26,6 +26,7 @@ public:
     }
     void update(const sf::Time& dt) override {
         // check for click
+        m_timer.update(dt);
         move(m_direction * m_speed * dt.asSeconds());
     }
 

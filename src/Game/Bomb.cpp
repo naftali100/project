@@ -27,5 +27,6 @@ void Bomb::update(const sf::Time& dt) {
 
     // drag
     // update movement
+    m_timer.update(dt);
     move(m_direction * m_speed * dt.asSeconds());
 };

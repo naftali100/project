@@ -72,7 +72,7 @@ void GameState::initJail() {
                        static_cast<float>(Random::rnd(10, winSize.y - 10)));
         m_moving.push_back(std::move(b));
 
-    // spawn gift (currently is stars image)
+    // spawn gift (currently is stars image) 
         auto g = std::make_unique<Gift>();
         g->setDirection({ static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0)) });
         g->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
@@ -139,6 +139,8 @@ void GameState::update(const sf::Time& dt) {
     m_starAnimation.update(dt.asSeconds());
 
     handleCollisions(dt);
+
+    std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
@@ -151,8 +153,6 @@ void GameState::draw(sf::RenderTarget& win) const {
     win.draw(localStars);
     localStars.setPosition(200, 0);
     win.draw(localStars);
-
-    std::erase_if(m_moving, [](const std::unique_ptr<MovingObjects> item)->bool { return item->isTimeout(); });
     
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win, sf::RenderStates::Default); }   //I added default without knowing what is it
