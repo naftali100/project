@@ -3,6 +3,7 @@
 #include "GameState.h"
 #include "Gui/button.h"
 #include "Resources.h"
+#include "Log.h"
 #include "SfmlUtil.h"
 #include "State.h"
 
@@ -11,7 +12,7 @@ public:
     using State::State;
 
     void init() override {
-        sf::util::getLocalCenterLeft(sf::RectangleShape());
+        LOGI << sf::util::getLocalCenterLeft(sf::RectangleShape());
         m_cam.setView(m_stateManager.getWin().getDefaultView());
         m_cam.setInitialView();
 

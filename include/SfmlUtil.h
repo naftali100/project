@@ -30,7 +30,7 @@
 #ifndef SFMLUTIL_H
 #define SFMLUTIL_H
 
-#if __has_include("concepts") && __cpp_concepts <= __cplusplus && __cpp_lib_concepts <= __cplusplus
+#if __has_include("concepts") && __cpp_concepts >= 201707 && __cpp_lib_concepts >= 201707
 #define has_concepts
 #endif
 
