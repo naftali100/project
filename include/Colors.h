@@ -128,6 +128,28 @@ const sf::Color VeryDarkLime(32, 64, 0);
 const sf::Color VeryDarkMint(16, 64, 48);
 const sf::Color VeryDarkGray(32, 32, 32);
 
+const std::vector<sf::Color> STD_COLORS = {
+Black,
+Blue,
+Red,
+Magenta,
+Green,
+Cyan,
+Yellow,
+White,
+Brown,
+Orange,
+Pink,
+BabyPink,
+HotPink,
+Salmon,
+Violet,
+Purple,
+Peach,
+Lime,
+Mint,
+Gray
+};
 };  // namespace Colors
 // }  // namespace sf
 #endif  // PLINTH_SFML_COLORS_HPP

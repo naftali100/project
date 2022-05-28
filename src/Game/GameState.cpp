@@ -111,6 +111,11 @@ void GameState::initLayout() {
 
 void GameState::handleEvent(const sf::Event& e) {
     m_cam.handleEvent(e);
+    if (e.MouseButtonPressed)
+        for (auto& item : m_moving)
+        // TODO: write this correctly
+            if (item->getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y))
+                item->handleEvent(e);
 }
 
 void GameState::update(const sf::Time& dt) {
@@ -121,6 +126,12 @@ void GameState::update(const sf::Time& dt) {
         b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
         b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
         m_moving.push_back(std::move(b));
+    }
+    if (ImGui::Button("spawn gift")) {
+        auto g = std::make_unique<Gift>();
+        g->setDirection({ static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0)) });
+        g->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
+        m_moving.push_back(std::move(g));
     }
     if (ImGui::Button("reset view")) {
         m_cam.resetView();
@@ -180,8 +191,8 @@ void GameState::handleCollisions(const sf::Time& dt) {
 
     for (auto const& m : m_moving) {
         m->update(dt);
-        // check if need to remove
-        // check if exploded
+        // check if need to remove  - for this there is erase_if. the lambda will do it
+        // check if exploded - you don't have to. the lambda expression will do it
         // check if collided
         for (auto const& n : m_static) {
             if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cmath>
-
+#include "Colors.h"
 #include "Game/Entity.h"
 #include "SfmlUtil.h"
 #include "Timer.h"
@@ -21,6 +21,13 @@ public:
         target.draw(m_sprite, states);
     }
 
+    void flicker() {
+        //flickering obj
+        m_sprite.setColor(Colors::STD_COLORS[m_flicker]);
+        m_flicker++;
+        m_flicker %= Colors::STD_COLORS.size();
+    }
+
     void runAnimation() {
         // run animation
     }
@@ -36,6 +43,13 @@ public:
 
     virtual ~MovingObjects() = default;
 
+    void update(const sf::Time& dt) override {
+        m_timer.update(dt);
+        if (m_timer.asSeconds() < 3)
+            flicker();
+        move(m_direction * m_speed * dt.asSeconds());
+    }
+
 protected:
     sf::Vector2f m_direction;  // < normalized vector
     bool m_isSelected;
@@ -46,4 +60,5 @@ protected:
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);
+    int m_flicker = 0;
 };
