@@ -21,7 +21,7 @@ public:
     }
 
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override {
-        if (!m_isDragged)
+        if (!m_isDragged && !m_isJailed)
             MovingObjects::handleCollision(e, manifold);
     }
 
