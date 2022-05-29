@@ -13,7 +13,7 @@ Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
     setCollisionTag(CollisionTag::bomb);
     setSpeed(300);
     m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
-    setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize()));
+    setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize()/unsigned(4)));
     m_sprite.scale(0.25, 0.25);
     setOrigin(getSize() / 2.f);
     m_timer.set([this]() { m_isGameOver = m_isTimeOut = true; }, 10);  // TODO: calc delay
