@@ -148,6 +148,7 @@ void GameState::update(const sf::Time& dt) {
 
     m_cam.update(dt);
     m_starAnimation.update(dt.asSeconds());
+    m_explosion.update(dt);
 
     handleCollisions(dt);
 
@@ -165,8 +166,9 @@ void GameState::draw(sf::RenderTarget& win) const {
     localStars.setPosition(200, 0);
     win.draw(localStars);
     
+    m_explosion.draw(win, sf::RenderStates::Default);
     for (auto& m : m_static) { m->draw(win); }
-    for (auto& m : m_moving) { m->draw(win, sf::RenderStates::Default); }   //I added default without knowing what is it
+    for (auto& m : m_moving) { m->draw(win, sf::RenderStates::Default); }   
 };
 
 // from: https://gist.github.com/fallahn/f81d23137409313e7de6

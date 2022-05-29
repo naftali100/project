@@ -2,7 +2,7 @@
 #define __GAMESTATE_H__
 #pragma once
 
-
+#include "Game/Explosion.h"
 #include "Animation.h"
 #include "CollisionHandler.h"
 #include "Game/MovingObjects.h"
@@ -34,6 +34,8 @@ private:
 
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
+    Explosion m_explosion = Explosion();
+
 };
 
 #endif  // __GAMESTATE_H__

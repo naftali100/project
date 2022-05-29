@@ -34,7 +34,9 @@ enum ID
     Bomb,
     Btn,
     Stars,
-    Gift
+    Gift,
+    Explosion,
+    MAX
 };  // add textures here
 }  // namespace Textures
 

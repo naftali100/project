@@ -1,21 +1,38 @@
 #pragma once
-#include "Game/Entity.h"
-
+#include "Entity.h"
+#include "Animation.h"
+#include "Resources.h"
 
 class Explosion : public Entity {
 public:
-    Explosion();
-    sf::FloatRect getGlobalBounds() const override;
+    Explosion() {
+        m_sprite.setTexture(TextureHolder::get(Textures::Explosion));
+        sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
+        int textureRows = 2;
+        int textureCols = 4;
+
+        m_animation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 1.1);
+        m_sprite.setPosition(200, 200);
+    }
+
+    sf::FloatRect getGlobalBounds() const override {
+        return m_sprite.getGlobalBounds();
+    }
+
     void update(const sf::Time& dt) override {
-        // no updates to handle
+        m_animation.update(dt.asSeconds());
     };
+
     void handleEvent(const sf::Event& e) override {
         // no event to handle
     };
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+        target.draw(m_sprite);
+    }
 
 private:
-    sf::Color m_color;
-    std::vector<Bomb*> m_bombs;
-    sf::RectangleShape m_rec;
+    sf::Sprite m_sprite;
+    Animation m_animation{ m_sprite };
+
 };

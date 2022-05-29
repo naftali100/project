@@ -5,6 +5,7 @@
 #include "Game/MovingObjects.h"
 #include "Log.h"
 #include "Resources.h"
+#include "Explosion.h"
 
 class Bomb : public MovingObjects {
 public:
