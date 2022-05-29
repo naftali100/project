@@ -9,8 +9,8 @@ void Animation::addFrame(Frame&& frame) {
     m_frames.push_back(std::move(frame));
 }
 
-void Animation::update(double elapsed) {
-    progress += elapsed;
+void Animation::update(const sf::Time& elapsed) {
+    progress += elapsed.asSeconds();
     double p = progress;
     for (size_t i = 0; i < m_frames.size(); i++) {
         p -= m_frames[i].duration;

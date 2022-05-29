@@ -13,7 +13,7 @@ public:
     void initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime);
     void addFrame(Frame &&frame);
     void setFrame(int index);
-    void update(double elapsed);
+    void update(const sf::Time& elapsed);
     const double getLength() const {
         return totalLength;
     }
