@@ -18,6 +18,8 @@ void GameState::init() {
     m_cam.setResizeStrategy(LatterBox);
 
     m_stars.setTexture(TextureHolder::get(Textures::Stars));
+    // m_explosion.setTexture(TextureHolder::get(Textures::Explosion));
+    // m_explosion.scale(.25,.25);
 
     initJail();
     initLayout();
@@ -26,14 +28,22 @@ void GameState::init() {
     // col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
     //     ImGui::Text("bomb and jail collision function handler");
     // });
-
+{
     sf::Vector2u textureSize = m_stars.getTexture()->getSize();
 
     int textureRows = 1;
     int textureCols = 9;
 
     m_starAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.1);
+}
+{ 
+    // sf::Vector2u textureSize = m_explosion.getTexture()->getSize();
 
+    // int textureRows = 2;
+    // int textureCols = 4;
+
+    // m_explosionAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.16f);
+}
     // std::make_unique<Gift>();
     //Gift g;
     // g.onEvent(sf::Event::MouseButtonReleased, [&]() {
@@ -162,6 +172,10 @@ void GameState::draw(sf::RenderTarget& win) const {
         localStars.setPosition(100 * i, 0);
         win.draw(localStars);
     }
+
+    // auto localExplosion = m_explosion;
+    // localExplosion.setPosition(0, 100);
+    // win.draw(localExplosion);
     
     m_explosion.draw(win, sf::RenderStates::Default);
     for (auto& m : m_static) { m->draw(win); }

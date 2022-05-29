@@ -9,7 +9,15 @@ void Animation::addFrame(Frame&& frame) {
     m_frames.push_back(std::move(frame));
 }
 
+void Animation::setDuration(float d){
+    m_duration = d;
+}
+
 void Animation::update(const sf::Time& elapsed) {
+    if(m_duration > 0 && progress >= m_duration){
+        target.setTextureRect({0, 0, 0, 0});
+        return;
+    }
     progress += elapsed.asSeconds();
     double p = progress;
     for (size_t i = 0; i < m_frames.size(); i++) {

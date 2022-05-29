@@ -11,7 +11,10 @@ public:
         int textureRows = 2;
         int textureCols = 4;
 
-        m_animation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 1.1);
+        float timeForFrame = .08;
+
+        m_animation.initFramesWithFixedSize(textureSize, textureRows, textureCols, timeForFrame);
+        m_animation.setDuration(7 * timeForFrame);
         m_sprite.setPosition(200, 200);
     }
 
@@ -34,5 +37,4 @@ public:
 private:
     sf::Sprite m_sprite;
     Animation m_animation{ m_sprite };
-
 };

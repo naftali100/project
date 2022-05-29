@@ -34,8 +34,7 @@ private:
 
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
-    Explosion m_explosion = Explosion();
-
+    Explosion m_explosion;
 
     int m_lives = 3;
 };

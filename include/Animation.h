@@ -12,7 +12,10 @@ public:
     Animation(sf::Sprite &target);
     void initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime);
     void addFrame(Frame &&frame);
+    // select frame to show manually
     void setFrame(int index);
+    // Set the length of time the animation will play for
+    void setDuration(float time);
     void update(const sf::Time& elapsed);
     const double getLength() const {
         return totalLength;
@@ -23,6 +26,7 @@ private:
     double totalLength;
     double progress;
     sf::Sprite &target;
+    float m_duration = -1;
 };
 
 #endif
