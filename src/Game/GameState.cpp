@@ -33,8 +33,6 @@ void GameState::init() {
 
     m_starAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.1);
 
-    
-
     // std::make_unique<Gift>();
     //Gift g;
     // g.onEvent(sf::Event::MouseButtonReleased, [&]() {
@@ -106,11 +104,9 @@ void GameState::initLayout() {
 
 void GameState::handleEvent(const sf::Event& e) {
     m_cam.handleEvent(e);
-    if (e.MouseButtonPressed)
+    if (e.MouseButtonReleased)
         for (auto& item : m_moving)
-        // TODO: write this correctly
-            if (item->getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y))
-                item->handleEvent(e);
+            item->handleEvent(e);
 }
 
 void GameState::update(const sf::Time& dt) {

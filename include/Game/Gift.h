@@ -14,8 +14,13 @@ public:
 
     void handleEvent(const sf::Event& e) override {
         Entity::handleEvent(e);
-        if (e.MouseButtonPressed)
-            takeGift();
+        switch (e.type) {
+            case sf::Event::MouseButtonPressed:
+                if (getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+                    takeGift();
+                }
+                break;
+        }
     }
 
     void update(const sf::Time& dt) override {

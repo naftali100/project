@@ -26,10 +26,20 @@ void Bomb::update(const sf::Time& dt) {
     m_speed = speed;
 
     // update movement
-    MovingObjects::update(dt);
+    if(!m_isDragged)
+        MovingObjects::update(dt);
 };
 
 void Bomb::handleEvent(const sf::Event& e){
     // drag
-    
+    switch(e.type){
+        case sf::Event::MouseButtonPressed:
+            if(getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)){
+                m_isDragged = true;
+            }
+        break;
+        case sf::Event::MouseMoved:
+            setPosition(e.mouseMove.x, e.mouseMove.y);
+        break;
+    };    
 }

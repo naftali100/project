@@ -21,5 +21,6 @@ public:
 private:
     bool m_first = false;
     bool& m_isGameOver;
+    bool m_isDragged = false;
 };
 #endif  // __BOMB_H__
