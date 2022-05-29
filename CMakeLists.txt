@@ -6,6 +6,7 @@ set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++20")
 
 include(cmake/conf.cmake)
 
+
 # souces lib name
 set(SOURCES_LIB sources)
 add_subdirectory(src)

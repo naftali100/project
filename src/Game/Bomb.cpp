@@ -14,17 +14,21 @@ Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
     setSpeed(300);
     m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
     setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize()));
+    m_sprite.scale(0.25, 0.25);
     setOrigin(getSize() / 2.f);
     m_timer.set([this]() { m_isGameOver = m_isTimeOut = true; }, 10);  // TODO: calc delay
 }
 
 void Bomb::update(const sf::Time& dt) {
+    if (m_isJailed) return;
     static float speed = m_speed;
     if (m_first)
         ImGui::SliderFloat("bomb speed", &speed, 0, 1000);
 
     m_speed = speed;
-
+    m_timer.update(dt);
+    if (m_timer.asSeconds() < 3)
+        flicker();
     // update movement
     if(!m_isDragged)
         MovingObjects::update(dt);
@@ -39,6 +43,7 @@ void Bomb::handleEvent(const sf::Event& e){
             }
         break;
         case sf::Event::MouseMoved:
+            if(m_isDragged && !m_isJailed)
             setPosition(e.mouseMove.x, e.mouseMove.y);
         break;
     };    

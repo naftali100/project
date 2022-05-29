@@ -24,6 +24,9 @@ public:
     }
 
     void update(const sf::Time& dt) override {
+        m_timer.update(dt);
+        if (m_timer.asSeconds() < 3)
+            flicker();
         MovingObjects::update(dt);
     }
 

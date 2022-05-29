@@ -8,11 +8,11 @@
 
 class CollisionHandler {
 public:
-    using CollisionHandlerFunction = std::function<void(const Entity&, const Entity&)>;
-    void addCollision(const Entity& e1, const Entity& e2, CollisionHandlerFunction function) {
-        m_map.emplace(std::pair<std::string, std::string>{e1.getType(), e2.getType()}, function);
-        if(e1.getType() != e2.getType())
-            m_map.emplace(std::pair<std::string, std::string>{e2.getType(), e1.getType()}, function);
+    using CollisionHandlerFunction = std::function<void(Entity&, Entity&)>;
+    void addCollision(std::string& e1, std::string& e2, CollisionHandlerFunction function) {
+        m_map.emplace(std::pair<std::string, std::string>{e1, e2}, function);
+        if(e1 != e2)
+            m_map.emplace(std::pair<std::string, std::string>{e2, e1}, function);
     }
 
     // TODO: maybe this function should also trigger the handler function

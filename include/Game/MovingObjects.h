@@ -44,9 +44,6 @@ public:
     virtual ~MovingObjects() = default;
 
     void update(const sf::Time& dt) override {
-        m_timer.update(dt);
-        if (m_timer.asSeconds() < 3)
-            flicker();
         move(m_direction * m_speed * dt.asSeconds());
     }
 

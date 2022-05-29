@@ -28,7 +28,7 @@ private:
 private:
     std::vector<std::unique_ptr<MovingObjects>> m_moving;
     std::vector<std::unique_ptr<Entity>> m_static;
-    CollisionHandler col;
+    CollisionHandler m_col;
     Camera m_cam;
     bool m_isGameOver = false;
 
