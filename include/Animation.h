@@ -10,7 +10,7 @@ struct Frame {
 class Animation {
 public:
     Animation(sf::Sprite &target);
-    // virtual ~Animation();
+    void initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime);
     void addFrame(Frame &&frame);
     void update(double elapsed);
     const double getLength() const {

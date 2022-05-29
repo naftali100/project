@@ -26,3 +26,14 @@ void Animation::update(double elapsed) {
         }
     }
 }
+
+void Animation::initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime) {
+    int FrameXSize = textureSize.x / atlasCols;
+    int FrameYSize = textureSize.y / atlasRows;
+
+    for (int i = 0; i < atlasRows; i++) {
+        for (int j = 0; j < atlasCols; j++) {
+            addFrame({sf::IntRect(j * FrameXSize, i * FrameYSize, FrameXSize, FrameYSize), frameTime});
+        }
+    }
+}

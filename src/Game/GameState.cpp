@@ -31,14 +31,9 @@ void GameState::init() {
     int textureRows = 1;
     int textureCols = 9;
 
-    int FrameXSize = textureSize.x / textureCols;
-    int FrameYSize = textureSize.y / textureRows;
+    m_starAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.1);
 
-    for (int i = 0; i < textureRows; i++) {
-        for (int j = 0; j < textureCols; j++) {
-            m_starAnimation.addFrame({sf::IntRect(j * FrameXSize, i * FrameYSize, FrameXSize, FrameYSize), 0.1});
-        }
-    }
+    
 
     // std::make_unique<Gift>();
     //Gift g;
