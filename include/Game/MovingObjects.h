@@ -28,9 +28,6 @@ public:
         // run animation
     }
 
-    // that to do when timeout
-    // virtual void timeoutAction() = 0;
-
     bool isTimeout() {
         return m_isTimeOut;
     };
@@ -38,14 +35,7 @@ public:
     // bomb and gifts handle collision in the same way
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
-    void update(const sf::Time& dt) override {
-        m_timer.update(dt);
-        if (m_timer.asSeconds() < 3)
-            flicker();
-
-        move(m_direction * m_speed * dt.asSeconds());
-    }
-
+    void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     sf::FloatRect getGlobalBounds() const override {

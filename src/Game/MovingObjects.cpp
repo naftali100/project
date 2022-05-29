@@ -54,3 +54,11 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 
     target.draw(bound);
 }
+
+void MovingObjects::update(const sf::Time& dt) {
+    m_timer.update(dt);
+    if (m_timer.asSeconds() < 3)
+        flicker();
+
+    move(m_direction * m_speed * dt.asSeconds());
+}
