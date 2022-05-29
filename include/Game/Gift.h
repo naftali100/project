@@ -17,5 +17,5 @@ public:
     }
 
 private:
-    sf::Texture m_texture;
+    Animation m_anim{m_sprite};
 };
