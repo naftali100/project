@@ -4,6 +4,7 @@
 
 #include "State.h"
 
+// implements State design pattern - https://refactoring.guru/design-patterns/state
 class StateManager {
 public:
     explicit StateManager(sf::RenderWindow& win);

@@ -5,6 +5,7 @@
 #include <random>
 
 namespace Random {
+// TODO: check if now that we have c++20, if inline variables working
 std::random_device device_;
 std::default_random_engine engine_(device_());
 
