@@ -25,15 +25,6 @@ void GameState::init() {
     // col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
     //     ImGui::Text("bomb and jail collision function handler");
     // });
-    std::string s1{ Bomb(m_isGameOver).getType() }, s2{ Jail().getType() };
-    m_col.addCollision(s1, s2,
-        [&](Entity& bomb, Entity& jail) {
-        sf::FloatRect tempRect;
-        if (bomb.getGlobalBounds().intersects(jail.getGlobalBounds(), tempRect))
-            if (tempRect.width == bomb.getGlobalBounds().width &&
-                tempRect.height == bomb.getGlobalBounds().height)
-                dynamic_cast<Bomb&>(bomb).arrest();
-        });
 
     sf::Vector2u textureSize = m_stars.getTexture()->getSize();
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+
 #include "Colors.h"
 #include "Game/Entity.h"
 #include "SfmlUtil.h"
@@ -16,13 +17,8 @@ public:
         m_speed = s;
     }
 
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
-        states.transform *= getTransform();
-        target.draw(m_sprite, states);
-    }
-
     void flicker() {
-        //flickering obj
+        // flickering obj
         m_sprite.setColor(Colors::STD_COLORS[m_flicker]);
         m_flicker++;
         m_flicker %= Colors::STD_COLORS.size();
@@ -38,14 +34,25 @@ public:
     bool isTimeout() {
         return m_isTimeOut;
     };
+
     // bomb and gifts handle collision in the same way
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
-    virtual ~MovingObjects() = default;
-
     void update(const sf::Time& dt) override {
+        m_timer.update(dt);
+        if (m_timer.asSeconds() < 3)
+            flicker();
+
         move(m_direction * m_speed * dt.asSeconds());
     }
+
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+
+    sf::FloatRect getGlobalBounds() const override {
+        return getTransform().transformRect(m_sprite.getGlobalBounds());
+    }
+
+    virtual ~MovingObjects() = default;
 
 protected:
     sf::Vector2f m_direction;  // < normalized vector
