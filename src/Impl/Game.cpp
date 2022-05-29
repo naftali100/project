@@ -12,6 +12,7 @@ Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::Vi
 void Game::loadResources() const {
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
+    TextureHolder::load(Textures::Gift, "textures/gift.png");
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
     // SoundBufferHolder::load(SoundEffect::Main, "music/background.ogg");

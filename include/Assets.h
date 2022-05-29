@@ -33,7 +33,8 @@ enum ID
     Background,
     Bomb,
     Btn,
-    Stars
+    Stars,
+    Gift
 };  // add textures here
 }  // namespace Textures
 
