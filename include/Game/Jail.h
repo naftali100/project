@@ -5,11 +5,13 @@
 
 #include "Game/Bomb.h"
 #include "Game/Entity.h"
+#include "Colors.h"
 
 class Jail : public Entity {
 public:
     Jail();
     void setColor(const sf::Color& c);
+    sf::Color getColor() const;
 
     sf::FloatRect getGlobalBounds() const override;
     void update(const sf::Time& dt) override{
@@ -21,7 +23,7 @@ public:
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
-    sf::Color m_color;
+    sf::Color m_color = Colors::White;
     std::vector<Bomb*> m_bombs;
     sf::RectangleShape m_rec;
 };

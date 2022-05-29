@@ -23,5 +23,6 @@ private:
     bool& m_isGameOver;
     bool m_isDragged = false;
     bool m_isJailed = false;
+    sf::Color m_color;
 };
 #endif  // __BOMB_H__

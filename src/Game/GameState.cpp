@@ -9,6 +9,7 @@
 #include "SfmlUtil.h"
 #include "StateManager.h"
 #include <memory>
+#include "Game/States/WelcomeState.h"
 
 void GameState::init() {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
@@ -57,20 +58,20 @@ void GameState::initJail() {
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition((float)winSize.x - 50, (float)winSize.y / 2);
 
-    // spawn bomb
-    for (int i = 0; i < 10; i++) {  // TODO: replace this with std "do_it_n_times" function
+    for (int i = 0; i < 3; i++) {  // TODO: replace this with std "do_it_n_times" function
+        // spawn bomb
         auto b = std::make_unique<Bomb>(m_isGameOver);
         b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
         b->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
                        static_cast<float>(Random::rnd(10, winSize.y - 10)));
         m_moving.push_back(std::move(b));
 
-    // spawn gift (currently is stars image) 
-        auto g = std::make_unique<Gift>();
-        g->setDirection({ static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0)) });
-        g->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
-            static_cast<float>(Random::rnd(10, winSize.y - 10)));
-        m_moving.push_back(std::move(g));       // dangerous
+    //     // spawn gift (currently is stars image) 
+    //     auto g = std::make_unique<Gift>();
+    //     g->setDirection({ static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0)) });
+    //     g->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
+    //         static_cast<float>(Random::rnd(10, winSize.y - 10)));
+    //     m_moving.push_back(std::move(g));       // dangerous
     }
 }
 
@@ -110,6 +111,10 @@ void GameState::handleEvent(const sf::Event& e) {
 }
 
 void GameState::update(const sf::Time& dt) {
+    if(m_lives <= 0){
+        m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
+        return;
+    }
     auto winSize = m_stateManager.getWin().getSize();
 
     if (ImGui::Button("spawn bomb")) {
@@ -138,23 +143,24 @@ void GameState::update(const sf::Time& dt) {
     }
 
     m_cam.update(dt);
-    m_starAnimation.update(dt.asSeconds());
+    m_starAnimation.update(dt);
 
     handleCollisions(dt);
 
-    std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
+    auto removedCount = std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
+    if(removedCount > 0){
+        m_lives -= removedCount;
+    }
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
     m_cam.draw(win);  // set view
 
     auto localStars = m_stars;
-    localStars.setPosition(0, 0);
-    win.draw(localStars);
-    localStars.setPosition(100, 0);
-    win.draw(localStars);
-    localStars.setPosition(200, 0);
-    win.draw(localStars);
+    for(int i = 0; i < m_lives; i++){
+        localStars.setPosition(100 * i, 0);
+        win.draw(localStars);
+    }
     
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win, sf::RenderStates::Default); }   //I added default without knowing what is it

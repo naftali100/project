@@ -3,6 +3,7 @@
 #include <mutex>
 
 #include "SfmlUtil.h"
+#include "Game/Jail.h"
 
 Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
     // for ImGui to print only once.
@@ -17,6 +18,8 @@ Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
     MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / unsigned(4)));
     setOrigin(MovingObjects::getSize() / 2.f);
     m_timer.set([this]() { m_isGameOver = m_isTimeOut = true; }, 10);  // TODO: calc delay
+
+    m_color = Colors::White;
 }
 
 void Bomb::update(const sf::Time& dt) {
@@ -29,6 +32,8 @@ void Bomb::update(const sf::Time& dt) {
     if (m_isJailed)
         return;
 
+    // need to update timer event if dragged
+    m_timer.update(dt); 
 
     // update movement
     if (!m_isDragged)
@@ -56,9 +61,15 @@ void Bomb::handleEvent(const sf::Event& e) {
 void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
     if (e->getCollisionTag() == CollisionTag::jail) {
         sf::FloatRect tempRect;
-        if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect))
-            if (tempRect.width == getGlobalBounds().width && tempRect.height == getGlobalBounds().height)
+        if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect)){
+            auto jail = dynamic_cast<Jail*>(e); // needed for getting jail's color. TODO: can we avoid this?
+            if(m_color != jail->getColor()){
+                // make the bomb to timeout and "explode"
+                m_timer.reset();
+            }
+            else if (tempRect.width == getGlobalBounds().width && tempRect.height == getGlobalBounds().height)
                 arrest();
+        }
     }
 
     if (!m_isDragged && !m_isJailed)

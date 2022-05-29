@@ -13,6 +13,10 @@ void Jail::setColor(const sf::Color& c) {
     m_rec.setFillColor(c);
 }
 
+sf::Color Jail::getColor() const {
+    return m_color;
+}
+
 void Jail::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     states.transform *= getTransform();
     target.draw(m_rec, states);

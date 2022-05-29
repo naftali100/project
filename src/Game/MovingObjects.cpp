@@ -56,7 +56,8 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 }
 
 void MovingObjects::update(const sf::Time& dt) {
-    m_timer.update(dt);
+    // timer update moved to childrens, because its need to be independent on movement
+    
     if (m_timer.asSeconds() < 3)
         flicker();
 

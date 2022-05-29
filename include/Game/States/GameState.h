@@ -34,6 +34,8 @@ private:
 
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
+
+    int m_lives = 3;
 };
 
 #endif  // __GAMESTATE_H__

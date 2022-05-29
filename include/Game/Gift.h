@@ -9,6 +9,8 @@ public:
 
     void handleEvent(const sf::Event& e) override;
     void update(const sf::Time& dt) override {
+        m_timer.update(dt);
+
         MovingObjects::update(dt);
     }
 
