@@ -20,7 +20,7 @@ public:
     }
 
     void update(const sf::Time& dt) override {
-        m_animation.update(dt.asSeconds());
+        m_animation.update(dt);
     };
 
     void handleEvent(const sf::Event& e) override {

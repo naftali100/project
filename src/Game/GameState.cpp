@@ -143,7 +143,7 @@ void GameState::update(const sf::Time& dt) {
     }
 
     m_cam.update(dt);
-    m_starAnimation.update(dt.asSeconds());
+    m_starAnimation.update(dt);
     m_explosion.update(dt);
 
     handleCollisions(dt);
