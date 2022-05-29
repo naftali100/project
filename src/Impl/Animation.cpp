@@ -6,22 +6,22 @@ Animation::Animation(sf::Sprite& target) : target(target) {
 
 void Animation::addFrame(Frame&& frame) {
     totalLength += frame.duration;
-    frames.push_back(std::move(frame));
+    m_frames.push_back(std::move(frame));
 }
 
 void Animation::update(double elapsed) {
     progress += elapsed;
     double p = progress;
-    for (size_t i = 0; i < frames.size(); i++) {
-        p -= frames[i].duration;
+    for (size_t i = 0; i < m_frames.size(); i++) {
+        p -= m_frames[i].duration;
 
         // if we have progressed OR if we're on the last frame, apply and stop.
-        if (p > 0.0 && &(frames[i]) == &frames.back()) {
+        if (p > 0.0 && &(m_frames[i]) == &m_frames.back()) {
             i = 0;     // start over from the beginning
             continue;  // break off the loop and start where i is
         }
         if (p <= 0.0) {
-            target.setTextureRect(frames[i].rect);
+            target.setTextureRect(m_frames[i].rect);
             break;  // we found our frame
         }
     }
@@ -36,4 +36,9 @@ void Animation::initFramesWithFixedSize(const sf::Vector2u& textureSize, int atl
             addFrame({sf::IntRect(j * FrameXSize, i * FrameYSize, FrameXSize, FrameYSize), frameTime});
         }
     }
+}
+
+
+void Animation::setFrame(int index) {
+    target.setTextureRect(m_frames.at(index).rect);
 }
