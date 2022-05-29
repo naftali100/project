@@ -10,6 +10,10 @@ void MyTimer::setTime(const sf::Time& t){
     *this += t;
 }
 
+void MyTimer::reset() {
+    *this -= sf::milliseconds(asMilliseconds());
+}
+
 void MyTimer::set(const Func& function, const float seconds)
 {
     m_function = function;

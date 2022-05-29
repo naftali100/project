@@ -3,7 +3,6 @@
 #include "GameState.h"
 #include "Gui/button.h"
 #include "Resources.h"
-#include "Log.h"
 #include "SfmlUtil.h"
 #include "State.h"
 
@@ -12,13 +11,12 @@ public:
     using State::State;
 
     void init() override {
-        LOGI << sf::util::getLocalCenterLeft(sf::RectangleShape());
         m_cam.setView(m_stateManager.getWin().getDefaultView());
         m_cam.setInitialView();
 
         auto btnXPos = ((float)m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
         m_btn.setPosition({btnXPos, 100});
-        m_btn.setFunction([&]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager), true); });
+        m_btn.setFunction([&]() { m_stateManager.replaceState(std::make_unique<GameState>(m_stateManager)); });
     }
 
     virtual void handleEvent(const sf::Event& e) override {

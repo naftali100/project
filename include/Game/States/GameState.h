@@ -36,6 +36,8 @@ private:
     Animation m_starAnimation{m_stars};
     Explosion m_explosion = Explosion();
 
+
+    int m_lives = 3;
 };
 
 #endif  // __GAMESTATE_H__

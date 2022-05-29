@@ -1,32 +1,16 @@
 #pragma once
 
 #include "Game/MovingObjects.h"
+#include "Animation.h"
 
 class Gift : public MovingObjects {
 public:
-    Gift() {
-        setSpeed(200);
-        m_sprite.setTexture(TextureHolder::get(Textures::Stars));
-        setSize(sf::Vector2f(TextureHolder::get(Textures::Stars).getSize()));
-        setOrigin(getSize() / 2.f);
-        m_timer.set([this]() { m_isTimeOut = true; }, 10);  // TODO: calc delay
-    }
+    Gift();
 
-    void handleEvent(const sf::Event& e) override {
-        Entity::handleEvent(e);
-        switch (e.type) {
-            case sf::Event::MouseButtonPressed:
-                if (getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
-                    takeGift();
-                }
-                break;
-        }
-    }
-
+    void handleEvent(const sf::Event& e) override;
     void update(const sf::Time& dt) override {
         m_timer.update(dt);
-        if (m_timer.asSeconds() < 3)
-            flicker();
+
         MovingObjects::update(dt);
     }
 
@@ -36,5 +20,5 @@ public:
     }
 
 private:
-    sf::Texture m_texture;
+    Animation m_anim{m_sprite};
 };

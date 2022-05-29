@@ -15,21 +15,15 @@ public:
     void update(const sf::Time& dt) override;
     void handleEvent(const sf::Event& e) override; 
     void arrest() { m_isJailed = true; }
-    bool isArrested() { return m_isJailed; }
+    bool isArrested() const { return m_isJailed; }
 
-    sf::FloatRect getGlobalBounds() const override {
-        return getTransform().transformRect(m_sprite.getGlobalBounds());
-    }
-
-    void handleCollision(Entity* e, const sf::Vector3f& manifold) override {
-        if (!m_isDragged && !m_isJailed)
-            MovingObjects::handleCollision(e, manifold);
-    }
+    void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
 private:
     bool m_first = false;
     bool& m_isGameOver;
     bool m_isDragged = false;
     bool m_isJailed = false;
+    sf::Color m_color;
 };
 #endif  // __BOMB_H__

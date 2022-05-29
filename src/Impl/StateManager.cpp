@@ -18,10 +18,7 @@ StateManager::StateManager(sf::RenderWindow& win) : m_win(win) {
     LOGV << "state manager constructor - finish";
 }
 
-void StateManager::pushState(StatePtr ptr, bool pauseCurrent) {
-    if (!pauseCurrent && !m_states.empty()) {
-        m_states.pop();
-    }
+void StateManager::pushState(StatePtr ptr) {
     m_states.push(std::move(ptr));
     m_states.top()->init();
 }
