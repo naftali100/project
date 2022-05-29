@@ -14,7 +14,7 @@ public:
     // inline void pushState(Args&&... args) {
     //     pushState(std::make_unique<T>(std::forward<Args>(args)...));
     // }
-    void pushState(StatePtr, bool = false);
+    void pushState(StatePtr);
     void replaceState(StatePtr);
     void popState();
 
