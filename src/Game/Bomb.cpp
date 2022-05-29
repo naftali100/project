@@ -25,7 +25,11 @@ void Bomb::update(const sf::Time& dt) {
 
     m_speed = speed;
 
-    // drag
     // update movement
     MovingObjects::update(dt);
 };
+
+void Bomb::handleEvent(const sf::Event& e){
+    // drag
+    
+}
