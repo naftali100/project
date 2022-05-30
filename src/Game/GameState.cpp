@@ -1,15 +1,15 @@
 #include "Game/States/GameState.h"
+
 #include "Game/Bomb.h"
 #include "Game/Door.h"
 #include "Game/Gift.h"
 #include "Game/Jail.h"
+#include "Game/States/WelcomeState.h"
 #include "Game/Wall.h"
 #include "Random.h"
 #include "Resources.h"
 #include "SfmlUtil.h"
 #include "StateManager.h"
-#include <memory>
-#include "Game/States/WelcomeState.h"
 
 void GameState::init()  {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
@@ -36,30 +36,22 @@ void GameState::init()  {
     // col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
     //     ImGui::Text("bomb and jail collision function handler");
     // });
-{
-    sf::Vector2u textureSize = m_stars.getTexture()->getSize();
+    {
+        sf::Vector2u textureSize = m_stars.getTexture()->getSize();
 
-    int textureRows = 1;
-    int textureCols = 9;
+        int textureRows = 1;
+        int textureCols = 9;
 
-    m_starAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.1);
-}
-{ 
-    // sf::Vector2u textureSize = m_explosion.getTexture()->getSize();
+        m_starAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.1f);
+    }
+    {
+        // sf::Vector2u textureSize = m_explosion.getTexture()->getSize();
 
-    // int textureRows = 2;
-    // int textureCols = 4;
+        // int textureRows = 2;
+        // int textureCols = 4;
 
-    // m_explosionAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.16f);
-}
-    // std::make_unique<Gift>();
-    //Gift g;
-    // g.onEvent(sf::Event::MouseButtonReleased, [&]() {
-    //  check if clicked
-    //  run animation
-
-    // std::erase_if(m_moving, [](auto item){ return item == g});
-    //});
+        // m_explosionAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.16f);
+    }
 }
 
 void GameState::initJail() {
@@ -67,7 +59,7 @@ void GameState::initJail() {
     // left jail
     auto j = std::make_unique<Jail>();
     j->setColor(sf::Color::Red);
-    m_static.push_back(std::move(j));   //it's dangerous!
+    m_static.push_back(std::move(j));
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition(100, (float)winSize.y / 2);
 
@@ -112,18 +104,19 @@ void GameState::initLayout() {
 }
 
 void GameState::handleEvent(const sf::Event& e) {
+    LOGV;
     m_cam.handleEvent(e);
-    if (e.MouseButtonReleased)
-        for (auto& item : m_moving)
-            item->handleEvent(e);
+    for (auto& item : m_moving)
+        item->handleEvent(e);
+    LOGV;
 }
 
 void GameState::update(const sf::Time& dt) {
-    if(m_lives <= 0){
-        auto func = [&]() {m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager)); };
-        m_timer.set(func , 5.0);
+    LOGV;
+    if (m_lives <= 0) {
+        m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
+        return;
     }
-    auto winSize = m_stateManager.getWin().getSize();
 
     if (ImGui::Button("spawn bomb")) {
         spawnBomb();
@@ -149,20 +142,20 @@ void GameState::update(const sf::Time& dt) {
     m_explosion.update(dt);
     m_spawnTimer.update(dt);
     for (auto& i : m_explosions) { i->update(dt); }
+    for (auto& i : m_moving) { i->update(dt); }
 
     handleCollisions(dt);
 
     std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
-    //if(removedCount > 0){
-    //    m_lives -= removedCount;
-    //}
+    LOGV;
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
+    LOGV;
     m_cam.draw(win);  // set view
 
     auto localStars = m_stars;
-    for(int i = 0; i < m_lives; i++){
+    for (int i = 0; i < m_lives; i++) {
         localStars.setPosition(100 * i, 0);
         win.draw(localStars);
     }
@@ -171,11 +164,12 @@ void GameState::draw(sf::RenderTarget& win) const {
     // localExplosion.setPosition(0, 100);
     // win.draw(localExplosion);
     
-    m_explosion.draw(win, sf::RenderStates::Default);
+    m_explosion.draw(win);
 
-    for (auto& m : m_explosions) { m->draw(win, sf::RenderStates::Default); }
+    for (auto& m : m_explosions) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
-    for (auto& m : m_moving) { m->draw(win, sf::RenderStates::Default); }   
+    for (auto& m : m_moving) { m->draw(win); }
+    LOGV;
 };
 
 // from: https://gist.github.com/fallahn/f81d23137409313e7de6
@@ -199,7 +193,6 @@ void GameState::handleCollisions(const sf::Time& dt) {
     sf::FloatRect overlap;
 
     for (auto const& m : m_moving) {
-        m->update(dt);
         // check if need to remove  - for this there is erase_if. the lambda will do it
         // check if exploded - you don't have to. the lambda expression will do it
         // check if collided
