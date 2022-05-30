@@ -1,9 +1,9 @@
 #include "Game/Bomb.h"
 
 #include <mutex>
-#include <vector>
-#include "SfmlUtil.h"
+
 #include "Game/Jail.h"
+#include "SfmlUtil.h"
 
 Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounter) : m_explosions(explosions), m_livesCounter(livesCounter) {
     // for ImGui to print only once.
@@ -22,7 +22,6 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounte
             m_isTimeOut = true;
             m_livesCounter--;
             m_explosions.push_back(std::make_unique<Explosion>(m_sprite.getPosition()));
-    
         },
         10);  // TODO: calc delay
 
@@ -40,7 +39,7 @@ void Bomb::update(const sf::Time& dt) {
         return;
 
     // need to update timer event if dragged
-    m_timer.update(dt); 
+    m_timer.update(dt);
 
     // update movement
     if (!m_isDragged)
@@ -51,7 +50,7 @@ void Bomb::handleEvent(const sf::Event& e) {
     // drag
     switch (e.type) {
         case sf::Event::MouseButtonPressed:
-            if (getGlobalBounds().contains(e.mouseButton.x, e.mouseButton.y)) {
+            if (getGlobalBounds().contains((float)e.mouseButton.x, (float)e.mouseButton.y)) {
                 m_isDragged = true;
             }
             break;
@@ -60,22 +59,26 @@ void Bomb::handleEvent(const sf::Event& e) {
             break;
         case sf::Event::MouseMoved:
             if (m_isDragged && !m_isJailed)
-                setPosition(e.mouseMove.x, e.mouseMove.y);
+                setPosition((float)e.mouseMove.x, (float)e.mouseMove.y);
             break;
+        default:;
     }
 }
 
 void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
     if (e->getCollisionTag() == CollisionTag::jail) {
         sf::FloatRect tempRect;
-        if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect)){
-            auto jail = dynamic_cast<Jail*>(e); // needed for getting jail's color. TODO: can we avoid this?
-            if(m_color != jail->getColor()){
+        // if intersects, and the whole entity is inside the jail
+        if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect) && 
+            tempRect.width == getGlobalBounds().width && tempRect.height == getGlobalBounds().height) {
+            auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color. TODO: can we avoid this?
+            if (m_color != jail->getColor()) {
                 // make the bomb to timeout and "explode"
                 m_timer.reset();
             }
-            else if (tempRect.width == getGlobalBounds().width && tempRect.height == getGlobalBounds().height)
+            else {
                 arrest();
+            }
         }
     }
 
