@@ -15,7 +15,7 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounte
     setSpeed(300);
     m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
     m_sprite.scale(0.25, 0.25);
-    MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / unsigned(4)));
+    MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / 4u));
     setOrigin(MovingObjects::getSize() / 2.f);
     m_timer.set(
         [this]() {

@@ -4,9 +4,10 @@
 
 #include "Colors.h"
 #include "Resources.h"
-#include <iomanip>
 
-#ifndef __linux__
+#ifdef __linux__
+#include <iomanip>
+#else
 #include <format>
 #endif
 
@@ -47,15 +48,14 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 #endif
     timerTitle += s;
 
+    auto topCenter = sf::util::getGlobalTopCenter(*this);
+
     sf::Text timer;
     timer.setFont(FontHolder::get(Fonts::Test));
     timer.setString(timerTitle);
     timer.setFillColor(Colors::White);
     timer.setOutlineColor(Colors::Black);
     timer.setOutlineThickness(2);
-
-    auto topCenter = sf::util::getGlobalTopCenter(*this);
-
     timer.setPosition(topCenter.x - sf::util::getGlobalCenter(timer).x, topCenter.y - 20);
     target.draw(timer);
 
