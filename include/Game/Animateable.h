@@ -9,7 +9,7 @@ public:
                 const int textureCols,
                 const enum Textures::ID texture,
                 const float timeForFrame,
-                const sf::Vector2f position) {
+                const sf::Vector2f position = sf::Vector2f{0.0, 0.0}) {
         m_sprite.setTexture(TextureHolder::get(texture));
         sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
         //int textureRows = 2;
@@ -39,7 +39,10 @@ public:
         target.draw(m_sprite);
     }
 
-private:
+protected:
     sf::Sprite m_sprite;
     Animation m_animation{ m_sprite };
+
+private:
+
 };

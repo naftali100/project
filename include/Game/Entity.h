@@ -59,9 +59,11 @@ public:
     virtual void setSize(const sf::Vector2f& s) {
         m_size = s;
     }
+
     virtual void setSize(const float x, const float y) {
         m_size = {x, y};
     }
+
     virtual sf::Vector2f getSize() const {
         return m_size;
     }

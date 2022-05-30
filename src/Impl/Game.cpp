@@ -13,6 +13,7 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
     TextureHolder::load(Textures::Gift, "textures/gift.png");
+    TextureHolder::load(Textures::Jail, "textures/jail.png");
     // TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion3.png");
     FontHolder::load(Fonts::Main, FONT_PATH);

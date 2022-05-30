@@ -61,12 +61,12 @@ void GameState::initJail() {
     j->setColor(sf::Color::Red);
     m_static.push_back(std::move(j));   //it's dangerous!
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
-    m_static.back()->setPosition(50, (float)winSize.y / 2);
+    m_static.back()->setPosition(100, (float)winSize.y / 2);
 
     // right jail
     m_static.push_back(std::make_unique<Jail>());
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
-    m_static.back()->setPosition((float)winSize.x - 50, (float)winSize.y / 2);
+    m_static.back()->setPosition((float)winSize.x - 100, (float)winSize.y / 2);
 
     for (int i = 0; i < 3; i++) {  // TODO: replace this with std "do_it_n_times" function
         // spawn bomb

@@ -36,6 +36,7 @@ enum ID
     Stars,
     Gift,
     Explosion,
+    Jail,
     MAX
 };  // add textures here
 }  // namespace Textures
