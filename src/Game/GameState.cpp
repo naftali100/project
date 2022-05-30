@@ -11,7 +11,7 @@
 #include <memory>
 #include "Game/States/WelcomeState.h"
 
-void GameState::init() {
+void GameState::init()  {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
     m_cam.setInitialView();
     m_cam.setWinRatio(m_stateManager.getWin().getSize());
@@ -70,7 +70,7 @@ void GameState::initJail() {
 
     for (int i = 0; i < 3; i++) {  // TODO: replace this with std "do_it_n_times" function
         // spawn bomb
-        auto b = std::make_unique<Bomb>(m_isGameOver);
+        auto b = std::make_unique<Bomb>(m_explosions, m_lives);
         b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
         b->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
                        static_cast<float>(Random::rnd(10, winSize.y - 10)));
@@ -122,13 +122,13 @@ void GameState::handleEvent(const sf::Event& e) {
 
 void GameState::update(const sf::Time& dt) {
     if(m_lives <= 0){
-        m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
-        return;
+        auto func = [&]() {m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager)); };
+        m_timer.set(func , 5.0);
     }
     auto winSize = m_stateManager.getWin().getSize();
 
     if (ImGui::Button("spawn bomb")) {
-        auto b = std::make_unique<Bomb>(m_isGameOver);
+        auto b = std::make_unique<Bomb>(m_explosions, m_lives);
         b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
         b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
         m_moving.push_back(std::move(b));
@@ -155,13 +155,15 @@ void GameState::update(const sf::Time& dt) {
     m_cam.update(dt);
     m_starAnimation.update(dt);
     m_explosion.update(dt);
+    m_timer.update(dt);
+    for (auto& i : m_explosions) { i->update(dt); }
 
     handleCollisions(dt);
 
-    auto removedCount = std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
-    if(removedCount > 0){
-        m_lives -= removedCount;
-    }
+    std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
+    //if(removedCount > 0){
+    //    m_lives -= removedCount;
+    //}
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
@@ -178,6 +180,8 @@ void GameState::draw(sf::RenderTarget& win) const {
     // win.draw(localExplosion);
     
     m_explosion.draw(win, sf::RenderStates::Default);
+
+    for (auto& m : m_explosions) { m->draw(win, sf::RenderStates::Default); }
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win, sf::RenderStates::Default); }   
 };

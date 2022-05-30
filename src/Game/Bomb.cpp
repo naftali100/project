@@ -1,11 +1,11 @@
 #include "Game/Bomb.h"
 
 #include <mutex>
-
+#include <vector>
 #include "SfmlUtil.h"
 #include "Game/Jail.h"
 
-Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
+Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounter) : m_explosions(explosions), m_livesCounter(livesCounter) {
     // for ImGui to print only once.
     // see update()
     static std::once_flag flag;
@@ -17,7 +17,14 @@ Bomb::Bomb(bool& isGameOver) : m_isGameOver(isGameOver) {
     m_sprite.scale(0.25, 0.25);
     MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / unsigned(4)));
     setOrigin(MovingObjects::getSize() / 2.f);
-    m_timer.set([this]() { m_isGameOver = m_isTimeOut = true; }, 10);  // TODO: calc delay
+    m_timer.set(
+        [this]() {
+            m_isTimeOut = true;
+            m_livesCounter--;
+            m_explosions.push_back(std::make_unique<Explosion>(m_sprite.getPosition()));
+    
+        },
+        10);  // TODO: calc delay
 
     m_color = Colors::White;
 }

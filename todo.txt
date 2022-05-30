@@ -1,2 +1,4 @@
 1. timer class
-2. 
+2. ask Matan about encupsulation
+3. exceptions
+4. move all code to proper functions

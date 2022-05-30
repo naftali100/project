@@ -8,10 +8,15 @@
 #include "Game/MovingObjects.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
+#include <functional>
 
 class GameState : public State {
 public:
-    using State::State;
+    //using State::State;
+    GameState(StateManager& sm)
+        :State::State(sm), m_explosion({ 200, 200 }) {
+        
+    }
 
     void init() override;
     void initLayout();
@@ -20,6 +25,7 @@ public:
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
+    //auto func = [&]() {m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager)); };
 
 private:
     void handleCollisions(const sf::Time&);
@@ -28,14 +34,14 @@ private:
 private:
     std::vector<std::unique_ptr<MovingObjects>> m_moving;
     std::vector<std::unique_ptr<Entity>> m_static;
+    std::vector<std::unique_ptr<Explosion>> m_explosions;
     CollisionHandler m_col;
     Camera m_cam;
-    bool m_isGameOver = false;
 
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
-    Explosion m_explosion{ 2,4,Textures::ID::Explosion,.08,{200,200} };
-
+    Explosion m_explosion;
+    MyTimer m_timer;
     int m_lives = 3;
 };
 

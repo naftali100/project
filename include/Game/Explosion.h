@@ -6,7 +6,11 @@
 
 class Explosion : public Animateable {
 public:
-    using Animateable::Animateable;
+    Explosion(const sf::Vector2f position = sf::Vector2f{ 0.0, 0.0 })
+    :Animateable::Animateable(2,4,Textures::ID::Explosion, 0.08, position)
+    {
+    }
+    //using Animateable::Animateable;
     //Explosion() {
     //    m_sprite.setTexture(TextureHolder::get(Textures::Explosion));
     //    sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
