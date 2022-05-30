@@ -9,6 +9,7 @@ public:
     Explosion(const sf::Vector2f position = sf::Vector2f{ 0.0, 0.0 })
     :Animateable::Animateable(2,4,Textures::ID::Explosion, 0.08, position)
     {
+        m_sprite.scale(.25 / 2.f,.25/ 2.f);
     }
     //using Animateable::Animateable;
     //Explosion() {

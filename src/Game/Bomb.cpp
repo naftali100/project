@@ -21,7 +21,7 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounte
         [this]() {
             m_isTimeOut = true;
             m_livesCounter--;
-            m_explosions.push_back(std::make_unique<Explosion>(m_sprite.getPosition()));
+            m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
         },
         10);  // TODO: calc delay
 
