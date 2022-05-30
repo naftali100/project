@@ -70,18 +70,8 @@ void GameState::initJail() {
 
     for (int i = 0; i < 3; i++) {  // TODO: replace this with std "do_it_n_times" function
         // spawn bomb
-        auto b = std::make_unique<Bomb>(m_explosions, m_lives);
-        b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
-        b->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
-                       static_cast<float>(Random::rnd(10, winSize.y - 10)));
-        m_moving.push_back(std::move(b));
-
-    //     // spawn gift (currently is stars image) 
-    //     auto g = std::make_unique<Gift>();
-    //     g->setDirection({ static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0)) });
-    //     g->setPosition(static_cast<float>(Random::rnd(10, winSize.x - 10)),
-    //         static_cast<float>(Random::rnd(10, winSize.y - 10)));
-    //     m_moving.push_back(std::move(g));       // dangerous
+        spawnBomb();
+        // spawnGift();
     }
 }
 
@@ -128,16 +118,10 @@ void GameState::update(const sf::Time& dt) {
     auto winSize = m_stateManager.getWin().getSize();
 
     if (ImGui::Button("spawn bomb")) {
-        auto b = std::make_unique<Bomb>(m_explosions, m_lives);
-        b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
-        b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
-        m_moving.push_back(std::move(b));
+        spawnBomb();
     }
     if (ImGui::Button("spawn gift")) {
-        auto g = std::make_unique<Gift>();
-        g->setDirection({ static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0)) });
-        g->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
-        m_moving.push_back(std::move(g));
+        spawnGift();
     }
     if (ImGui::Button("reset view")) {
         m_cam.resetView();
@@ -225,4 +209,20 @@ void GameState::handleCollisions(const sf::Time& dt) {
             }
         }
     }
+}
+
+void GameState::spawnBomb() {
+    auto winSize = m_stateManager.getWin().getSize();
+    auto b = std::make_unique<Bomb>(m_explosions, m_lives);
+    b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
+    b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
+    m_moving.push_back(std::move(b));
+}
+
+void GameState::spawnGift(){
+    auto winSize = m_stateManager.getWin().getSize();
+    auto b = std::make_unique<Gift>();
+    b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
+    b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
+    m_moving.push_back(std::move(b));
 }

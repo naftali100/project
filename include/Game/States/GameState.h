@@ -27,6 +27,11 @@ public:
     void draw(sf::RenderTarget& win) const override;
     //auto func = [&]() {m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager)); };
 
+    // spawn 
+    // TODO: make it templated
+    void spawnBomb();
+    void spawnGift();
+
 private:
     void handleCollisions(const sf::Time&);
     sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal) const;
