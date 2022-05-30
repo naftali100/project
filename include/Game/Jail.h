@@ -15,12 +15,15 @@ public:
     sf::Color getColor() const;
 
     sf::FloatRect getGlobalBounds() const override;
-    void update(const sf::Time& dt) override{
-        // no updates to handle
-    };
-    void handleEvent(const sf::Event& e) override {
-        // no event to handle
-    };
+
+    //void update(const sf::Time& dt) override{
+    //    // no updates to handle
+    //}; 
+    using Animateable::update;
+    using Animateable::handleEvent;
+    //void handleEvent(const sf::Event& e) override {
+    //    // no event to handle
+    //};
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
