@@ -12,11 +12,7 @@
 
 class GameState : public State {
 public:
-    //using State::State;
-    GameState(StateManager& sm)
-        :State::State(sm), m_explosion({ 200, 200 }) {
-        
-    }
+    using State::State;
 
     void init() override;
     void initLayout();
@@ -45,7 +41,6 @@ private:
 
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
-    Explosion m_explosion;
 
     int m_lives = 3;
 

@@ -18,8 +18,6 @@ void GameState::init()  {
     m_cam.setResizeStrategy(LatterBox);
 
     m_stars.setTexture(TextureHolder::get(Textures::Stars));
-    // m_explosion.setTexture(TextureHolder::get(Textures::Explosion));
-    // m_explosion.scale(.25,.25);
 
     initJail();
     initLayout();
@@ -27,7 +25,7 @@ void GameState::init()  {
     static int spawnInterval = 3;
     m_spawnTimer.set(
         [this]() {
-            m_spawnTimer.setTime(sf::seconds(Random::rnd(0, spawnInterval)));
+            m_spawnTimer.setTime(sf::seconds(Random::rnd(1, spawnInterval)));
             spawnBomb();
         },
         spawnInterval);
@@ -43,14 +41,6 @@ void GameState::init()  {
         int textureCols = 9;
 
         m_starAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.1f);
-    }
-    {
-        // sf::Vector2u textureSize = m_explosion.getTexture()->getSize();
-
-        // int textureRows = 2;
-        // int textureCols = 4;
-
-        // m_explosionAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.16f);
     }
 }
 
@@ -139,10 +129,9 @@ void GameState::update(const sf::Time& dt) {
 
     m_cam.update(dt);
     m_starAnimation.update(dt);
-    m_explosion.update(dt);
     m_spawnTimer.update(dt);
-    for (auto& i : m_explosions) { i->update(dt); }
     for (auto& i : m_moving) { i->update(dt); }
+    for (auto& i : m_explosions) { i->update(dt); }
 
     handleCollisions(dt);
 
@@ -160,15 +149,9 @@ void GameState::draw(sf::RenderTarget& win) const {
         win.draw(localStars);
     }
 
-    // auto localExplosion = m_explosion;
-    // localExplosion.setPosition(0, 100);
-    // win.draw(localExplosion);
-    
-    m_explosion.draw(win);
-
-    for (auto& m : m_explosions) { m->draw(win); }
-    for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
+    for (auto& m : m_static) { m->draw(win); }
+    for (auto& m : m_explosions) { m->draw(win); }
     LOGV;
 };
 
