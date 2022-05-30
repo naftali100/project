@@ -34,7 +34,7 @@ private:
 
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
-    Explosion m_explosion;
+    Explosion m_explosion{ 2,4,Textures::ID::Explosion,.08,{200,200} };
 
     int m_lives = 3;
 };

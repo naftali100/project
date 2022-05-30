@@ -6,6 +6,7 @@
 #include "Game/Bomb.h"
 #include "Game/Entity.h"
 #include "Colors.h"
+#include "Animateable.h"
 
 class Jail : public Entity {
 public:
@@ -26,5 +27,6 @@ private:
     sf::Color m_color = Colors::White;
     std::vector<Bomb*> m_bombs;
     sf::RectangleShape m_rec;
+    //sf::Sprite m_sprite;
 };
 #endif  // __JAIL_H__
