@@ -4,6 +4,11 @@
 
 #include "Colors.h"
 #include "Resources.h"
+#include <iomanip>
+
+#ifndef __linux__
+#include <format>
+#endif
 
 void MovingObjects::handleCollision(Entity* e, const sf::Vector3f& manifold) {
     switch (e->getCollisionTag()) {
@@ -31,7 +36,16 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
     sf::String timerTitle;
     // only 2 places after the dot
     auto f = std::round(m_timer.asSeconds() * 100) / 100;
-    timerTitle += std::to_string(f);
+    std::string s;
+// because linux not support yet the "format" library
+#ifdef __linux__
+    std::stringstream stream;
+    stream << std::fixed << std::setprecision(2) << f;
+    s = stream.str();
+#else
+    s = std::format("{:.2f}", 3.14159265359); 
+#endif
+    timerTitle += s;
 
     sf::Text timer;
     timer.setFont(FontHolder::get(Fonts::Test));
