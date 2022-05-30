@@ -2,9 +2,9 @@
 #define __GAMESTATE_H__
 #pragma once
 
-#include "Game/Explosion.h"
 #include "Animation.h"
 #include "CollisionHandler.h"
+#include "Game/Explosion.h"
 #include "Game/MovingObjects.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
@@ -46,8 +46,10 @@ private:
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
     Explosion m_explosion;
-    MyTimer m_timer;
+
     int m_lives = 3;
+
+    MyTimer m_spawnTimer;
 };
 
 #endif  // __GAMESTATE_H__

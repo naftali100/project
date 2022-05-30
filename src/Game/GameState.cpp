@@ -24,6 +24,14 @@ void GameState::init()  {
     initJail();
     initLayout();
 
+    static int spawnInterval = 3;
+    m_spawnTimer.set(
+        [this]() {
+            m_spawnTimer.setTime(sf::seconds(Random::rnd(0, spawnInterval)));
+            spawnBomb();
+        },
+        spawnInterval);
+
     // example how to use collision manager
     // col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
     //     ImGui::Text("bomb and jail collision function handler");
@@ -139,7 +147,7 @@ void GameState::update(const sf::Time& dt) {
     m_cam.update(dt);
     m_starAnimation.update(dt);
     m_explosion.update(dt);
-    m_timer.update(dt);
+    m_spawnTimer.update(dt);
     for (auto& i : m_explosions) { i->update(dt); }
 
     handleCollisions(dt);
