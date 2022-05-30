@@ -96,6 +96,8 @@ namespace sf {
     template <hasGlobal T>
     sf::Vector2f getGlobalBottomRight(const T& object);
 
+    template <hasGlobal T>
+    sf::RectangleShape debugDraw(const T& object);
     }  // namespace util
 }  // namespace sf
 
