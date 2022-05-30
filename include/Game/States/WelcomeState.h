@@ -5,6 +5,7 @@
 #include "Resources.h"
 #include "SfmlUtil.h"
 #include "State.h"
+#include "StateManager.h"
 
 class WelcomeState : public State {
 public:

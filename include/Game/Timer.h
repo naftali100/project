@@ -17,6 +17,7 @@ public:
     void set(const Func& function, const float);
     void update(const sf::Time&);
     //void setTimeout(Func function, int delay);
+    // TODO: implement interval
     //void setInterval(Func function, int interval);
     void stop();
 

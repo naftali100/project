@@ -17,7 +17,7 @@ public:
         //float timeForFrame = .08;
 
         m_animation.initFramesWithFixedSize(textureSize, textureRows, textureCols, timeForFrame);
-        m_animation.setDuration(7 * timeForFrame);      //what is 7 for?
+        m_animation.setDuration(7 * timeForFrame);      // ASK: what is 7 for?
         m_sprite.setPosition(position);
     }
 
@@ -35,7 +35,7 @@ public:
         // no event to handle
     };
 
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {
         target.draw(m_sprite);
     }
 
