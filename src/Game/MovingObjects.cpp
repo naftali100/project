@@ -10,8 +10,7 @@ void MovingObjects::handleCollision(Entity* e, const sf::Vector3f& manifold) {
         case CollisionTag::wall:
         case CollisionTag::jail:
             resolveCollision(manifold);
-        default:
-            break;
+        default:;
     }
 }
 
@@ -46,13 +45,7 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
     timer.setPosition(topCenter.x - sf::util::getGlobalCenter(timer).x, topCenter.y - 20);
     target.draw(timer);
 
-    sf::RectangleShape bound{getSize()};
-    bound.setPosition(getGlobalBounds().left, getGlobalBounds().top);
-    bound.setFillColor(Colors::Transparent);
-    bound.setOutlineColor(Colors::Red);
-    bound.setOutlineThickness(2);
-
-    target.draw(bound);
+    Entity::draw(target);
 }
 
 void MovingObjects::update(const sf::Time& dt) {
