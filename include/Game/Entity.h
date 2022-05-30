@@ -9,6 +9,7 @@
 #pragma once
 
 #include <typeinfo>
+#include "Colors.h"
 
 enum class CollisionTag
 {
@@ -32,7 +33,14 @@ public:
     };
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {
         // debug draw
-        // white rectangle of global bound
+        // rectangle of global bound
+        sf::RectangleShape bound{getSize()};
+        bound.setPosition(getGlobalBounds().left, getGlobalBounds().top);
+        bound.setFillColor(Colors::Transparent);
+        bound.setOutlineColor(Colors::Red);
+        bound.setOutlineThickness(2);
+
+        target.draw(bound);
     }
 
     virtual void onEvent(const sf::Event::EventType& e, std::function<void()> func) {
