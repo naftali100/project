@@ -16,6 +16,9 @@ public:
 
     sf::FloatRect getGlobalBounds() const override;
 
+    void addBomb(Bomb* b){
+        m_bombs.push_back(b);
+    }
     //void update(const sf::Time& dt) override{
     //    // no updates to handle
     //}; 
