@@ -21,8 +21,16 @@ public:
     //void setInterval(Func function, int interval);
     void stop();
 
+    void pause(){
+        m_isPaused = true;
+    }
+    void resume(){
+        m_isPaused = false;
+    }
+
 private:
     //std::atomic<bool> m_isActive{ true };
     Func m_function;
     //sf::Time m_time;
+    bool m_isPaused = false;
 };
