@@ -21,12 +21,8 @@ public:
     //void setInterval(Func function, int interval);
     void stop();
 
-    void pause(){
-        m_isPaused = true;
-    }
-    void resume(){
-        m_isPaused = false;
-    }
+    void pause();
+    void resume();
 
 private:
     //std::atomic<bool> m_isActive{ true };
