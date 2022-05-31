@@ -71,26 +71,26 @@ void GameState::initLayout() {
     // left wall
     m_static.push_back(std::make_unique<Wall>());
     auto const& w_left = m_static.back();
-    w_left->setPosition(-10, -10);
-    w_left->setSize(10, (float)winSize.y + 20);
+    w_left->setPosition(-100, -100);
+    w_left->setSize(100, (float)winSize.y + 200);
 
     // bottom wall
     m_static.push_back(std::make_unique<Wall>());
     auto const& w_bottom = m_static.back();
-    w_bottom->setPosition(-10, (float)winSize.y);
-    w_bottom->setSize((float)winSize.x + 20, 10);
+    w_bottom->setPosition(-100, (float)winSize.y);
+    w_bottom->setSize((float)winSize.x + 200, 100);
 
     // right wall
     m_static.push_back(std::make_unique<Wall>());
     auto const& w_right = m_static.back();
-    w_right->setPosition((float)winSize.x + 10, -10);
-    w_right->setSize(10, (float)winSize.y + 20);
+    w_right->setPosition((float)winSize.x, -100);
+    w_right->setSize(100, (float)winSize.y + 200);
 
     // upper wall
     m_static.push_back(std::make_unique<Wall>());
     auto const& w_upper = m_static.back();
-    w_upper->setPosition(-10, -10);
-    w_upper->setSize((float)winSize.x + 20, 10);
+    w_upper->setPosition(-100, -100);
+    w_upper->setSize((float)winSize.x + 200, 100);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
