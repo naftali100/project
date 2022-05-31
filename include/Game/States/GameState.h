@@ -43,6 +43,7 @@ private:
     Animation m_starAnimation{m_stars};
 
     int m_lives = 3;
+    int m_nonJailedBomb = 0;
 
     MyTimer m_spawnTimer;
 };

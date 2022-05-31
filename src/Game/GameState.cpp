@@ -11,7 +11,7 @@
 #include "SfmlUtil.h"
 #include "StateManager.h"
 
-void GameState::init()  {
+void GameState::init() {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
     m_cam.setInitialView();
     m_cam.setWinRatio(m_stateManager.getWin().getSize());
@@ -96,7 +96,7 @@ void GameState::initLayout() {
 void GameState::handleEvent(const sf::Event& e) {
     LOGV;
     m_cam.handleEvent(e);
-    for (auto& item : m_moving)
+    for (auto& item : m_moving) 
         item->handleEvent(e);
     LOGV;
 }
@@ -136,6 +136,14 @@ void GameState::update(const sf::Time& dt) {
     handleCollisions(dt);
 
     std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
+
+    if (m_nonJailedBomb > 3) {
+        m_spawnTimer.pause();
+    }
+    else {
+        m_spawnTimer.resume();
+    }
+
     LOGV;
 };
 
@@ -197,13 +205,14 @@ void GameState::handleCollisions(const sf::Time& dt) {
 
 void GameState::spawnBomb() {
     auto winSize = m_stateManager.getWin().getSize();
-    auto b = std::make_unique<Bomb>(m_explosions, m_lives);
+    auto b = std::make_unique<Bomb>(m_explosions, m_lives, m_nonJailedBomb);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
     b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
     m_moving.push_back(std::move(b));
+    m_nonJailedBomb++;
 }
 
-void GameState::spawnGift(){
+void GameState::spawnGift() {
     auto winSize = m_stateManager.getWin().getSize();
     auto b = std::make_unique<Gift>();
     b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});

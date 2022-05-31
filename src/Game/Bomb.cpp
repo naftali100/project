@@ -5,7 +5,7 @@
 #include "Game/Jail.h"
 #include "SfmlUtil.h"
 
-Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounter) : m_explosions(explosions), m_livesCounter(livesCounter) {
+Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounter, int& noJailedCounter) : m_explosions(explosions), m_livesCounter(livesCounter), m_nonJailedBombCounter(noJailedCounter) {
     // for ImGui to print only once.
     // see update()
     static std::once_flag flag;
@@ -66,6 +66,7 @@ void Bomb::handleEvent(const sf::Event& e) {
 }
 
 void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
+    if(m_isJailed) return;
     if (e->getCollisionTag() == CollisionTag::jail) {
         sf::FloatRect tempRect;
         // if intersects, and the whole entity is inside the jail
@@ -77,7 +78,9 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
                 m_timer.reset();
             }
             else {
+                jail->addBomb(this);
                 arrest();
+                m_nonJailedBombCounter --;
             }
         }
     }

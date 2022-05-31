@@ -9,7 +9,7 @@
 
 class Bomb : public MovingObjects {
 public:
-    explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions, int& livesCounter);
+    explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions, int& livesCounter, int& nonJailedBombCounter);
     using MovingObjects::m_timer;
 
     void update(const sf::Time& dt) override;
@@ -25,6 +25,7 @@ private:
     bool m_isJailed = false;
     sf::Color m_color;
     int& m_livesCounter;
+    int& m_nonJailedBombCounter;
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 };
 #endif  // __BOMB_H__
