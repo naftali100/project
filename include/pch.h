@@ -8,13 +8,15 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+#include <algorithm>
+#include <array>
+#include <cmath>
+#include <functional>
 #include <iostream>
 #include <map>
+#include <memory>
+#include <ranges>
 #include <set>
 #include <stack>
-#include <vector>
-#include <array>
-#include <functional>
 #include <utility>
-#include <memory>
-#include <cmath>
+#include <vector>
