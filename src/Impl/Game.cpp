@@ -14,6 +14,7 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Stars, "textures/stars.png");
     TextureHolder::load(Textures::Gift, "textures/gift.png");
     TextureHolder::load(Textures::Jail, "textures/jail.png");
+    TextureHolder::load(Textures::Door, "textures/door.png");
     // TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion3.png");
     FontHolder::load(Fonts::Main, FONT_PATH);
@@ -50,10 +51,12 @@ void Game::run() {
 
     sf::Clock clock;
     while (m_stateManager.isRunning()) {
+        LOGV << "game loop - start";
         processEvents();
         update(clock.restart());
         showStatWin();
         draw();
+        LOGV << "game loop - finish";
     }
     if (m_win.isOpen())
         m_win.close();
@@ -64,6 +67,7 @@ void Game::run() {
 }
 
 void Game::processEvents() {
+    LOGV << "handleEvent - start";
     sf::Event event;
     while (m_win.pollEvent(event)) {
         ImGui::SFML::ProcessEvent(m_win, event);
@@ -90,12 +94,15 @@ void Game::processEvents() {
                 break;
         }
     }
+    LOGV << "handleEvent - finish";
 }
 
 void Game::update(sf::Time deltaTime) {
+    LOGV << "start";
     ImGui::SFML::Update(m_win, deltaTime);
 
     m_stateManager.update(deltaTime);
+    LOGV << "finish";
 }
 
 void Game::showStatWin() const {

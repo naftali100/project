@@ -37,6 +37,7 @@ enum ID
     Gift,
     Explosion,
     Jail,
+    Door,
     MAX
 };  // add textures here
 }  // namespace Textures

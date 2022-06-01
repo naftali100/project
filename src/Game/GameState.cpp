@@ -19,13 +19,13 @@ void GameState::init() {
 
     m_stars.setTexture(TextureHolder::get(Textures::Stars));
 
-    initJail();
     initLayout();
+    initJail();
 
     static int spawnInterval = 3;
     m_spawnTimer.set(
         [this]() {
-            m_spawnTimer.setTime(sf::seconds(Random::rnd(1, spawnInterval)));
+            m_spawnTimer.setTime(sf::seconds(Random::rnd(0, spawnInterval)));
             spawnBomb();
         },
         spawnInterval);
@@ -91,6 +91,14 @@ void GameState::initLayout() {
     auto const& w_upper = m_static.back();
     w_upper->setPosition(-100, -100);
     w_upper->setSize((float)winSize.x + 200, 100);
+
+    // doors in corners for now.
+    m_doors.push_back(Door());
+    m_doors.back().setPosition(0,0);
+    m_doors.push_back(Door());
+    m_doors.back().setPosition(10, winSize.y - 10);
+    m_doors.push_back(Door());
+    m_doors.back().setPosition(winSize.x - 10, winSize.y - 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
@@ -111,6 +119,9 @@ void GameState::update(const sf::Time& dt) {
     if (ImGui::Button("spawn bomb")) {
         spawnBomb();
     }
+    if (ImGui::Button("delete all bombs")) {
+        m_moving.clear();
+    }
     if (ImGui::Button("spawn gift")) {
         spawnGift();
     }
@@ -130,7 +141,9 @@ void GameState::update(const sf::Time& dt) {
     m_cam.update(dt);
     m_starAnimation.update(dt);
     m_spawnTimer.update(dt);
+    for (auto& i : m_doors) { i.update(dt); }
     for (auto& i : m_moving) { i->update(dt); }
+    for (auto& i : m_static) { i->update(dt); }
     for (auto& i : m_explosions) { i->update(dt); }
 
     handleCollisions(dt);
@@ -157,6 +170,8 @@ void GameState::draw(sf::RenderTarget& win) const {
         win.draw(localStars);
     }
 
+    
+    for (auto& m : m_doors) { m.draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
@@ -207,7 +222,8 @@ void GameState::spawnBomb() {
     auto winSize = m_stateManager.getWin().getSize();
     auto b = std::make_unique<Bomb>(m_explosions, m_lives, m_nonJailedBomb);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
-    b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
+    b->setPosition(m_doors.at(Random::rnd(1, m_doors.size())-1).getPosition());
+    // b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
     m_moving.push_back(std::move(b));
     m_nonJailedBomb++;
 }
