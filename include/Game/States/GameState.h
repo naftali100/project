@@ -4,11 +4,11 @@
 
 #include "Animation.h"
 #include "CollisionHandler.h"
+#include "Game/Door.h"
 #include "Game/Explosion.h"
 #include "Game/MovingObjects.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
-#include <functional>
 
 class GameState : public State {
 public:
@@ -35,6 +35,7 @@ private:
     std::vector<std::unique_ptr<MovingObjects>> m_moving;
     std::vector<std::unique_ptr<Entity>> m_static;
     std::vector<std::unique_ptr<Explosion>> m_explosions;
+    std::vector<Door> m_doors;
     CollisionHandler m_col;
     Camera m_cam;
 
