@@ -19,20 +19,11 @@ public:
     void addBomb(Bomb* b){
         m_bombs.push_back(b);
     }
-    //void update(const sf::Time& dt) override{
-    //    // no updates to handle
-    //}; 
-    using Animateable::update;
-    using Animateable::handleEvent;
-    //void handleEvent(const sf::Event& e) override {
-    //    // no event to handle
-    //};
+
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
 private:
     sf::Color m_color = Colors::White;
     std::vector<Bomb*> m_bombs;
-    //sf::RectangleShape m_rec;
-    //sf::Sprite m_sprite;
 };
 #endif  // __JAIL_H__

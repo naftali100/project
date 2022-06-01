@@ -21,7 +21,6 @@ public:
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
-    //auto func = [&]() {m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager)); };
 
     // spawn 
     // TODO: make it templated

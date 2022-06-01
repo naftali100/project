@@ -10,8 +10,6 @@ int main() {
     plog::ColorConsoleAppender<plog::TxtFormatter> appiarer;
     plog::init(plog::info, &appiarer);
 
-    Game game;
-    game.run();
-
+    Game().run();
     return 0;
 }
