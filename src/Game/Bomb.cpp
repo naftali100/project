@@ -4,6 +4,7 @@
 
 #include "Game/Jail.h"
 #include "SfmlUtil.h"
+#include "MessageBus.h"
 
 Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounter, int& noJailedCounter) : m_explosions(explosions), m_livesCounter(livesCounter), m_nonJailedBombCounter(noJailedCounter) {
     // for ImGui to print only once.
@@ -19,8 +20,11 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounte
     setOrigin(MovingObjects::getSize() / 2.f);
     m_timer.set(
         [this]() {
+            // MessageBus::postMessage(MessageType::BombTimedout, this);
+            MessageBus::postMessage(MessageType::BombTimedout);
             m_isTimeOut = true;
-            m_livesCounter--;
+            // m_livesCounter--;
+            // m_nonJailedBombCounter--;
             m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
         },
         10);  // TODO: calc delay
@@ -78,9 +82,11 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
                 m_timer.reset();
             }
             else {
+                MessageBus::postMessage(MessageType::BombJailed);
+                // MessageBus::postMessage()
                 jail->addBomb(this);
                 arrest();
-                m_nonJailedBombCounter --;
+                // m_nonJailedBombCounter --;
             }
         }
     }

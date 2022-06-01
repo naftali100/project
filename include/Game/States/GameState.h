@@ -7,6 +7,7 @@
 #include "Game/Door.h"
 #include "Game/Explosion.h"
 #include "Game/MovingObjects.h"
+#include "MessageBus.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
 
@@ -19,10 +20,11 @@ public:
     void initJail();
 
     void handleEvent(const sf::Event&) override;
+    void handleMessages();
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
 
-    // spawn 
+    // spawn
     // TODO: make it templated
     void spawnBomb();
     void spawnGift();

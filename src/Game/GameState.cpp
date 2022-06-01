@@ -116,6 +116,9 @@ void GameState::update(const sf::Time& dt) {
         return;
     }
 
+    if (ImGui::Button("add life")) {
+        m_lives++;
+    }
     if (ImGui::Button("spawn bomb")) {
         spawnBomb();
     }
@@ -147,6 +150,7 @@ void GameState::update(const sf::Time& dt) {
     for (auto& i : m_explosions) { i->update(dt); }
 
     handleCollisions(dt);
+    handleMessages();
 
     std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
 
@@ -234,4 +238,29 @@ void GameState::spawnGift() {
     b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
     b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
     m_moving.push_back(std::move(b));
+}
+
+
+void GameState::handleMessages(){
+    int& i = MessageBus::getMessage(MessageType::BombJailed);
+    int& ii = MessageBus::getMessage(MessageType::BombTimedout);
+    m_lives -= ii;
+    m_nonJailedBomb -= i;
+    m_nonJailedBomb -= ii;
+    i = 0;
+    ii = 0;
+
+    // auto b = MessageBus::getMessage<Bomb>(MessageType::BombTimedout);
+    // if(b != 0){
+    //     auto res = std::find_if(m_moving.begin(), m_moving.end(), [b](auto& i) { 
+    //         LOGI << b << ' ' << i.get();
+    //         return b == i.get(); 
+    //     });
+    //     if(res != m_moving.end()){
+    //         LOGI;
+    //         m_moving.erase(res);
+    //         m_lives--;
+    //         m_explosions.push_back(std::make_unique<Explosion>(b->getPosition()));
+    //     }
+    // }
 }
