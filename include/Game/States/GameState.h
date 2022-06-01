@@ -44,7 +44,7 @@ private:
     int m_lives = 3;
     int m_nonJailedBomb = 0;
 
-    MyTimer m_spawnTimer;
+    Timer m_spawnTimer;
 };
 
 #endif  // __GAMESTATE_H__

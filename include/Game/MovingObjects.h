@@ -47,7 +47,7 @@ public:
 protected:
     sf::Vector2f m_direction;  // < normalized vector
     bool m_isSelected;
-    MyTimer m_timer;
+    Timer m_timer;
     float m_speed;
     bool m_isTimeOut = false;
     sf::Sprite m_sprite;

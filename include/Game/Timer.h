@@ -4,13 +4,12 @@
 #include <chrono>
 #include <atomic>
 
-
 using Func = std::function<void()>;
 
-class MyTimer : public sf::Time {
+class Timer : public sf::Time {
 public:
-    MyTimer() = default;
-    MyTimer(const Func& function, const float delay);
+    Timer() = default;
+    Timer(const Func& function, const float delay);
     void setTime(const sf::Time&);
     // set ths timer to 0
     void reset(); 
