@@ -7,41 +7,8 @@
 class Explosion : public Animateable {
 public:
     Explosion(const sf::Vector2f position = sf::Vector2f{ 0.0, 0.0 })
-    :Animateable::Animateable(2,4,Textures::ID::Explosion, 0.08, position)
+    :Animateable::Animateable(2,4,Textures::Explosion, 0.08, position)
     {
         m_sprite.scale(.25 / 2.f,.25/ 2.f);
     }
-    //using Animateable::Animateable;
-    //Explosion() {
-    //    m_sprite.setTexture(TextureHolder::get(Textures::Explosion));
-    //    sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
-    //    int textureRows = 2;
-    //    int textureCols = 4;
-
-    //    float timeForFrame = .08;
-
-    //    m_animation.initFramesWithFixedSize(textureSize, textureRows, textureCols, timeForFrame);
-    //    m_animation.setDuration(7 * timeForFrame);
-    //    m_sprite.setPosition(200, 200);
-    //}
-
-    //sf::FloatRect getGlobalBounds() const override {
-    //    return m_sprite.getGlobalBounds();
-    //}
-
-    //void update(const sf::Time& dt) override {
-    //    m_animation.update(dt);
-    //};
-
-    //void handleEvent(const sf::Event& e) override {
-    //    // no event to handle
-    //};
-
-    //void draw(sf::RenderTarget& target, sf::RenderStates states) const override {
-    //    target.draw(m_sprite);
-    //}
-
-private:
-    //sf::Sprite m_sprite;
-    //Animation m_animation{ m_sprite };
 };

@@ -85,6 +85,6 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
         }
     }
 
-    if (!m_isDragged && !m_isJailed)
+    if (!m_isDragged)
         MovingObjects::handleCollision(e, manifold);
 }
