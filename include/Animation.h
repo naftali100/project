@@ -9,7 +9,7 @@ struct Frame {
 
 class Animation {
 public:
-    Animation(sf::Sprite &target);
+    explicit Animation(sf::Sprite &target);
     void initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime);
     void addFrame(Frame &&frame);
     // select frame to show manually
@@ -17,7 +17,7 @@ public:
     // Set the length of time the animation will play for
     void setDuration(float time);
     void update(const sf::Time& elapsed);
-    const double getLength() const {
+    double getLength() const {
         return totalLength;
     }
 

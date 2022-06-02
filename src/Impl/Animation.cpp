@@ -14,25 +14,27 @@ void Animation::setDuration(float d){
 }
 
 void Animation::update(const sf::Time& elapsed) {
+    LOGV << "start";
     if(m_duration > 0 && progress >= m_duration){
         target.setTextureRect({0, 0, 0, 0});
         return;
     }
     progress += elapsed.asSeconds();
-    double p = progress;
+    auto p = std::fmod(progress, totalLength);
     for (size_t i = 0; i < m_frames.size(); i++) {
-        p -= m_frames[i].duration;
+        p -= m_frames.at(i).duration;
 
         // if we have progressed OR if we're on the last frame, apply and stop.
-        if (p > 0.0 && &(m_frames[i]) == &m_frames.back()) {
+        if (p > 0.0 && &(m_frames.at(i)) == &m_frames.back()) {
             i = 0;     // start over from the beginning
             continue;  // break off the loop and start where i is
         }
         if (p <= 0.0) {
-            target.setTextureRect(m_frames[i].rect);
+            target.setTextureRect(m_frames.at(i).rect);
             break;  // we found our frame
         }
     }
+    LOGV << "finish";
 }
 
 void Animation::initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime) {
