@@ -127,8 +127,8 @@ sf::RectangleShape debugDraw(const T& object){
     sf::RectangleShape bound;
     bound.setSize({object.getGlobalBounds().width, object.getGlobalBounds().height});
     bound.setPosition(object.getGlobalBounds().left, object.getGlobalBounds().top);
-    bound.setFillColor(Colors::Transparent);
-    bound.setOutlineColor(Colors::Red);
+    bound.setFillColor(sf::Color::Transparent);
+    bound.setOutlineColor(sf::Color::Red);
     bound.setOutlineThickness(2);
 
     return bound;
