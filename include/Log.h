@@ -26,7 +26,7 @@ concept PrintableShape = requires(T t) {
 namespace plog {
 template <typename T>
 Record& operator<<(Record& record, const sf::Rect<T>& v) {
-    record << v.top << ", " << v.left << " : " << v.width << ", " << v.height
+    record << v.left << ", " << v.top << " : " << v.width << ", " << v.height
            << " (low right corner: " << v.left + v.width << ", " << v.top + v.height << ")";
     return record;
 }
