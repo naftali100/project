@@ -21,6 +21,8 @@ void GameState::init() {
 
     initLayout();
     initJail();
+    // if enabled - causing seg fault
+    // initDoors();
 
     static int spawnInterval = 3;
     m_spawnTimer.set(
@@ -91,15 +93,20 @@ void GameState::initLayout() {
     auto const& w_upper = m_static.back();
     w_upper->setPosition(-100, -100);
     w_upper->setSize((float)winSize.x + 200, 100);
+}
 
+void GameState::initDoors() {
+    auto winSize = m_stateManager.getWin().getSize();
+
+    m_doors.clear();
 
     // doors in corners for now.
-    // m_doors.emplace_back();
-    // m_doors.back().setPosition(0, 0);
-    // m_doors.emplace_back();
-    // m_doors.back().setPosition(10, winSize.y - 10);
-    // m_doors.emplace_back();
-    // m_doors.back().setPosition(winSize.x - 10, winSize.y - 10);
+    m_doors.emplace_back();
+    m_doors.back().setPosition(0, 0);
+    m_doors.emplace_back();
+    m_doors.back().setPosition(10, winSize.y - 10);
+    m_doors.emplace_back();
+    m_doors.back().setPosition(winSize.x - 10, winSize.y - 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
@@ -117,6 +124,18 @@ void GameState::update(const sf::Time& dt) {
         return;
     }
 
+    // for debugging!
+    static bool toggleDoors = false; 
+    ImGui::Checkbox("toggle doors", &toggleDoors);
+    if(toggleDoors){
+        if(m_doors.empty()){
+            initDoors();
+        }
+    }else{
+        if(!m_doors.empty()){
+            m_doors.clear();
+        }
+    }
     if (ImGui::Button("add life")) {
         m_lives++;
     }
@@ -124,6 +143,7 @@ void GameState::update(const sf::Time& dt) {
         spawnBomb();
     }
     if (ImGui::Button("delete all bombs")) {
+        m_nonJailedBomb = 0;
         m_moving.clear();
     }
     if (ImGui::Button("spawn gift")) {

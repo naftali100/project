@@ -18,6 +18,7 @@ public:
     void init() override;
     void initLayout();
     void initJail();
+    void initDoors();
 
     void handleEvent(const sf::Event&) override;
     void handleMessages();
