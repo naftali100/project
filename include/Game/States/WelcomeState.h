@@ -12,24 +12,30 @@ public:
     using State::State;
 
     void init() override {
+        LOGV;
         m_cam.setView(m_stateManager.getWin().getDefaultView());
         m_cam.setInitialView();
 
         auto btnXPos = ((float)m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
         m_btn.setPosition({btnXPos, 100});
         m_btn.setFunction([&]() { m_stateManager.replaceState(std::make_unique<GameState>(m_stateManager)); });
+        LOGV;
     }
 
     virtual void handleEvent(const sf::Event& e) override {
+        LOGV << "start";
         m_btn.handleEvent(e);
+        LOGV << "finish";
     }
     virtual void update(const sf::Time& dt) override {
+        LOGV;
         m_btn.update();
         ImGui::ShowDemoWindow();
         if (ImGui::Button("close state")) {
             m_stateManager.popState();
             return;
         }
+        LOGV;
     }
     virtual void draw(sf::RenderTarget& win) const override {
         m_cam.draw(win);

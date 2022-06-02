@@ -35,6 +35,7 @@ void StateManager::popState() {
 }
 
 void StateManager::handleEvent(const sf::Event& e) {
+    LOGV << "start";
     if (m_paused)
         return;
 
@@ -44,6 +45,7 @@ void StateManager::handleEvent(const sf::Event& e) {
     else {
         LOGI << "empty states stack";
     }
+    LOGV << "finish";
 }
 
 void StateManager::update(const sf::Time& td) {
@@ -111,7 +113,7 @@ void StateManager::stop() {
     LOGV << "state Manager stop - start";
 
     while (!m_states.empty()) m_states.pop();
-    m_states = {};
+    // m_states = {};
 
     LOGV << "state Manager stop - finish";
 }
