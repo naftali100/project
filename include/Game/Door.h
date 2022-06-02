@@ -2,16 +2,18 @@
 
 #include "Game/Entity.h"
 #include "Resources.h"
+#include "Animation.h"
+#include "Log.h"
 
 class Door : public Entity {
 public:
-    virtual void update(const sf::Time& dt) override{
-
-    };
+    Door();
+    void update(const sf::Time& dt) override;
 
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {
-        states.transform *= getTransform();
-        target.draw(m_sprite, states);
+        // states.transform *= getTransform();
+        // target.draw(m_sprite);
+        Entity::draw(target);
     }
 
     // close when gift
@@ -24,5 +26,6 @@ public:
 private:
     bool m_isOpen = false;
     sf::Sprite m_sprite { TextureHolder::get(Textures::Door) };
+    Animation m_animation { m_sprite };
     // timer for closed time
 };
