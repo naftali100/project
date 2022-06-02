@@ -3,7 +3,7 @@
 #include "Colors.h"
 
 Jail::Jail() 
-:Animateable::Animateable(2, 1, Textures::Jail, 3.f) 
+// :Animateable::Animateable(2, 1, Textures::Jail, 3.f) 
 {
     setCollisionTag(CollisionTag::jail);
     m_sprite.scale(0.5, 0.5);
