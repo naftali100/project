@@ -81,6 +81,8 @@ public:
         // return std::type_info(typeid(*this));
     }
 
+    virtual ~Entity() = default;
+
 private:
     CollisionTag m_colTag = CollisionTag::none;  // by default collision disabled
     sf::Vector2f m_size;
