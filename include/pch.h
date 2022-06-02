@@ -20,3 +20,5 @@
 #include <stack>
 #include <utility>
 #include <vector>
+
+namespace rng = std::ranges;
