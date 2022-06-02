@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.22)
 
 project(sfml-template LANGUAGES CXX)
 
-set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++20 -g")
+if(!MSVC)
+    set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++20 -g")
+endif()
 
 include(cmake/conf.cmake)
 
