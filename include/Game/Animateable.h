@@ -18,7 +18,9 @@ public:
         sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
         m_animation.initFramesWithFixedSize(textureSize, textureRows, textureCols, timeForFrame);
         // 7 is 8 frames that there is in this animation and * frame time run the animation for one round of animation sheet
-        m_animation.setDuration(7 * timeForFrame); 
+        // TODO: either deleted this class or pass this variable too
+        // this value make the animation do only one one the entire animation sheet (amount of all frames)
+        m_animation.setDuration(((textureRows * textureCols) -1) * timeForFrame);
     }
 
     sf::FloatRect getGlobalBounds() const override {
