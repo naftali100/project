@@ -92,13 +92,14 @@ void GameState::initLayout() {
     w_upper->setPosition(-100, -100);
     w_upper->setSize((float)winSize.x + 200, 100);
 
+
     // doors in corners for now.
-    m_doors.push_back(Door());
-    m_doors.back().setPosition(0,0);
-    m_doors.push_back(Door());
-    m_doors.back().setPosition(10, winSize.y - 10);
-    m_doors.push_back(Door());
-    m_doors.back().setPosition(winSize.x - 10, winSize.y - 10);
+    // m_doors.emplace_back();
+    // m_doors.back().setPosition(0, 0);
+    // m_doors.emplace_back();
+    // m_doors.back().setPosition(10, winSize.y - 10);
+    // m_doors.emplace_back();
+    // m_doors.back().setPosition(winSize.x - 10, winSize.y - 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
@@ -145,9 +146,9 @@ void GameState::update(const sf::Time& dt) {
     m_starAnimation.update(dt);
     m_spawnTimer.update(dt);
     for (auto& i : m_doors) { i.update(dt); }
-    for (auto& i : m_moving) { i->update(dt); }
-    for (auto& i : m_static) { i->update(dt); }
-    for (auto& i : m_explosions) { i->update(dt); }
+    for (auto const& i : m_moving) { i->update(dt); }
+    for (auto const& i : m_static) { i->update(dt); }
+    for (auto const& i : m_explosions) { i->update(dt); }
 
     handleCollisions(dt);
     handleMessages();
@@ -170,14 +171,13 @@ void GameState::draw(sf::RenderTarget& win) const {
 
     auto localStars = m_stars;
     for (int i = 0; i < m_lives; i++) {
-        localStars.setPosition(100 * i, 0);
+        localStars.setPosition(100 * (float)i, 0);
         win.draw(localStars);
     }
 
-    
-    for (auto& m : m_doors) { m.draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
+    for (auto& m : m_doors) { m.draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
     LOGV;
 };
@@ -199,7 +199,7 @@ sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vect
     return manifold;
 }
 
-void GameState::handleCollisions(const sf::Time& dt) {
+void GameState::handleCollisions(const sf::Time&) {
     sf::FloatRect overlap;
 
     for (auto const& m : m_moving) {
@@ -226,8 +226,10 @@ void GameState::spawnBomb() {
     auto winSize = m_stateManager.getWin().getSize();
     auto b = std::make_unique<Bomb>(m_explosions, m_lives, m_nonJailedBomb);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
-    b->setPosition(m_doors.at(Random::rnd(1, m_doors.size())-1).getPosition());
-    // b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
+    if(!m_doors.empty())
+        b->setPosition(m_doors.at(Random::rnd(1, m_doors.size()) - 1).getPosition());
+    else
+        b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
     m_moving.push_back(std::move(b));
     m_nonJailedBomb++;
 }
@@ -240,8 +242,7 @@ void GameState::spawnGift() {
     m_moving.push_back(std::move(b));
 }
 
-
-void GameState::handleMessages(){
+void GameState::handleMessages() {
     int& i = MessageBus::getMessage(MessageType::BombJailed);
     int& ii = MessageBus::getMessage(MessageType::BombTimedout);
     m_lives -= ii;
@@ -252,9 +253,9 @@ void GameState::handleMessages(){
 
     // auto b = MessageBus::getMessage<Bomb>(MessageType::BombTimedout);
     // if(b != 0){
-    //     auto res = std::find_if(m_moving.begin(), m_moving.end(), [b](auto& i) { 
+    //     auto res = std::find_if(m_moving.begin(), m_moving.end(), [b](auto& i) {
     //         LOGI << b << ' ' << i.get();
-    //         return b == i.get(); 
+    //         return b == i.get();
     //     });
     //     if(res != m_moving.end()){
     //         LOGI;
