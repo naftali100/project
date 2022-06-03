@@ -5,7 +5,7 @@
 #include "Colors.h"
 #include "Resources.h"
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__MINGW32__)
 #include <iomanip>
 #else
 #include <format>
@@ -39,7 +39,7 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
     auto f = std::round(m_timer.asSeconds() * 100) / 100;
     std::string s;
 // because linux not support yet the "format" library
-#ifdef __linux__
+#if defined(__linux__) || defined(__MINGW32__)
     std::stringstream stream;
     stream << std::fixed << std::setprecision(2) << f;
     s = stream.str();

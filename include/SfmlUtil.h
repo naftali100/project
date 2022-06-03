@@ -32,7 +32,7 @@
 
 #if _MSVC_LANG
 #define CPP_VERSION _MSVC_LANG
-#elif defined(__linux__)
+#elif defined(__linux__) || defined(__MINGW32__)
 #define CPP_VERSION __cplusplus
 #else
 #define CPP_VERSION 201707
