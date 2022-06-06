@@ -44,7 +44,7 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
     stream << std::fixed << std::setprecision(2) << f;
     s = stream.str();
 #else
-    s = std::format("{:.2f}", 3.14159265359); 
+    s = std::format("{:.2f}", f); 
 #endif
     timerTitle += s;
 
