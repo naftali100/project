@@ -18,7 +18,7 @@ public:
 
         auto btnXPos = ((float)m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
         m_btn.setPosition({btnXPos, 100});
-        m_btn.setFunction([&]() { m_stateManager.replaceState(std::make_unique<GameState>(m_stateManager)); });
+        m_btn.setFunction([this]() { m_stateManager.replaceState(std::make_unique<GameState>(m_stateManager)); });
         LOGV;
     }
 
