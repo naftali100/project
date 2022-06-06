@@ -8,7 +8,7 @@ Jail::Jail()
     setCollisionTag(CollisionTag::jail);
     m_sprite.scale(0.5, 0.5);
 
-    setSize({ m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height });
+    Entity::setSize({ m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height });
 }
 
 void Jail::setColor(const sf::Color& c) {
