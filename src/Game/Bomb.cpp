@@ -6,7 +6,7 @@
 #include "SfmlUtil.h"
 #include "MessageBus.h"
 
-Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounter, int& noJailedCounter) : m_explosions(explosions), m_livesCounter(livesCounter), m_nonJailedBombCounter(noJailedCounter) {
+Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions) : m_explosions(explosions) {
     // for ImGui to print only once.
     // see update()
     static std::once_flag flag;
@@ -15,12 +15,12 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounte
     setCollisionTag(CollisionTag::bomb);
     setSpeed(300);
     m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
-    m_sprite.scale(0.25, 0.25);
-    MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / 4u));
+    float scale = 2;
+    m_sprite.scale(1 / scale, 1 / scale);
+    MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / unsigned(scale)));
     setOrigin(MovingObjects::getSize() / 2.f);
     m_timer.set(
         [this]() {
-            // MessageBus::postMessage(MessageType::BombTimedout, this);
             MessageBus::notify(MessageType::BombTimedout);
             // m_isTimeOut = true;
             kill();

@@ -16,15 +16,7 @@ public:
     void setColor(const sf::Color& c);
     sf::Color getColor() const;
 
-    void addBomb(Bomb* b){
-        m_bombs.push_back(b);
-        if(m_bombs.size() > 2){
-            for(auto i: m_bombs){
-                MessageBus::notify<Bomb*>(MessageType::BombRemoveFromVector, i);
-            }
-            m_bombs.clear();
-        }
-    }
+    void addBomb(Bomb* b);
 
     void update(const sf::Time& ) override{};
 

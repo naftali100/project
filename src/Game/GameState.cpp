@@ -248,7 +248,7 @@ void GameState::handleCollisions(const sf::Time&) {
 
 void GameState::spawnBomb() {
     auto winSize = m_stateManager.getWin().getSize();
-    auto b = std::make_unique<Bomb>(m_explosions, m_lives, m_nonJailedBomb);
+    auto b = std::make_unique<Bomb>(m_explosions);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
     if (!m_doors.empty())
         b->setPosition(m_doors.at(Random::rnd(1, m_doors.size()) - 1)->getPosition());
