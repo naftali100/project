@@ -267,13 +267,17 @@ void GameState::spawnGift() {
 }
 
 void GameState::handleMessages() {
-    int& i = MessageBus::getMessage(MessageType::BombJailed);
-    int& ii = MessageBus::getMessage(MessageType::BombTimedout);
-    m_lives -= ii;
-    m_nonJailedBomb -= i;
-    m_nonJailedBomb -= ii;
-    i = 0;
-    ii = 0;
+    // get messages
+    int& jailedBombs = MessageBus::getMessage(MessageType::BombJailed);
+    int& timedoutBombs = MessageBus::getMessage(MessageType::BombTimedout);
+    // update info
+    m_lives -= timedoutBombs;
+    m_nonJailedBomb -= jailedBombs;
+    m_nonJailedBomb -= timedoutBombs;
+    m_score += jailedBombs;
+    // clean messages
+    jailedBombs = 0;
+    timedoutBombs = 0;
 
     // auto b = MessageBus::getMessage<Bomb>(MessageType::BombTimedout);
     // if(b != 0){
