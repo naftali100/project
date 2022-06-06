@@ -197,6 +197,7 @@ void GameState::draw(sf::RenderTarget& win) const {
         localStars.setPosition(100 * (float)i, 0);
         win.draw(localStars);
     }
+    m_sb.draw(win);
 
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }

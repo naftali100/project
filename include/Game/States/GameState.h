@@ -10,6 +10,7 @@
 #include "MessageBus.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
+#include "Game/StatusBar.h"
 
 class GameState : public State {
 public:
@@ -46,9 +47,11 @@ private:
     Animation m_starAnimation{m_stars};
 
     int m_lives = 3;
+    int m_score = 0;
     int m_nonJailedBomb = 0;
 
     Timer m_spawnTimer;
+    StatusBar m_sb{m_lives, m_score};
 };
 
 #endif  // __GAMESTATE_H__
