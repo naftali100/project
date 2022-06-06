@@ -16,7 +16,7 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Jail, "textures/jail.png");
     TextureHolder::load(Textures::Door, "textures/door.png");
     // TextureHolder::load(Textures::Explosion, "textures/explosion.png");
-    TextureHolder::load(Textures::Explosion, "textures/explosion3.png");
+    TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
     // SoundBufferHolder::load(SoundEffect::Main, "music/background.ogg");
