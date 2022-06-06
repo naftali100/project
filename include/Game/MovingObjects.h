@@ -24,13 +24,14 @@ public:
         m_flicker %= Colors::STD_COLORS.size();
     }
 
-    void runAnimation() {
-        // run animation
-    }
-
+    // rename this to "isDead" or something
     bool isTimeout() {
-        return m_isTimeOut;
+        return m_shouldDie;
     };
+
+    void kill(){
+        m_shouldDie = true;
+    }
 
     // bomb and gifts handle collision in the same way
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
@@ -49,10 +50,12 @@ protected:
     bool m_isSelected;
     Timer m_timer;
     float m_speed;
-    bool m_isTimeOut = false;
+    // bool m_isTimeOut = false;
     sf::Sprite m_sprite;
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);
     int m_flicker = 0;
+
+    bool m_shouldDie = false;
 };

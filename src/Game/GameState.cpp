@@ -23,6 +23,7 @@ void GameState::init() {
     initJail();
     // if enabled - causing seg fault
     initDoors();
+    registerMessageHandlers();
 
     static int spawnInterval = 3;
     m_spawnTimer.set(
@@ -115,8 +116,7 @@ void GameState::initDoors() {
 void GameState::handleEvent(const sf::Event& e) {
     LOGV;
     m_cam.handleEvent(e);
-    for (auto& item : m_moving) 
-        item->handleEvent(e);
+    for (auto& item : m_moving) item->handleEvent(e);
     LOGV;
 }
 
@@ -128,14 +128,15 @@ void GameState::update(const sf::Time& dt) {
     }
 
     // for debugging!
-    static bool toggleDoors = false; 
+    static bool toggleDoors = true;
     ImGui::Checkbox("toggle doors", &toggleDoors);
-    if(toggleDoors){
-        if(m_doors.empty()){
+    if (toggleDoors) {
+        if (m_doors.empty()) {
             initDoors();
         }
-    }else{
-        if(!m_doors.empty()){
+    }
+    else {
+        if (!m_doors.empty()) {
             m_doors.clear();
         }
     }
@@ -174,7 +175,6 @@ void GameState::update(const sf::Time& dt) {
     for (auto const& i : m_explosions) { i->update(dt); }
 
     handleCollisions(dt);
-    handleMessages();
 
     std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
 
@@ -250,7 +250,7 @@ void GameState::spawnBomb() {
     auto winSize = m_stateManager.getWin().getSize();
     auto b = std::make_unique<Bomb>(m_explosions, m_lives, m_nonJailedBomb);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
-    if(!m_doors.empty())
+    if (!m_doors.empty())
         b->setPosition(m_doors.at(Random::rnd(1, m_doors.size()) - 1)->getPosition());
     else
         b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
@@ -266,30 +266,16 @@ void GameState::spawnGift() {
     m_moving.push_back(std::move(b));
 }
 
-void GameState::handleMessages() {
-    // get messages
-    int& jailedBombs = MessageBus::getMessage(MessageType::BombJailed);
-    int& timedoutBombs = MessageBus::getMessage(MessageType::BombTimedout);
-    // update info
-    m_lives -= timedoutBombs;
-    m_nonJailedBomb -= jailedBombs;
-    m_nonJailedBomb -= timedoutBombs;
-    m_score += jailedBombs;
-    // clean messages
-    jailedBombs = 0;
-    timedoutBombs = 0;
-
-    // auto b = MessageBus::getMessage<Bomb>(MessageType::BombTimedout);
-    // if(b != 0){
-    //     auto res = std::find_if(m_moving.begin(), m_moving.end(), [b](auto& i) {
-    //         LOGI << b << ' ' << i.get();
-    //         return b == i.get();
-    //     });
-    //     if(res != m_moving.end()){
-    //         LOGI;
-    //         m_moving.erase(res);
-    //         m_lives--;
-    //         m_explosions.push_back(std::make_unique<Explosion>(b->getPosition()));
-    //     }
-    // }
+void GameState::registerMessageHandlers() {
+    MessageBus::addReceiver(MessageType::BombJailed, [this]() {
+        m_nonJailedBomb--;
+    });
+    MessageBus::addReceiver(MessageType::BombTimedout, [this]() {
+        m_lives--;
+        m_nonJailedBomb--;
+    });
+    MessageBus::addReceiver<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
+        bomb->kill();
+        m_score++;
+    });
 }

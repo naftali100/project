@@ -16,7 +16,8 @@ public:
 
     void takeGift() {
         // run take animation and wait for it
-        m_isTimeOut = true;
+        // m_isTimeOut = true;
+        kill();
     }
 
 private:

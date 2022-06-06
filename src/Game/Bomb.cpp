@@ -21,8 +21,9 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, int& livesCounte
     m_timer.set(
         [this]() {
             // MessageBus::postMessage(MessageType::BombTimedout, this);
-            MessageBus::postMessage(MessageType::BombTimedout);
-            m_isTimeOut = true;
+            MessageBus::notify(MessageType::BombTimedout);
+            // m_isTimeOut = true;
+            kill();
             // m_livesCounter--;
             // m_nonJailedBombCounter--;
             m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
@@ -82,8 +83,7 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
                 m_timer.reset();
             }
             else {
-                MessageBus::postMessage(MessageType::BombJailed);
-                // MessageBus::postMessage()
+                MessageBus::notify(MessageType::BombJailed);
                 jail->addBomb(this);
                 arrest();
                 // m_nonJailedBombCounter --;

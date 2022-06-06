@@ -22,7 +22,6 @@ public:
     void initDoors();
 
     void handleEvent(const sf::Event&) override;
-    void handleMessages();
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
 
@@ -32,6 +31,7 @@ public:
     void spawnGift();
 
 private:
+    void registerMessageHandlers();
     void handleCollisions(const sf::Time&);
     sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal) const;
 

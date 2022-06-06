@@ -6,7 +6,8 @@ Gift::Gift() {
     setSpeed(200);
     m_sprite.setTexture(TextureHolder::get(Textures::Gift));
 
-    m_timer.set([this]() { m_isTimeOut = true; }, 10);  // TODO: calc delay
+    m_timer.set([this]() { kill(); }, 10);  // TODO: calc delay
+
     m_anim.initFramesWithFixedSize(TextureHolder::get(Textures::Gift).getSize(), 2, 2, 0.1);
     m_anim.setFrame(0);
 
