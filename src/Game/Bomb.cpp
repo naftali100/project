@@ -34,16 +34,10 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions) : m_explosions(e
 }
 
 void Bomb::update(const sf::Time& dt) {
-    static float speed = m_speed;
-    if (m_first)
-        ImGui::SliderFloat("bomb speed", &speed, 0, 1000);
-
-    m_speed = speed;
-
     if (m_isJailed)
         return;
 
-    // need to update timer event if dragged
+    // need to update timer even if dragged
     m_timer.update(dt);
 
     // update movement
