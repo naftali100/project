@@ -22,7 +22,7 @@ void GameState::init() {
     initLayout();
     initJail();
     // if enabled - causing seg fault
-    // initDoors();
+    initDoors();
 
     static int spawnInterval = 3;
     m_spawnTimer.set(
@@ -101,12 +101,15 @@ void GameState::initDoors() {
     m_doors.clear();
 
     // doors in corners for now.
-    m_doors.emplace_back();
-    m_doors.back().setPosition(0, 0);
-    m_doors.emplace_back();
-    m_doors.back().setPosition(10, winSize.y - 10);
-    m_doors.emplace_back();
-    m_doors.back().setPosition(winSize.x - 10, winSize.y - 10);
+    auto d = std::make_unique<Door>();
+    m_doors.push_back(std::move(d));
+    m_doors.back()->setPosition(0, 0);
+    d = std::make_unique<Door>();
+    m_doors.push_back(std::move(d));
+    m_doors.back()->setPosition(10, winSize.y - 10);
+    d = std::make_unique<Door>();
+    m_doors.push_back(std::move(d));
+    m_doors.back()->setPosition(winSize.x - 10, winSize.y - 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
@@ -165,7 +168,7 @@ void GameState::update(const sf::Time& dt) {
     m_cam.update(dt);
     m_starAnimation.update(dt);
     m_spawnTimer.update(dt);
-    for (auto& i : m_doors) { i.update(dt); }
+    for (auto const& i : m_doors) { i->update(dt); }
     for (auto const& i : m_moving) { i->update(dt); }
     for (auto const& i : m_static) { i->update(dt); }
     for (auto const& i : m_explosions) { i->update(dt); }
@@ -197,7 +200,7 @@ void GameState::draw(sf::RenderTarget& win) const {
 
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
-    for (auto& m : m_doors) { m.draw(win); }
+    for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
     LOGV;
 };
@@ -247,7 +250,7 @@ void GameState::spawnBomb() {
     auto b = std::make_unique<Bomb>(m_explosions, m_lives, m_nonJailedBomb);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
     if(!m_doors.empty())
-        b->setPosition(m_doors.at(Random::rnd(1, m_doors.size()) - 1).getPosition());
+        b->setPosition(m_doors.at(Random::rnd(1, m_doors.size()) - 1)->getPosition());
     else
         b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
     m_moving.push_back(std::move(b));

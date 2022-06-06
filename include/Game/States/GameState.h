@@ -38,7 +38,7 @@ private:
     std::vector<std::unique_ptr<MovingObjects>> m_moving;
     std::vector<std::unique_ptr<Entity>> m_static;
     std::vector<std::unique_ptr<Explosion>> m_explosions;
-    std::vector<Door> m_doors;
+    std::vector<std::unique_ptr<Door>> m_doors;
     CollisionHandler m_col;
     Camera m_cam;
 
