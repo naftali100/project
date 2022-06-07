@@ -20,6 +20,11 @@ public:
         Instance().loadResource(id, filename, secondParam);
     }
 
+    static void set(Identifier id, const Resource& r){
+        std::unique_ptr<Resource> ptr(new Resource(std::move(r)));
+        Instance().insertResource(id, std::move(ptr));
+    }
+
     static Resource& get(Identifier id){
         return Instance().getResource(id);
     }
