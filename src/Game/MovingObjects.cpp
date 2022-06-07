@@ -31,8 +31,7 @@ void MovingObjects::resolveCollision(const sf::Vector3f& manifold) {
 }
 
 void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) const {
-    states.transform *= getTransform();
-    target.draw(m_sprite, states);
+    target.draw(m_sprite, getTransform());
 
     sf::String timerTitle;
     // only 2 places after the dot

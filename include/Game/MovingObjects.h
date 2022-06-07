@@ -13,7 +13,7 @@ public:
         m_direction = sf::util::normalize(v);
     }
 
-    void setSpeed(float s) {
+    virtual void setSpeed(float s) {
         m_speed = s;
     }
 
@@ -24,7 +24,7 @@ public:
         m_flicker %= Colors::STD_COLORS.size();
     }
 
-    // rename this to "isDead" or something
+    // TODO: rename this to "isDead" or something
     bool isTimeout() const {
         return m_shouldDie;
     };
@@ -49,11 +49,11 @@ protected:
     sf::Vector2f m_direction;  // < normalized vector
     bool m_isSelected;
     Timer m_timer;
-    float m_speed;
     // bool m_isTimeOut = false;
     sf::Sprite m_sprite;
 
 private:
+    float m_speed;
     void resolveCollision(const sf::Vector3f& manifold);
     int m_flicker = 0;
 
