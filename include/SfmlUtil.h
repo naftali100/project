@@ -30,6 +30,8 @@
 #ifndef SFMLUTIL_H
 #define SFMLUTIL_H
 
+/// define CPP_VERSION and has_concepts
+
 #if _MSVC_LANG
 #define CPP_VERSION _MSVC_LANG
 #elif defined(__linux__) || defined(__MINGW32__)
@@ -38,9 +40,11 @@
 #define CPP_VERSION 201707
 #endif
 
-#if __has_include("concepts") && __cpp_concepts <= CPP_VERSION && __cpp_lib_concepts <= CPP_VERSION 
+#if __has_include("concepts") && __cpp_concepts <= CPP_VERSION && __cpp_lib_concepts <= CPP_VERSION
 #define has_concepts
 #endif
+
+/// define concepts
 
 #ifdef has_concepts
 #include <concepts>
@@ -54,10 +58,13 @@ template <typename T>
 concept hasLocal = requires(T t) {
     t.getLocalBounds();
 };
+#endif
+
+/// utils
 
 namespace sf {
     namespace util {
-
+#ifdef has_concepts
     template <hasLocal T>
     sf::Vector2f getLocalTopLeft(const T& object);
     template <hasLocal T>
@@ -98,15 +105,7 @@ namespace sf {
 
     template <hasGlobal T>
     sf::RectangleShape debugDraw(const T& object);
-    }  // namespace util
-}  // namespace sf
-
-#include "SfmlUtil.tpp"
-
-#else  // don't has concepts
-
-namespace sf {
-namespace util {
+#else  // has_concepts
 template <typename T>
 inline sf::Vector2f getGlobalCenter(const T& object) {
     const sf::FloatRect bounds{object.getGlobalBounds()};
@@ -117,33 +116,28 @@ inline sf::Vector2f getGlobalTopRight(const T& object) {
     const sf::FloatRect bounds{object.getGlobalBounds()};
     return {bounds.left + bounds.width, bounds.top};
 }
-}  // namespace util
+#endif // has_concepts
+    template <typename T>
+    inline sf::Vector2<T> normalize(const sf::Vector2<T>& v) {
+        float length = std::sqrt((v.x * v.x) + (v.y * v.y));
+        if (length != 0)
+            return sf::Vector2<T>(v.x / length, v.y / length);
+        else
+            return v;
+    }
+    // TODO: make template
+    inline float dot(const sf::Vector2f& lv, const sf::Vector2f& rv) {
+        return lv.x * rv.x + lv.y * rv.y;
+    }
+
+    inline sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal) {
+        return -2.f * dot(velocity, normal) * normal + velocity;
+    }
+    }  // namespace util
 }  // namespace sf
 
-#endif  // has concepts
-
-namespace sf {
-namespace util {
-template <typename T>
-inline sf::Vector2<T> normalize(const sf::Vector2<T>& v) {
-    float length = std::sqrt((v.x * v.x) + (v.y * v.y));
-    if (length != 0)
-        return sf::Vector2<T>(v.x / length, v.y / length);
-    else
-        return v;
-}
-// TODO: make template
-inline float dot(const sf::Vector2f& lv, const sf::Vector2f& rv)
-{
-    return lv.x * rv.x + lv.y * rv.y;
-}
-
-inline sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal)
-{
-    return -2.f * dot(velocity, normal) * normal + velocity;
-}
-
-}  // namespace util
-}  // namespace sf
-
+#ifdef has_concepts
+#include "SfmlUtil.tpp"
 #endif
+
+#endif  // guard
