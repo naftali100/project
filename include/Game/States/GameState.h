@@ -11,6 +11,7 @@
 #include "MessageBus.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
+#include "Game/LevelParams.h"
 
 class GameState : public State {
 public:
@@ -53,6 +54,8 @@ private:
 
     Timer m_spawnTimer;
     StatusBar m_sb{m_lives, m_score};
+
+    LevelParams m_params;
 };
 
 #endif  // __GAMESTATE_H__

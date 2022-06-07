@@ -30,10 +30,10 @@ void GameState::initState(){
     static float spawnInterval = 3;
     m_spawnTimer.set(
         [this]() {
-            m_spawnTimer.setTime(sf::seconds(Random::rnd(0.f, spawnInterval)));
+            m_spawnTimer.setTime(sf::seconds(Random::rnd(0.f, m_params.m_spawnRate)));
             spawnBomb();
         },
-        spawnInterval);
+        m_params.m_spawnRate);
 
     m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
 
@@ -44,20 +44,35 @@ void GameState::initState(){
     }
 }
 
-
 void GameState::initJail() {
     auto winSize = m_stateManager.getWin().getSize();
     // left jail
     auto j = std::make_unique<Jail>();
-    j->setColor(sf::Color::Red);
+    j->setColor(Colors::STD_COLORS[0]);
     m_static.push_back(std::move(j));
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition(100, (float)winSize.y / 2);
 
     // right jail
-    m_static.push_back(std::make_unique<Jail>());
+    j = std::make_unique<Jail>();
+    j->setColor(Colors::STD_COLORS[1]);
+    m_static.push_back(std::move(j));
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition((float)winSize.x - 100, (float)winSize.y / 2);
+
+    // bottom right jail
+    j = std::make_unique<Jail>();
+    j->setColor(Colors::STD_COLORS[2]);
+    j->setOrigin(sf::util::getGlobalCenter(*j));
+    j->setPosition((float)winSize.x / 2, (float)winSize.y - (j->getGlobalBounds().height /2));
+    m_static.push_back(std::move(j));
+
+    // bottom left jail
+    j = std::make_unique<Jail>();
+    j->setColor(Colors::STD_COLORS[3]);
+    j->setOrigin(sf::util::getGlobalCenter(*j));
+    j->setPosition((float)winSize.x / 2 + j->getGlobalBounds().width + 10, (float)winSize.y - (j->getGlobalBounds().height /2));
+    m_static.push_back(std::move(j));
 }
 
 void GameState::initLayout() {
@@ -115,8 +130,8 @@ void GameState::handleEvent(const sf::Event& e) {
 void GameState::update(const sf::Time& dt) {
     LOGV;
     if (m_lives <= 0) {
-        m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
-        return;
+        // m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
+        // return;
     }
 
     // for debugging!
@@ -132,11 +147,21 @@ void GameState::update(const sf::Time& dt) {
             m_doors.clear();
         }
     }
+
+    auto tmp = m_params;
+    ImGui::SliderFloat("bomb speed", &m_params.m_speed, 100, 1000);
+    ImGui::SliderFloat("spawn rate", &m_params.m_spawnRate, 1, 10);
+    ImGui::SliderInt("color amount", &m_params.m_colors, 1, 3);
+    ImGui::SliderInt("non jailed at same time", &m_params.m_maxBomb, 5, 10);
+    if(m_params != tmp){
+        MessageBus::notify<LevelParams*>(MessageType::LevelParamsUpdated, &m_params);
+    }
     if (ImGui::Button("add life")) {
         m_lives++;
     }
     if (ImGui::Button("spawn bomb")) {
-        spawnBomb();
+        for(auto i =0; i < 10; i++)
+            spawnBomb();
     }
     if (ImGui::Button("delete all bombs")) {
         m_nonJailedBomb = 0;
@@ -158,6 +183,10 @@ void GameState::update(const sf::Time& dt) {
         return;
     }
 
+    ImGui::Text("bomb count: %lu", m_moving.size());
+    MessageBus::update();
+    MessageBus::update<LevelParams*>();
+
     m_cam.update(dt);
     m_starAnimation.update(dt);
     m_spawnTimer.update(dt);
@@ -170,7 +199,7 @@ void GameState::update(const sf::Time& dt) {
 
     std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
 
-    if (m_nonJailedBomb > 3) {
+    if (m_nonJailedBomb > m_params.m_maxBomb) {
         m_spawnTimer.pause();
     }
     else {
@@ -240,7 +269,7 @@ void GameState::handleCollisions(const sf::Time&) {
 
 void GameState::spawnBomb() {
     auto winSize = m_stateManager.getWin().getSize();
-    auto b = std::make_unique<Bomb>(m_explosions);
+    auto b = std::make_unique<Bomb>(m_explosions, m_params);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
     if (!m_doors.empty())
         b->setPosition(m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition());
@@ -259,15 +288,18 @@ void GameState::spawnGift() {
 }
 
 void GameState::registerMessageHandlers() {
-    MessageBus::addReceiver(MessageType::BombJailed, [this]() {
+    MessageBus::subscribe(MessageType::BombJailed, [this]() {
         m_nonJailedBomb--;
     });
-    MessageBus::addReceiver(MessageType::BombTimedout, [this]() {
+    MessageBus::subscribe(MessageType::BombTimedout, [this]() {
         m_lives--;
         m_nonJailedBomb--;
     });
-    MessageBus::addReceiver<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
+    MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
         bomb->kill();
         m_score++;
+    });
+    MessageBus::subscribe<int>(MessageType::ScoreGift, [this](int i){
+        m_score+=i;
     });
 }
