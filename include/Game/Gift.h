@@ -2,6 +2,7 @@
 
 #include "Game/MovingObjects.h"
 #include "Animation.h"
+#include "MessageBus.h"
 
 class Gift : public MovingObjects {
 public:
@@ -14,6 +15,7 @@ public:
     }
 
     void takeGift() {
+        MessageBus::notify<int>(MessageType::ScoreGift, 5);
         // run take animation and wait for it
         // m_isTimeOut = true;
         kill();
