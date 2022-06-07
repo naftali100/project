@@ -3,17 +3,12 @@
 #include <mutex>
 
 #include "Game/Jail.h"
-#include "SfmlUtil.h"
 #include "MessageBus.h"
+#include "Random.h"
+#include "SfmlUtil.h"
 
-Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions) : m_explosions(explosions) {
-    // for ImGui to print only once.
-    // see update()
-    static std::once_flag flag;
-    std::call_once(flag, [this]() { m_first = true; });
-
+Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p) : m_explosions(explosions) {
     setCollisionTag(CollisionTag::bomb);
-    setSpeed(300);
     m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
     float scale = 2;
     m_sprite.scale(1 / scale, 1 / scale);
@@ -22,15 +17,29 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions) : m_explosions(e
     m_timer.set(
         [this]() {
             MessageBus::notify(MessageType::BombTimedout);
-            // m_isTimeOut = true;
             kill();
-            // m_livesCounter--;
-            // m_nonJailedBombCounter--;
             m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
         },
-        10);  // TODO: calc delay
+        p.m_bombTime);
 
-    m_color = Colors::White;
+    initFromLevelParam(p);
+    registerMessageHandler();
+}
+
+void Bomb::initFromLevelParam(const LevelParams& p, bool initColor) {
+    MovingObjects::setSpeed(p.m_speed);
+    // TODO: random color?
+    // Colors::STD_COLORS[Random::rnd(0, p.m_colors)];
+    // do it only once when init not when params is changing
+    if (initColor)
+        m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors)];
+}
+
+void Bomb::registerMessageHandler() {
+    m_subId = MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* p) {
+        initFromLevelParam(*p, false);
+        // MovingObjects::setSpeed(p->m_speed);
+    });
 }
 
 void Bomb::update(const sf::Time& dt) {
@@ -65,12 +74,13 @@ void Bomb::handleEvent(const sf::Event& e) {
 }
 
 void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
-    if(m_isJailed) return;
+    if (m_isJailed)
+        return;
     if (e->getCollisionTag() == CollisionTag::jail) {
         sf::FloatRect tempRect;
         // if intersects, and the whole entity is inside the jail
-        if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect) && 
-            tempRect.width == getGlobalBounds().width && tempRect.height == getGlobalBounds().height) {
+        if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect) && tempRect.width == getGlobalBounds().width &&
+            tempRect.height == getGlobalBounds().height) {
             auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color. TODO: can we avoid this?
             if (m_color != jail->getColor()) {
                 // make the bomb to timeout and "explode"
@@ -87,4 +97,20 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
 
     if (!m_isDragged)
         MovingObjects::handleCollision(e, manifold);
+}
+
+void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
+    MovingObjects::draw(win, states);
+    sf::CircleShape rec;
+    rec.setRadius(20);
+    rec.setOrigin(sf::util::getGlobalCenter(rec));
+    rec.setPosition(getPosition());
+    // rec.setPosition(sf::util::getGlobalTopLeft(*this));
+    rec.setFillColor(m_color);
+    win.draw(rec);
+}
+
+Bomb::~Bomb() {
+    // m_subId();
+    MessageBus::unsubscribe<LevelParams*>(m_subId);
 }
