@@ -13,8 +13,9 @@ inline int rnd(int a, int b) {
     std::uniform_int_distribution<int> uni_dist(a, b);
     return uni_dist(engine_);
 };
-inline double rnd(double a, double b) {
-    std::uniform_real_distribution<double> uni_dist(a, b);
+template<typename T>
+inline T rnd(T a, T b) {
+    std::uniform_real_distribution<T> uni_dist(a, b);
     return uni_dist(engine_);
 };
 };  // namespace Random
