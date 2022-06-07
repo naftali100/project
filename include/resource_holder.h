@@ -29,12 +29,12 @@ public:
         return Instance().getResource(id);
     }
 
+private:
     static ResourceHolder& Instance(){
         static ResourceHolder instance;
         return instance;
     }
 
-private:
     Resource& getResource(Identifier id);
     const Resource& getResource(Identifier id) const;
 
