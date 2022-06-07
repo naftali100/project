@@ -12,6 +12,14 @@
 #include "StateManager.h"
 
 void GameState::init() {
+    initState();
+    initLayout();
+    initJail();
+    initDoors();
+    registerMessageHandlers();
+}
+
+void GameState::initState(){
     m_cam.setView(m_stateManager.getWin().getDefaultView());
     m_cam.setInitialView();
     m_cam.setWinRatio(m_stateManager.getWin().getSize());
@@ -19,33 +27,23 @@ void GameState::init() {
 
     m_stars.setTexture(TextureHolder::get(Textures::Stars));
 
-    initLayout();
-    initJail();
-    // if enabled - causing seg fault
-    initDoors();
-    registerMessageHandlers();
-
-    static int spawnInterval = 3;
+    static float spawnInterval = 3;
     m_spawnTimer.set(
         [this]() {
-            m_spawnTimer.setTime(sf::seconds(Random::rnd(0, spawnInterval)));
+            m_spawnTimer.setTime(sf::seconds(Random::rnd(0.f, spawnInterval)));
             spawnBomb();
         },
         spawnInterval);
 
-    // example how to use collision manager
-    // col.addCollision(Bomb(m_isGameOver), Jail(), [&](const Entity& bomb, const Entity& jail) {
-    //     ImGui::Text("bomb and jail collision function handler");
-    // });
-    {
-        sf::Vector2u textureSize = m_stars.getTexture()->getSize();
+    m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
 
-        int textureRows = 1;
-        int textureCols = 9;
-
-        m_starAnimation.initFramesWithFixedSize(textureSize, textureRows, textureCols, 0.1f);
+    for (int i = 0; i < 3; i++) {  // TODO: replace this with std "do_it_n_times" function
+        // spawn bomb
+        spawnBomb();
+        // spawnGift();
     }
 }
+
 
 void GameState::initJail() {
     auto winSize = m_stateManager.getWin().getSize();
@@ -60,12 +58,6 @@ void GameState::initJail() {
     m_static.push_back(std::make_unique<Jail>());
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition((float)winSize.x - 100, (float)winSize.y / 2);
-
-    for (int i = 0; i < 3; i++) {  // TODO: replace this with std "do_it_n_times" function
-        // spawn bomb
-        spawnBomb();
-        // spawnGift();
-    }
 }
 
 void GameState::initLayout() {
@@ -107,16 +99,16 @@ void GameState::initDoors() {
     m_doors.back()->setPosition(0, 0);
     d = std::make_unique<Door>();
     m_doors.push_back(std::move(d));
-    m_doors.back()->setPosition(10, winSize.y - 10);
+    m_doors.back()->setPosition(10, (float)winSize.y - 10);
     d = std::make_unique<Door>();
     m_doors.push_back(std::move(d));
-    m_doors.back()->setPosition(winSize.x - 10, winSize.y - 10);
+    m_doors.back()->setPosition((float)winSize.x - 10, (float)winSize.y - 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
     LOGV;
     m_cam.handleEvent(e);
-    for (auto& item : m_moving) item->handleEvent(e);
+    for (auto const& item : m_moving) item->handleEvent(e);
     LOGV;
 }
 
@@ -251,7 +243,7 @@ void GameState::spawnBomb() {
     auto b = std::make_unique<Bomb>(m_explosions);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
     if (!m_doors.empty())
-        b->setPosition(m_doors.at(Random::rnd(1, m_doors.size()) - 1)->getPosition());
+        b->setPosition(m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition());
     else
         b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
     m_moving.push_back(std::move(b));

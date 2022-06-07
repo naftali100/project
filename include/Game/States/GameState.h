@@ -7,16 +7,17 @@
 #include "Game/Door.h"
 #include "Game/Explosion.h"
 #include "Game/MovingObjects.h"
+#include "Game/StatusBar.h"
 #include "MessageBus.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
-#include "Game/StatusBar.h"
 
 class GameState : public State {
 public:
     using State::State;
 
     void init() override;
+    void initState();
     void initLayout();
     void initJail();
     void initDoors();
