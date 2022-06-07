@@ -25,7 +25,7 @@ public:
     }
 
     // rename this to "isDead" or something
-    bool isTimeout() {
+    bool isTimeout() const {
         return m_shouldDie;
     };
 
