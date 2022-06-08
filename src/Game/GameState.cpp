@@ -19,7 +19,7 @@ void GameState::init() {
     registerMessageHandlers();
 }
 
-void GameState::initState(){
+void GameState::initState() {
     m_cam.setView(m_stateManager.getWin().getDefaultView());
     m_cam.setInitialView();
     m_cam.setWinRatio(m_stateManager.getWin().getSize());
@@ -47,31 +47,32 @@ void GameState::initState(){
 void GameState::initJail() {
     auto winSize = m_stateManager.getWin().getSize();
     // left jail
-    auto j = std::make_unique<Jail>();
+    auto j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[0]);
     m_static.push_back(std::move(j));
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition(100, (float)winSize.y / 2);
 
     // right jail
-    j = std::make_unique<Jail>();
+    j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[1]);
     m_static.push_back(std::move(j));
     m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
     m_static.back()->setPosition((float)winSize.x - 100, (float)winSize.y / 2);
 
     // bottom right jail
-    j = std::make_unique<Jail>();
+    j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[2]);
     j->setOrigin(sf::util::getGlobalCenter(*j));
-    j->setPosition((float)winSize.x / 2, (float)winSize.y - (j->getGlobalBounds().height /2));
+    j->setPosition((float)winSize.x / 2, (float)winSize.y - (j->getGlobalBounds().height / 2));
     m_static.push_back(std::move(j));
 
     // bottom left jail
-    j = std::make_unique<Jail>();
+    j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[3]);
     j->setOrigin(sf::util::getGlobalCenter(*j));
-    j->setPosition((float)winSize.x / 2 + j->getGlobalBounds().width + 10, (float)winSize.y - (j->getGlobalBounds().height /2));
+    j->setPosition((float)winSize.x / 2 + j->getGlobalBounds().width + 10,
+                   (float)winSize.y - (j->getGlobalBounds().height / 2));
     m_static.push_back(std::move(j));
 }
 
@@ -133,60 +134,7 @@ void GameState::update(const sf::Time& dt) {
         // m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
         // return;
     }
-    m_gift2.update(dt);
-    m_terrorist.update(dt);
-    // for debugging!
-    static bool toggleDoors = true;
-    ImGui::Checkbox("toggle doors", &toggleDoors);
-    if (toggleDoors) {
-        if (m_doors.empty()) {
-            initDoors();
-        }
-    }
-    else {
-        if (!m_doors.empty()) {
-            m_doors.clear();
-        }
-    }
-
-    auto tmp = m_params;
-    ImGui::SliderFloat("bomb speed", &m_params.m_speed, 100, 1000);
-    ImGui::SliderFloat("spawn rate", &m_params.m_spawnRate, 1, 10);
-    ImGui::SliderInt("color amount", &m_params.m_colors, 1, 3);
-    ImGui::SliderInt("non jailed at same time", &m_params.m_maxBomb, 5, 10);
-    if(m_params != tmp){
-        MessageBus::notify<LevelParams*>(MessageType::LevelParamsUpdated, &m_params);
-    }
-    if (ImGui::Button("add life")) {
-        m_lives++;
-    }
-    if (ImGui::Button("spawn bomb")) {
-        for(auto i =0; i < 10; i++)
-            spawnBomb();
-    }
-    if (ImGui::Button("delete all bombs")) {
-        m_nonJailedBomb = 0;
-        m_moving.clear();
-    }
-    if (ImGui::Button("spawn gift")) {
-        spawnGift();
-    }
-    if (ImGui::Button("reset view")) {
-        m_cam.resetView();
-    }
-
-    if (ImGui::Button("exit state")) {
-        m_stateManager.popState();
-        return;
-    }
-    if (ImGui::Button("exit program")) {
-        m_stateManager.stop();
-        return;
-    }
-
-    ImGui::Text("bomb count: %lu", m_moving.size());
-    MessageBus::update();
-    MessageBus::update<LevelParams*>();
+    imGui();
 
     m_cam.update(dt);
     m_starAnimation.update(dt);
@@ -209,6 +157,70 @@ void GameState::update(const sf::Time& dt) {
 
     LOGV;
 };
+
+void GameState::imGui() {
+    static bool toggleDoors = true;
+    ImGui::Checkbox("toggle doors", &toggleDoors);
+    if (toggleDoors) {
+        if (m_doors.empty()) {
+            initDoors();
+        }
+    }
+    else {
+        if (!m_doors.empty()) {
+            m_doors.clear();
+        }
+    }
+
+    ImGuiWindowFlags window_flags = 0;
+    window_flags |= ImGuiWindowFlags_NoResize;
+    window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+
+    if (ImGui::Begin("level params", nullptr, window_flags)) {
+        auto tmp = m_params;
+        ImGui::SliderFloat("bomb speed", &m_params.m_speed, 100, 1000);
+        ImGui::SliderFloat("spawn rate", &m_params.m_spawnRate, 1, 10);
+        ImGui::SliderInt("color amount", &m_params.m_colors, 1, 3);
+        ImGui::SliderInt("non jailed at same time", &m_params.m_maxBomb, 5, 10);
+        ImGui::SliderInt("bomb to score", &m_params.m_bombToScore, 3, 10);
+        if (m_params != tmp) {
+            MessageBus::notify<LevelParams*>(MessageType::LevelParamsUpdated, &m_params);
+        }
+    }
+    ImGui::End();
+
+    if (ImGui::Button("add life")) {
+        m_lives++;
+    }
+    if (ImGui::Button("spawn bomb")) {
+        for (auto i = 0; i < 10; i++) spawnBomb();
+    }
+    if (ImGui::Button("delete all bombs")) {
+        m_nonJailedBomb = 0;
+        m_moving.clear();
+    }
+    if (ImGui::Button("spawn gift")) {
+        spawnGift();
+    }
+    if (ImGui::Button("reset view")) {
+        m_cam.resetView();
+    }
+
+    if (ImGui::Button("exit state")) {
+        // will cause seg fault because the update method is continuing after its has been poped
+        m_stateManager.popState(); 
+        return;
+    }
+    if (ImGui::Button("exit program")) {
+        exit(EXIT_SUCCESS);
+        // m_stateManager.stop();
+        return;
+    }
+
+    ImGui::Text("bomb count: %lu", m_moving.size());
+    MessageBus::update();
+    MessageBus::update<LevelParams*>();
+}
 
 void GameState::draw(sf::RenderTarget& win) const {
     LOGV;
@@ -300,14 +312,12 @@ void GameState::registerMessageHandlers() {
         MessageBus::subscribe(MessageType::BombTimedout, [this]() {
             m_lives--;
             m_nonJailedBomb--;
-        })
-    );
+    }));
     m_subscription.push_back(
         MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
             bomb->kill();
             m_score++;
-        })
-    );
+    }));
     m_subscription.push_back(
         MessageBus::subscribe<int>(MessageType::ScoreGift, [this](int i){
             m_score+=i;
@@ -315,9 +325,8 @@ void GameState::registerMessageHandlers() {
     );
 }
 
-
-GameState::~GameState(){
-    for(auto& i: m_subscription){
-        i();
+GameState::~GameState() {
+    for (auto& i : m_subscription) { 
+        i(); 
     }
 }

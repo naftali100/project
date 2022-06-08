@@ -37,6 +37,7 @@ public:
     ~GameState();
 
 private:
+    void imGui();
     void registerMessageHandlers();
     void handleCollisions(const sf::Time&);
     sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal) const;
