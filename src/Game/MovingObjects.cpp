@@ -43,15 +43,13 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
     stream << std::fixed << std::setprecision(2) << f;
     s = stream.str();
 #else
-    s = std::format("{:.2f}", f); 
+    s = std::format("{:.2f}", f);
 #endif
     timerTitle += s;
 
     auto topCenter = sf::util::getGlobalTopCenter(*this);
 
-    sf::Text timer;
-    timer.setFont(FontHolder::get(Fonts::Test));
-    timer.setString(timerTitle);
+    sf::Text timer{timerTitle, FontHolder::get(Fonts::Test)};
     timer.setFillColor(Colors::White);
     timer.setOutlineColor(Colors::Black);
     timer.setOutlineThickness(2);
@@ -63,7 +61,7 @@ void MovingObjects::draw(sf::RenderTarget& target, sf::RenderStates states) cons
 
 void MovingObjects::update(const sf::Time& dt) {
     // timer update moved to childrens, because its need to be independent on movement
-    
+
     if (m_timer.asSeconds() < 3)
         flicker();
 

@@ -225,8 +225,8 @@ void GameState::draw(sf::RenderTarget& win) const {
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
-    m_gift2.draw(win);
-    m_terrorist.draw(win);
+    // m_gift2.draw(win);
+    // m_terrorist.draw(win);
     LOGV;
 };
 
