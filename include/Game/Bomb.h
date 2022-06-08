@@ -2,19 +2,18 @@
 #ifndef __BOMB_H__
 #define __BOMB_H__
 
-#include "Game/MovingObjects.h"
-#include "Game/LevelParams.h"
-#include "Log.h"
-#include "Resources.h"
 #include "Explosion.h"
+#include "Game/LevelParams.h"
+#include "Game/MovingObjects.h"
+#include "Log.h"
 #include "MessageBus.h"
+#include "Resources.h"
 
 class Bomb : public MovingObjects {
 public:
     explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions, const LevelParams& p);
     void initFromLevelParam(const LevelParams& p, bool = true);
     void registerMessageHandler();
-
 
     void update(const sf::Time& dt) override;
     void handleEvent(const sf::Event& e) override;
@@ -35,5 +34,7 @@ private:
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
     MessageBus::Func m_sub;
+
+    Animation m_terroristAnimation{m_sprite};
 };
 #endif  // __BOMB_H__

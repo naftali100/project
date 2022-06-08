@@ -8,9 +8,15 @@
 
 Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p) : m_explosions(explosions) {
     setCollisionTag(CollisionTag::bomb);
-    m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
+    m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
+    // m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
+
     float scale = 2;
-    m_sprite.scale(1 / scale, 1 / scale);
+    float terrScale = 8;
+    m_sprite.scale(sf::Vector2f(1,1) / terrScale);
+    // m_sprite.scale(sf::Vector2f(1,1) / scale);
+    m_terroristAnimation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08);
+
     MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / unsigned(scale)));
     setOrigin(MovingObjects::getSize() / 2.f);
     m_timer.set(
@@ -47,6 +53,7 @@ void Bomb::update(const sf::Time& dt) {
 
     // need to update timer even if dragged
     m_timer.update(dt);
+    m_terroristAnimation.update(dt);
 
     // update movement
     if (!m_isDragged)
