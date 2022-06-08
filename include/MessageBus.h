@@ -16,7 +16,7 @@ enum class MessageType
 class MessageBus {
 public:
     using Func = std::function<void()>;
-    template<typename T>
+    template <typename T>
     using FuncT = std::function<void(const T&)>;
 
     /// subscribe
@@ -24,24 +24,28 @@ public:
     // just basic ping to all subscribers. needed?
     static Func subscribe(const Func& f) {
         getInstance().m_subscribers.push_back({++getInstance().m_id, f});
-        return [](){ unsubscribe(getInstance().m_id); };
+        auto id = getInstance().m_id;
+        return [id]() { unsubscribe(id); };
     };
 
     static Func subscribe(MessageType type, const Func& func) {
-        getInstance().m_subscribersWithType.push_back(std::pair(++getInstance().m_id, std::pair<MessageType, Func>(type, func)));
-        return [](){ unsubscribe(getInstance().m_id); };
+        getInstance().m_subscribersWithType.push_back(std::pair(++getInstance().m_id, std::pair(type, func)));
+        auto id = getInstance().m_id;
+        return [id]() { unsubscribe(id); };
     };
 
     template <typename T>
     static Func subscribe(const std::function<void(const T&)>& func) {
         m_subscribersWithArg<T>.push_back({++getInstance().m_id, func});
-        return [](){ unsubscribe<T>(getInstance().m_id); };
+        auto id = getInstance().m_id;
+        return [id]() { unsubscribe<T>(id); };
     };
 
     template <typename T>
     static Func subscribe(MessageType type, const FuncT<T>& func) {
         m_subscribersWithTypeAndArg<T>.push_back(std::pair(++getInstance().m_id, std::pair(type, func)));
-        return [](){ unsubscribe<T>(getInstance().m_id); };
+        auto id = getInstance().m_id;
+        return [id]() { unsubscribe<T>(id); };
     };
 
     /// unsubscribe
@@ -88,7 +92,7 @@ public:
     template <typename T>
     static void notify(const T& t) {
         for (auto i : m_subscribersWithArg<T>) {
-            if(i.second)
+            if (i.second)
                 i.second(t);
         }
     }
@@ -118,15 +122,13 @@ public:
         );
     }
 
-    
-
 private:
     static MessageBus& getInstance() {
         static MessageBus instance;
         return instance;
     }
 
-    MessageBus(){
+    MessageBus() {
         m_id = 0;
     };
     MessageBus(const MessageBus&) = delete;
@@ -134,13 +136,13 @@ private:
     std::vector<std::pair<int, std::function<void()>>> m_subscribers;
     std::vector<std::pair<int, std::pair<MessageType, std::function<void()>>>> m_subscribersWithType;
 
-// MAYBE: make this class templated and this two will be class members
+    // MAYBE: make this class templated and this two will be class members
     template <typename T>
     inline static std::vector<std::pair<int, std::function<void(const T&)>>> m_subscribersWithArg;
 
     template <typename T>
     inline static std::vector<std::pair<int, std::pair<MessageType, std::function<void(const T&)>>>> m_subscribersWithTypeAndArg;
 
-    int m_id;
+    unsigned long int m_id;
 };
 #endif  // __MESSAGEBUS_H__
