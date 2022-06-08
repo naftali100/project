@@ -9,18 +9,11 @@ public:
     Gift();
 
     void handleEvent(const sf::Event& e) override;
-    void update(const sf::Time& dt) override {
-        m_timer.update(dt);
-        MovingObjects::update(dt);
-    }
+    void update(const sf::Time& dt) override;
 
-    void takeGift() {
-        MessageBus::notify<int>(MessageType::ScoreGift, 5);
-        // run take animation and wait for it
-        // m_isTimeOut = true;
-        kill();
-    }
+    void takeGift();
 
 private:
-    Animation m_anim{m_sprite};
+    Animation m_giftAnimation{m_sprite};
+    bool m_taken = false;
 };
