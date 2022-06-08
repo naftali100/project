@@ -12,6 +12,8 @@
 #include "State.h"
 #include "StateComponents/Camera.h"
 #include "Game/LevelParams.h"
+#include "Game/Terrorist.h"
+
 
 class GameState : public State {
 public:

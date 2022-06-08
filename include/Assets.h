@@ -38,6 +38,7 @@ enum ID
     Explosion,
     Jail,
     Door,
+    Terrorist,
     MAX
 };  // add textures here
 }  // namespace Textures
