@@ -329,8 +329,8 @@ void GameState::registerMessageHandlers() {
             m_score++;
     }));
     m_subscription.push_back(
-        MessageBus::subscribe<int>(MessageType::ScoreGift, [this](int i){
-            m_score+=i;
+        MessageBus::subscribe(MessageType::ScoreGift, [this](){
+            m_score+=5;
         })
     );
     m_subscription.push_back(
@@ -340,14 +340,14 @@ void GameState::registerMessageHandlers() {
     );
     m_subscription.push_back(
         MessageBus::subscribe(MessageType::RemoveTerroristsGift, [this](){
-            m_nonJailedBomb = 0;
-            m_moving.clear();
+            // m_nonJailedBomb = 0;
+            // m_moving.clear();
         })
     );
     m_subscription.push_back(
         MessageBus::subscribe(MessageType::FreeTerroristsGift, [this]() {
             freeTerrorists();
-            })
+        })
     );
 
 }
