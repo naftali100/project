@@ -11,7 +11,7 @@ public:
                 const Textures::ID texture,
                 const float timeForFrame,
                 const sf::Vector2f position = sf::Vector2f{0.0, 0.0},
-                const float duration = 0.0) {
+                const float duration = -1) {
         m_position = position;
         
         m_sprite.setTexture(TextureHolder::get(texture));
@@ -21,8 +21,10 @@ public:
         // 7 is 8 frames that there is in this animation and * frame time run the animation for one round of animation sheet
         // TODO: either deleted this class or pass this variable too
         // this value make the animation do only one one the entire animation sheet (amount of all frames)
-        if (duration == 0.0)
+        if (duration == 0)
             m_animation.setDuration(((textureRows * textureCols) - 1) * timeForFrame);
+        else if(duration != -1)
+            m_animation.setDuration(duration);
     }
 
     sf::FloatRect getGlobalBounds() const override {
