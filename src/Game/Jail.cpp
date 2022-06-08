@@ -7,9 +7,11 @@ Jail::Jail(const LevelParams& p)
 {
     m_bombBuffer = p.m_bombToScore;
     setCollisionTag(CollisionTag::jail);
-    m_sprite.scale(0.5, 0.5);
+    float scale = 0.95;
+    m_sprite.scale(sf::Vector2f(1,1) / scale);
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
+    m_sprite.setTextureRect({0, 0, 500, 250});
 
     m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams* i){
         m_bombBuffer = i->m_bombToScore;
