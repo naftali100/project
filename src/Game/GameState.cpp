@@ -222,8 +222,6 @@ void GameState::imGui() {
     }
 
     ImGui::Text("bomb count: %lu", m_moving.size());
-    MessageBus::update();
-    MessageBus::update<LevelParams*>();
 }
 
 void GameState::draw(sf::RenderTarget& win) const {

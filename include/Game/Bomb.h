@@ -30,8 +30,6 @@ private:
     bool m_isDragged = false;
     bool m_isJailed = false;
     sf::Color m_color;
-    // int& m_livesCounter;
-    // int& m_nonJailedBombCounter;
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
     MessageBus::Func m_sub;
