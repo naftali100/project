@@ -3,7 +3,6 @@
 #include <mutex>
 
 #include "Game/Jail.h"
-#include "MessageBus.h"
 #include "Random.h"
 #include "SfmlUtil.h"
 

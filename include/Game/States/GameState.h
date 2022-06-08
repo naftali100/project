@@ -6,15 +6,14 @@
 #include "CollisionHandler.h"
 #include "Game/Door.h"
 #include "Game/Explosion.h"
+#include "Game/Gift2.h"
+#include "Game/LevelParams.h"
 #include "Game/MovingObjects.h"
 #include "Game/StatusBar.h"
+#include "Game/Terrorist.h"
 #include "MessageBus.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
-#include "Game/LevelParams.h"
-#include "Game/Terrorist.h"
-#include "Game/Gift2.h"
-
 
 class GameState : public State {
 public:

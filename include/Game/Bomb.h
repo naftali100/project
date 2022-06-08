@@ -7,6 +7,8 @@
 #include "Log.h"
 #include "Resources.h"
 #include "Explosion.h"
+#include "MessageBus.h"
+
 class Bomb : public MovingObjects {
 public:
     explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions, const LevelParams& p);

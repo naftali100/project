@@ -1,7 +1,5 @@
 #include "Animation.h"
 
-#include "Resources.h"
-
 Animation::Animation(sf::Sprite& target) : m_target(target) {
     progress = totalLength = 0.0;
 }

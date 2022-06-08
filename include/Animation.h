@@ -2,6 +2,8 @@
 #ifndef ANIMATION_H
 #define ANIMATION_H
 
+#include "Resources.h"
+
 struct Frame {
     sf::IntRect rect;
     double duration;  // in seconds
