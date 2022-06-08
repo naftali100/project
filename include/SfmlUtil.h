@@ -125,12 +125,14 @@ inline sf::Vector2f getGlobalTopRight(const T& object) {
         else
             return v;
     }
-    // TODO: make template
-    inline float dot(const sf::Vector2f& lv, const sf::Vector2f& rv) {
+    
+    template<typename T>
+    inline float dot(const sf::Vector2<T>& lv, const sf::Vector2<T>& rv) {
         return lv.x * rv.x + lv.y * rv.y;
     }
 
-    inline sf::Vector2f reflect(const sf::Vector2f& velocity, const sf::Vector2f& normal) {
+    template<typename T>
+    inline sf::Vector2<T> reflect(const sf::Vector2<T>& velocity, const sf::Vector2<T>& normal) {
         return -2.f * dot(velocity, normal) * normal + velocity;
     }
     }  // namespace util
