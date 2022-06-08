@@ -39,6 +39,7 @@ enum ID
     Jail,
     Door,
     Terrorist,
+    Gift2,
     MAX
 };  // add textures here
 }  // namespace Textures

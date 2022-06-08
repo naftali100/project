@@ -5,6 +5,7 @@
 #include "Animation.h"
 #include "CollisionHandler.h"
 #include "Game/Door.h"
+#include "Game/Gift2.h"
 #include "Game/Explosion.h"
 #include "Game/MovingObjects.h"
 #include "Game/StatusBar.h"
@@ -46,6 +47,7 @@ private:
     std::vector<std::unique_ptr<Door>> m_doors;
     CollisionHandler m_col;
     Camera m_cam;
+    Gift2 m_gift;
 
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
