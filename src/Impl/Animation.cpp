@@ -1,7 +1,14 @@
 #include "Animation.h"
 
-Animation::Animation(sf::Sprite& target) : target(target) {
+#include "Resources.h"
+
+Animation::Animation(sf::Sprite& target) : m_target(target) {
     progress = totalLength = 0.0;
+}
+
+Animation::Animation(const Textures::ID& t, const sf::Vector2f& pos) : m_target(m_spriteStorage) {
+    m_spriteStorage.setTexture(TextureHolder::get(t));
+    m_spriteStorage.setPosition(pos);
 }
 
 void Animation::addFrame(Frame&& frame) {
@@ -9,14 +16,14 @@ void Animation::addFrame(Frame&& frame) {
     m_frames.push_back(std::move(frame));
 }
 
-void Animation::setDuration(float d){
+void Animation::setDuration(float d) {
     m_duration = d;
 }
 
 void Animation::update(const sf::Time& elapsed) {
     LOGV << "start";
-    if(m_duration > 0 && progress >= m_duration){
-        target.setTextureRect({0, 0, 0, 0});
+    if (m_duration > 0 && progress >= m_duration) {
+        m_target.setTextureRect({0, 0, 0, 0});
         return;
     }
     progress += elapsed.asSeconds();
@@ -30,14 +37,15 @@ void Animation::update(const sf::Time& elapsed) {
             continue;  // break off the loop and start where i is
         }
         if (p <= 0.0) {
-            target.setTextureRect(m_frames.at(i).rect);
+            m_target.setTextureRect(m_frames.at(i).rect);
             break;  // we found our frame
         }
     }
     LOGV << "finish";
 }
 
-void Animation::initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime) {
+void Animation::initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols,
+                                        float frameTime) {
     int FrameXSize = textureSize.x / atlasCols;
     int FrameYSize = textureSize.y / atlasRows;
 
@@ -48,7 +56,6 @@ void Animation::initFramesWithFixedSize(const sf::Vector2u& textureSize, int atl
     }
 }
 
-
 void Animation::setFrame(int index) {
-    target.setTextureRect(m_frames.at(index).rect);
+    m_target.setTextureRect(m_frames.at(index).rect);
 }

@@ -10,6 +10,7 @@ struct Frame {
 class Animation {
 public:
     explicit Animation(sf::Sprite &target);
+    Animation(const Textures::ID& t, const sf::Vector2f& pos);
     void initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime);
     void addFrame(Frame &&frame);
     // select frame to show manually
@@ -20,12 +21,17 @@ public:
     double getLength() const {
         return totalLength;
     }
+    sf::Sprite& getTarget(){
+        return m_target;
+    }
 
 private:
     std::vector<Frame> m_frames;
     double totalLength;
     double progress;
-    sf::Sprite &target;
+    sf::Sprite& m_target;
+    sf::Sprite m_spriteStorage;
+    sf::Vector2f m_pos; // used only when using sprit storage
     float m_duration = -1;
 };
 
