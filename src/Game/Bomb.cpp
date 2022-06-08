@@ -8,16 +8,14 @@
 
 Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p) : m_explosions(explosions) {
     setCollisionTag(CollisionTag::bomb);
+
     m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
-    // m_sprite.setTexture(TextureHolder::get(Textures::Bomb));
-
     float scale = 2;
-    float terrScale = 8;
-    m_sprite.scale(sf::Vector2f(1,1) / terrScale);
-    // m_sprite.scale(sf::Vector2f(1,1) / scale);
-    m_terroristAnimation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08);
+    m_sprite.scale(sf::Vector2f(1,1) / scale);
+    m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08);
+    m_animation.setFrame(0);
 
-    MovingObjects::setSize(sf::Vector2f(TextureHolder::get(Textures::Bomb).getSize() / unsigned(scale)));
+    MovingObjects::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
     setOrigin(MovingObjects::getSize() / 2.f);
     m_timer.set(
         [this]() {
@@ -33,8 +31,6 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
 
 void Bomb::initFromLevelParam(const LevelParams& p, bool initColor) {
     MovingObjects::setSpeed(p.m_speed);
-    // TODO: random color?
-    // Colors::STD_COLORS[Random::rnd(0, p.m_colors)];
     // do it only once when init not when params is changing
     if (initColor)
         m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors)];
@@ -53,7 +49,7 @@ void Bomb::update(const sf::Time& dt) {
 
     // need to update timer even if dragged
     m_timer.update(dt);
-    m_terroristAnimation.update(dt);
+    m_animation.update(dt);
 
     // update movement
     if (!m_isDragged)
@@ -96,7 +92,6 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
                 MessageBus::notify(MessageType::BombJailed);
                 jail->addBomb(this);
                 arrest();
-                // m_nonJailedBombCounter --;
             }
         }
     }
@@ -109,11 +104,9 @@ void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     MovingObjects::draw(win, states);
     sf::CircleShape rec;
     rec.setRadius(20);
-    rec.setOrigin(sf::util::getGlobalCenter(rec));
-    rec.setPosition(getPosition());
     // rec.setPosition(sf::util::getGlobalTopLeft(*this));
     rec.setFillColor(m_color);
-    win.draw(rec);
+    win.draw(rec, getTransform());
 }
 
 Bomb::~Bomb() {
