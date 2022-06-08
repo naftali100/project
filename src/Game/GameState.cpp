@@ -287,10 +287,7 @@ void GameState::processColision(auto const& m, auto const& n) {
             auto manifold = getManifold(overlap, collisionNormal);
             m->handleCollision(n.get(), manifold);
             // method B.
-            auto f = m_col.getCollisionHandler(*m, *n);
-            if (f != nullptr) {
-                (*f)(*m, *n);
-            }
+            m_col.runCollisionHandler(*m, *n);
         }
 };
 
