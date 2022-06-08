@@ -38,6 +38,7 @@ void Gift::handleEvent(const sf::Event& e) {
 void Gift::takeGift() {
     if(!m_taken){
         m_taken = true;
+        // MessageBus::notify(MessageType::ReleaseAllBombs);
         MessageBus::notify<int>(MessageType::ScoreGift, 5);
         // wait for animation
         m_timer.set([this]() { kill(); }, m_giftAnimation.getLength());

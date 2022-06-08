@@ -11,9 +11,14 @@ Jail::Jail(const LevelParams& p)
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
 
-    m_sub = MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams* i){
+    m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams* i){
         m_bombBuffer = i->m_bombToScore;
-    });
+    }));
+    m_subs.push_back(MessageBus::subscribe(MessageType::ReleaseAllBombs, [this](){
+        for(auto i: m_bombs){
+            i->release();
+        }
+    }));
 }
 
 void Jail::setColor(const sf::Color& c) {
@@ -46,5 +51,7 @@ void Jail::addBomb(Bomb* b) {
 
 
 Jail::~Jail(){
-    m_sub();
+    for(auto i: m_subs){
+        i();
+    }   
 }

@@ -32,6 +32,6 @@ private:
     std::vector<Bomb*> m_bombs;
     sf::Sprite m_sprite { TextureHolder::get(Textures::Jail) };
     int m_bombBuffer;
-    MessageBus::Func m_sub;
+    std::vector<MessageBus::Func> m_subs;
 };
 #endif  // __JAIL_H__

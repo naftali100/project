@@ -19,6 +19,7 @@ public:
     void handleEvent(const sf::Event& e) override;
     void draw(sf::RenderTarget& win, sf::RenderStates states) const override;
     void arrest() { m_isJailed = true; }
+    void release() { m_isJailed = false; }
     bool isArrested() const { return m_isJailed; }
 
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;

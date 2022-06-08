@@ -10,6 +10,7 @@ enum class MessageType
     BombRemoveFromVector,
     LevelParamsUpdated,
     ScoreGift,
+    ReleaseAllBombs,
     Count
 };
 
