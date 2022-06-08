@@ -24,6 +24,7 @@ public:
     sf::FloatRect getGlobalBounds() const override;
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void freeAll();
 
     ~Jail();
 

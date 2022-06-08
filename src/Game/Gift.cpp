@@ -1,6 +1,8 @@
 #include "Game/Gift.h"
 
+
 #include "Resources.h"
+#include "Random.h"
 
 Gift::Gift() {
     setSpeed(200);
@@ -39,8 +41,14 @@ void Gift::takeGift() {
     if(!m_taken){
         m_taken = true;
         // MessageBus::notify(MessageType::ReleaseAllBombs);
-        MessageBus::notify<int>(MessageType::ScoreGift, 5);
+        MessageBus::notify<int>(getRandGift(), 5);
         // wait for animation
         m_timer.set([this]() { kill(); }, m_giftAnimation.getLength());
     }
+}
+
+
+const MessageType Gift::getRandGift() const
+{
+    return MessageType(Random::rnd(int(MessageType::ScoreGift), int(MessageType::Count)));
 }

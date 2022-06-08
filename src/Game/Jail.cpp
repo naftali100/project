@@ -14,11 +14,17 @@ Jail::Jail(const LevelParams& p)
     m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams* i){
         m_bombBuffer = i->m_bombToScore;
     }));
-    m_subs.push_back(MessageBus::subscribe(MessageType::ReleaseAllBombs, [this](){
+    m_subs.push_back(MessageBus::subscribe(MessageType::FreeTerroristsGift, [this](){
         for(auto i: m_bombs){
             i->release();
         }
     }));
+}
+
+void Jail::freeAll()
+{
+    for (auto& terrorist : m_bombs)
+        terrorist->release();
 }
 
 void Jail::setColor(const sf::Color& c) {

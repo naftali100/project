@@ -49,23 +49,23 @@ void GameState::initJail() {
     // left jail
     auto j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[0]);
-    m_static.push_back(std::move(j));
-    m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
-    m_static.back()->setPosition(100, (float)winSize.y / 2);
+    m_jails.push_back(std::move(j));
+    m_jails.back()->setOrigin(sf::util::getGlobalCenter(*m_jails.back().get()));
+    m_jails.back()->setPosition(100, (float)winSize.y / 2);
 
     // right jail
     j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[1]);
-    m_static.push_back(std::move(j));
-    m_static.back()->setOrigin(sf::util::getGlobalCenter(*m_static.back().get()));
-    m_static.back()->setPosition((float)winSize.x - 100, (float)winSize.y / 2);
+    m_jails.push_back(std::move(j));
+    m_jails.back()->setOrigin(sf::util::getGlobalCenter(*m_jails.back().get()));
+    m_jails.back()->setPosition((float)winSize.x - 100, (float)winSize.y / 2);
 
     // bottom right jail
     j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[2]);
     j->setOrigin(sf::util::getGlobalCenter(*j));
     j->setPosition((float)winSize.x / 2, (float)winSize.y - (j->getGlobalBounds().height / 2));
-    m_static.push_back(std::move(j));
+    m_jails.push_back(std::move(j));
 
     // bottom left jail
     j = std::make_unique<Jail>(m_params);
@@ -73,7 +73,7 @@ void GameState::initJail() {
     j->setOrigin(sf::util::getGlobalCenter(*j));
     j->setPosition((float)winSize.x / 2 + j->getGlobalBounds().width + 10,
                    (float)winSize.y - (j->getGlobalBounds().height / 2));
-    m_static.push_back(std::move(j));
+    m_jails.push_back(std::move(j));
 }
 
 void GameState::initLayout() {
@@ -141,6 +141,7 @@ void GameState::update(const sf::Time& dt) {
     m_spawnTimer.update(dt);
     for (auto const& i : m_doors) { i->update(dt); }
     for (auto const& i : m_moving) { i->update(dt); }
+    for (auto const& i : m_jails) { i->update(dt); }
     for (auto const& i : m_static) { i->update(dt); }
     for (auto const& i : m_explosions) { i->update(dt); }
 
@@ -238,6 +239,7 @@ void GameState::draw(sf::RenderTarget& win) const {
 
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
+    for (auto& m : m_jails) { m->draw(win, sf::RenderStates::Default); }
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
     // m_gift2.draw(win);
@@ -263,27 +265,34 @@ sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vect
 }
 
 void GameState::handleCollisions(const sf::Time&) {
-    sf::FloatRect overlap;
 
     for (auto const& m : m_moving) {
         // check if need to remove  - for this there is erase_if. the lambda will do it
         // check if exploded - you don't have to. the lambda expression will do it
         // check if collided
-        for (auto const& n : m_static) {
-            if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
-                // method A.
-                auto collisionNormal = n->getPosition() - m->getPosition();
-                auto manifold = getManifold(overlap, collisionNormal);
-                m->handleCollision(n.get(), manifold);
-                // method B.
-                auto f = m_col.getCollisionHandler(*m, *n);
-                if (f != nullptr) {
-                    (*f)(*m, *n);
-                }
-            }
-        }
+        for (auto const& n : m_jails) 
+            processColision(m, n);
+        for(auto const& n: m_static)
+            processColision(m, n);
+        
     }
 }
+
+void GameState::processColision(auto const& m, auto const& n) {
+    sf::FloatRect overlap;
+
+        if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
+            // method A.
+            auto collisionNormal = n->getPosition() - m->getPosition();
+            auto manifold = getManifold(overlap, collisionNormal);
+            m->handleCollision(n.get(), manifold);
+            // method B.
+            auto f = m_col.getCollisionHandler(*m, *n);
+            if (f != nullptr) {
+                (*f)(*m, *n);
+            }
+        }
+};
 
 void GameState::spawnBomb() {
     auto winSize = m_stateManager.getWin().getSize();
@@ -326,6 +335,28 @@ void GameState::registerMessageHandlers() {
             m_score+=i;
         })
     );
+    m_subscription.push_back(
+        MessageBus::subscribe(MessageType::LiveGift, [this](){
+            m_lives++;
+        })
+    );
+    m_subscription.push_back(
+        MessageBus::subscribe(MessageType::RemoveTerroristsGift, [this](){
+            m_nonJailedBomb = 0;
+            m_moving.clear();
+        })
+    );
+    m_subscription.push_back(
+        MessageBus::subscribe(MessageType::FreeTerroristsGift, [this]() {
+            freeTerrorists();
+            })
+    );
+
+}
+
+void GameState::freeTerrorists() {
+    for (auto& i : m_jails)
+        i->freeAll();
 }
 
 GameState::~GameState() {

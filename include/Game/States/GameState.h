@@ -14,6 +14,7 @@
 #include "MessageBus.h"
 #include "State.h"
 #include "StateComponents/Camera.h"
+#include "Game/Jail.h"
 
 class GameState : public State {
 public:
@@ -24,6 +25,8 @@ public:
     void initLayout();
     void initJail();
     void initDoors();
+    void freeTerrorists();
+    void processColision(auto const& m, auto const& n);
 
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
@@ -44,6 +47,7 @@ private:
 
 private:
     std::vector<std::unique_ptr<MovingObjects>> m_moving;
+    std::vector<std::unique_ptr<Jail>> m_jails;
     std::vector<std::unique_ptr<Entity>> m_static;
     std::vector<std::unique_ptr<Explosion>> m_explosions;
     std::vector<std::unique_ptr<Door>> m_doors;

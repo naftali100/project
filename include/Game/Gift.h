@@ -14,6 +14,8 @@ public:
     void takeGift();
 
 private:
+    const MessageType getRandGift() const;
+
     Animation m_giftAnimation{m_sprite};
     bool m_taken = false;
 };
