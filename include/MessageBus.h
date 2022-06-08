@@ -2,22 +2,7 @@
 #define __MESSAGEBUS_H__
 #pragma once
 
-enum class MessageType
-{
-    //add here non-Gift enums
-    MessageId,
-    BombJailed,
-    BombTimedout,
-    BombRemoveFromVector,
-    LevelParamsUpdated,
-    // add here gift enums only
-    ScoreGift,
-    RemoveTerroristsGift,
-    LiveGift,
-    FreeTerroristsGift,
-    //don't add here non-gift enums!
-    Count
-};
+#include "MessageTypes.h"
 
 class MessageBus {
 public:
@@ -112,20 +97,6 @@ public:
                     i.second.second(param);
         }
         LOGV;
-    }
-
-    static void update(){
-        ImGui::Text("subscribers type 1: %lu\ntype 2: %lu", 
-        getInstance().m_subscribers.size(),
-        getInstance().m_subscribersWithType.size()
-        );
-    }
-    template<typename T>
-    static void update(){
-        ImGui::Text("type 3: %lu\ntype 4: %lu", 
-        m_subscribersWithArg<T>.size(),
-        m_subscribersWithTypeAndArg<T>.size()
-        );
     }
 
 private:
