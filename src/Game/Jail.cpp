@@ -2,13 +2,18 @@
 
 #include "Colors.h"
 
-Jail::Jail()
+Jail::Jail(const LevelParams& p)
 // :Animateable::Animateable(2, 1, Textures::Jail, 3.f)
 {
+    m_bombBuffer = p.m_bombToScore;
     setCollisionTag(CollisionTag::jail);
     m_sprite.scale(0.5, 0.5);
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
+
+    m_sub = MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams* i){
+        m_bombBuffer = i->m_bombToScore;
+    });
 }
 
 void Jail::setColor(const sf::Color& c) {
@@ -33,8 +38,13 @@ sf::FloatRect Jail::getGlobalBounds() const {
 
 void Jail::addBomb(Bomb* b) {
     m_bombs.push_back(b);
-    if (m_bombs.size() > 2) {
+    if (m_bombs.size() >= m_bombBuffer) {
         for (auto i : m_bombs) { MessageBus::notify<Bomb*>(MessageType::BombRemoveFromVector, i); }
         m_bombs.clear();
     }
+}
+
+
+Jail::~Jail(){
+    m_sub();
 }

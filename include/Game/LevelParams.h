@@ -12,6 +12,7 @@ struct LevelParams
     float m_giftTime = 10;
     float m_bombTime = 10;
     int m_maxBomb = 4;
+    int m_bombToScore = 3;
 
     bool operator==(const LevelParams& other) const {
         return other.m_bombTime == m_bombTime &&
@@ -21,7 +22,7 @@ struct LevelParams
         other.m_spawnRate == m_spawnRate &&
         other.m_speed == m_speed
         && other.m_maxBomb == m_maxBomb
-        // other.m_timer == m_timer;
+        && other.m_bombToScore == m_bombToScore
         ;
     }
     // bool operator!=(const LevelParams& other) const {

@@ -8,11 +8,12 @@
 #include "Colors.h"
 #include "Animateable.h"
 #include "MessageBus.h"
+#include "LevelParams.h"
 
 // class Jail : public Animateable {
 class Jail : public Entity {
 public:
-    Jail();
+    explicit Jail(const LevelParams& p);
     void setColor(const sf::Color& c);
     sf::Color getColor() const;
 
@@ -24,9 +25,13 @@ public:
 
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    ~Jail();
+
 private:
     sf::Color m_color = Colors::White;
     std::vector<Bomb*> m_bombs;
     sf::Sprite m_sprite { TextureHolder::get(Textures::Jail) };
+    int m_bombBuffer;
+    MessageBus::Func m_sub;
 };
 #endif  // __JAIL_H__
