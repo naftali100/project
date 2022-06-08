@@ -1,10 +1,10 @@
 #pragma once
 
-class Gift2 : public Animateable {
+class Terrorist : public Animateable{
 public:
-    Gift2(const sf::Vector2f position = sf::Vector2f{ 200.0, 200.0 })
-        :Animateable::Animateable(3, 4, Textures::Gift2, 0.8, position, 10000)
+    Terrorist(const sf::Vector2f position = sf::Vector2f{ 1000.0, 400.0 })
+        :Animateable::Animateable(3, 4, Textures::Terrorist, 0.08, position, 10000)
     {
-        // m_sprite.scale(.25 / 2.f,.25/ 2.f);
+        m_sprite.scale(.25 / 2.f,.25/ 2.f);
     }
 };

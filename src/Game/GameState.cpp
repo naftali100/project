@@ -133,7 +133,8 @@ void GameState::update(const sf::Time& dt) {
         // m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
         // return;
     }
-    m_gift.update(dt);
+    m_gift2.update(dt);
+    m_terrorist.update(dt);
     // for debugging!
     static bool toggleDoors = true;
     ImGui::Checkbox("toggle doors", &toggleDoors);
@@ -224,7 +225,8 @@ void GameState::draw(sf::RenderTarget& win) const {
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
-    m_gift.draw(win);
+    m_gift2.draw(win);
+    m_terrorist.draw(win);
     LOGV;
 };
 
