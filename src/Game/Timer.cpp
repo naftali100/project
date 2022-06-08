@@ -5,6 +5,7 @@ Timer::Timer(const Func& function, const float delay) : m_function(function) {
 }
 
 void Timer::setTime(const sf::Time& t) {
+    reset();
     *this += t;
     m_isPaused = false;
 }
