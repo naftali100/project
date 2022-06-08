@@ -207,9 +207,12 @@ void GameState::imGui() {
     }
 
     if (ImGui::Button("exit state")) {
-        // will cause seg fault because the update method is continuing after its has been poped
+        // will cause seg fault because the update method is continuing after the state has been poped
         m_stateManager.popState(); 
         return;
+    }
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip("will cause seg fault\nbecause the update method is continuing after the state has been poped");
     }
     if (ImGui::Button("exit program")) {
         exit(EXIT_SUCCESS);
