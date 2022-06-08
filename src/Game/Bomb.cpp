@@ -7,13 +7,11 @@
 #include "SfmlUtil.h"
 
 Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p) : m_explosions(explosions) {
-    setCollisionTag(CollisionTag::bomb);
+    initSpriteAnimation();
+    initFromLevelParam(p);
+    registerMessageHandler();
 
-    m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
-    float scale = 2;
-    m_sprite.scale(sf::Vector2f(1,1) / scale);
-    m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08);
-    m_animation.setFrame(0);
+    setCollisionTag(CollisionTag::bomb);
 
     MovingObjects::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
     setOrigin(MovingObjects::getSize() / 2.f);
@@ -23,10 +21,16 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
             kill();
             m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
         },
-        p.m_bombTime);
+        p.m_bombTime);   
+}
 
-    initFromLevelParam(p);
-    registerMessageHandler();
+
+void Bomb::initSpriteAnimation(){
+    m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
+    float scale = 2;
+    m_sprite.scale(sf::Vector2f(1,1) / scale);
+    m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08);
+    m_animation.setFrame(0);
 }
 
 void Bomb::initFromLevelParam(const LevelParams& p, bool initColor) {
@@ -39,7 +43,6 @@ void Bomb::initFromLevelParam(const LevelParams& p, bool initColor) {
 void Bomb::registerMessageHandler() {
     m_sub = MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* p) {
         initFromLevelParam(*p, false);
-        // MovingObjects::setSpeed(p->m_speed);
     });
 }
 

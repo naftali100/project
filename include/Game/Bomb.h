@@ -14,6 +14,7 @@ public:
     explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions, const LevelParams& p);
     void initFromLevelParam(const LevelParams& p, bool = true);
     void registerMessageHandler();
+    void initSpriteAnimation();
 
     void update(const sf::Time& dt) override;
     void handleEvent(const sf::Event& e) override;
