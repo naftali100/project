@@ -36,7 +36,7 @@ void Bomb::initFromLevelParam(const LevelParams& p, bool initColor) {
 }
 
 void Bomb::registerMessageHandler() {
-    m_subId = MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* p) {
+    m_sub = MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* p) {
         initFromLevelParam(*p, false);
         // MovingObjects::setSpeed(p->m_speed);
     });
@@ -111,6 +111,5 @@ void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
 }
 
 Bomb::~Bomb() {
-    // m_subId();
-    MessageBus::unsubscribe<LevelParams*>(m_subId);
+    m_sub();
 }

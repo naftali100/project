@@ -32,6 +32,6 @@ private:
     // int& m_nonJailedBombCounter;
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
-    int m_subId;
+    MessageBus::Func m_sub;
 };
 #endif  // __BOMB_H__

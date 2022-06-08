@@ -291,18 +291,33 @@ void GameState::spawnGift() {
 }
 
 void GameState::registerMessageHandlers() {
-    MessageBus::subscribe(MessageType::BombJailed, [this]() {
-        m_nonJailedBomb--;
-    });
-    MessageBus::subscribe(MessageType::BombTimedout, [this]() {
-        m_lives--;
-        m_nonJailedBomb--;
-    });
-    MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
-        bomb->kill();
-        m_score++;
-    });
-    MessageBus::subscribe<int>(MessageType::ScoreGift, [this](int i){
-        m_score+=i;
-    });
+    m_subscription.push_back(
+        MessageBus::subscribe(MessageType::BombJailed, [this]() {
+            m_nonJailedBomb--;
+        })
+    );
+    m_subscription.push_back(
+        MessageBus::subscribe(MessageType::BombTimedout, [this]() {
+            m_lives--;
+            m_nonJailedBomb--;
+        })
+    );
+    m_subscription.push_back(
+        MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
+            bomb->kill();
+            m_score++;
+        })
+    );
+    m_subscription.push_back(
+        MessageBus::subscribe<int>(MessageType::ScoreGift, [this](int i){
+            m_score+=i;
+        })
+    );
+}
+
+
+GameState::~GameState(){
+    for(auto& i: m_subscription){
+        i();
+    }
 }

@@ -35,6 +35,8 @@ public:
     void spawnBomb();
     void spawnGift();
 
+    ~GameState();
+
 private:
     void registerMessageHandlers();
     void handleCollisions(const sf::Time&);
@@ -61,6 +63,8 @@ private:
     LevelParams m_params;
     Terrorist m_terrorist;
     Gift2 m_gift2;
+
+    std::vector<MessageBus::Func> m_subscription;
 };
 
 #endif  // __GAMESTATE_H__

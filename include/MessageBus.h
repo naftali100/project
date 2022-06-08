@@ -22,27 +22,26 @@ public:
     /// subscribe
 
     // just basic ping to all subscribers. needed?
-    static int subscribe(const Func& f) {
+    static Func subscribe(const Func& f) {
         getInstance().m_subscribers.push_back({++getInstance().m_id, f});
-        return getInstance().m_id;
+        return [](){ unsubscribe(getInstance().m_id); };
     };
 
-    static int subscribe(MessageType type, const Func& func) {
+    static Func subscribe(MessageType type, const Func& func) {
         getInstance().m_subscribersWithType.push_back(std::pair(++getInstance().m_id, std::pair<MessageType, Func>(type, func)));
-        return getInstance().m_id;
+        return [](){ unsubscribe(getInstance().m_id); };
     };
 
     template <typename T>
-    static int subscribe(const std::function<void(const T&)>& func) {
+    static Func subscribe(const std::function<void(const T&)>& func) {
         m_subscribersWithArg<T>.push_back({++getInstance().m_id, func});
-        return getInstance().m_id;
-
+        return [](){ unsubscribe<T>(getInstance().m_id); };
     };
 
     template <typename T>
-    static int subscribe(MessageType type, const FuncT<T>& func) {
+    static Func subscribe(MessageType type, const FuncT<T>& func) {
         m_subscribersWithTypeAndArg<T>.push_back(std::pair(++getInstance().m_id, std::pair(type, func)));
-        return getInstance().m_id;
+        return [](){ unsubscribe<T>(getInstance().m_id); };
     };
 
     /// unsubscribe
