@@ -33,7 +33,5 @@ private:
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
     MessageBus::Func m_sub;
-
-    Animation m_terroristAnimation{m_sprite};
 };
 #endif  // __BOMB_H__

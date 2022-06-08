@@ -6,12 +6,11 @@
 #include "Game/Entity.h"
 #include "SfmlUtil.h"
 #include "Timer.h"
+#include "Animation.h"
 
 class MovingObjects : public Entity {
 public:
-    void setDirection(const sf::Vector2f& v) {
-        m_direction = sf::util::normalize(v);
-    }
+    void setDirection(const sf::Vector2f& v);
 
     virtual void setSpeed(float s) {
         m_speed = s;
@@ -51,6 +50,7 @@ protected:
     Timer m_timer;
     // bool m_isTimeOut = false;
     sf::Sprite m_sprite;
+    Animation m_animation{m_sprite};
 
 private:
     float m_speed;
