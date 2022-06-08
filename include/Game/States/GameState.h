@@ -27,6 +27,7 @@ public:
     void initDoors();
     void freeTerrorists();
     void processColision(auto const& m, auto const& n);
+    void initCamera(); // TODO: delete
 
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
@@ -37,38 +38,40 @@ public:
     void spawnBomb();
     void spawnGift();
 
+    // util
+    sf::Vector2u getWinSize();
+
     ~GameState();
 
 private:
-    void imGui();
+    void imGui(); // TODO: delete
     void registerMessageHandlers();
     void handleCollisions(const sf::Time&);
     sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal) const;
 
 private:
+    // objects
     std::vector<std::unique_ptr<MovingObjects>> m_moving;
     std::vector<std::unique_ptr<Jail>> m_jails;
     std::vector<std::unique_ptr<Entity>> m_static;
     std::vector<std::unique_ptr<Explosion>> m_explosions;
     std::vector<std::unique_ptr<Door>> m_doors;
-    CollisionHandler m_col;
-    Camera m_cam;
-
     sf::Sprite m_stars;
     Animation m_starAnimation{m_stars};
 
+    // components
+    CollisionHandler m_col;
+    Camera m_cam;
+    std::vector<MessageBus::Func> m_subscription;
+
+    // game data
     int m_lives = 3;
     int m_score = 0;
     int m_nonJailedBomb = 0;
+    LevelParams m_params;
 
     Timer m_spawnTimer;
     StatusBar m_sb{m_lives, m_score};
-
-    LevelParams m_params;
-    Terrorist m_terrorist;
-    Gift2 m_gift2;
-
-    std::vector<MessageBus::Func> m_subscription;
 };
 
 #endif  // __GAMESTATE_H__

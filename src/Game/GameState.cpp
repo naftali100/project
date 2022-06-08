@@ -16,15 +16,20 @@ void GameState::init() {
     initLayout();
     initJail();
     initDoors();
+    initCamera();
+    // initPlay();
     registerMessageHandlers();
 }
 
-void GameState::initState() {
+
+void GameState::initCamera(){
     m_cam.setView(m_stateManager.getWin().getDefaultView());
     m_cam.setInitialView();
     m_cam.setWinRatio(m_stateManager.getWin().getSize());
     m_cam.setResizeStrategy(LatterBox);
+}
 
+void GameState::initState() {
     m_stars.setTexture(TextureHolder::get(Textures::Stars));
 
     static float spawnInterval = 3;
@@ -37,15 +42,14 @@ void GameState::initState() {
 
     m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
 
-    for (int i = 0; i < 3; i++) {  // TODO: replace this with std "do_it_n_times" function
-        // spawn bomb
+    for (int _ : rng::views::iota(1, 10)){
         spawnBomb();
         // spawnGift();
     }
 }
 
 void GameState::initJail() {
-    auto winSize = m_stateManager.getWin().getSize();
+    auto winSize = getWinSize();
     // left jail
     auto j = std::make_unique<Jail>(m_params);
     j->setColor(Colors::STD_COLORS[0]);
@@ -77,7 +81,7 @@ void GameState::initJail() {
 }
 
 void GameState::initLayout() {
-    auto winSize = m_stateManager.getWin().getSize();
+    auto winSize = getWinSize();
 
     // left wall
     m_static.push_back(std::make_unique<Wall>());
@@ -105,7 +109,7 @@ void GameState::initLayout() {
 }
 
 void GameState::initDoors() {
-    auto winSize = m_stateManager.getWin().getSize();
+    auto winSize = getWinSize();
 
     m_doors.clear();
 
@@ -155,7 +159,6 @@ void GameState::update(const sf::Time& dt) {
     else {
         m_spawnTimer.resume();
     }
-
     LOGV;
 };
 
@@ -290,7 +293,7 @@ void GameState::processColision(auto const& m, auto const& n) {
 };
 
 void GameState::spawnBomb() {
-    auto winSize = m_stateManager.getWin().getSize();
+    auto winSize = getWinSize();
     auto b = std::make_unique<Bomb>(m_explosions, m_params);
     b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
     if (!m_doors.empty())
@@ -302,7 +305,7 @@ void GameState::spawnBomb() {
 }
 
 void GameState::spawnGift() {
-    auto winSize = m_stateManager.getWin().getSize();
+    auto winSize = getWinSize();
     auto b = std::make_unique<Gift>();
     b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
     b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
@@ -352,6 +355,10 @@ void GameState::registerMessageHandlers() {
 void GameState::freeTerrorists() {
     for (auto& i : m_jails)
         i->freeAll();
+}
+
+sf::Vector2u GameState::getWinSize(){
+    return m_stateManager.getWin().getSize();
 }
 
 GameState::~GameState() {
