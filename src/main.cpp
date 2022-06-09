@@ -1,4 +1,3 @@
-
 #include <plog/Formatters/FuncMessageFormatter.h>
 #include <plog/Formatters/TxtFormatter.h>
 #include <plog/Initializers/ConsoleInitializer.h>
