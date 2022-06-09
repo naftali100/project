@@ -20,11 +20,16 @@ public:
 
     void init() override;
     void initState();
-    void initLayout();
+
+    void initWalls();
+    void addWall(const sf::Vector2f& pos, const sf::Vector2f& size);
+
     void initJail();
+    void addJail(const sf::Vector2f& pos, const sf::Color& color);
+
     void initDoors();
+
     void freeTerrorists();
-    void processColision(auto const& m, auto const& n);
     void initCamera(); // TODO: delete
 
     void handleEvent(const sf::Event&) override;
@@ -32,7 +37,6 @@ public:
     void draw(sf::RenderTarget& win) const override;
 
     // spawn
-    // TODO: make it templated
     void spawnBomb();
     void spawnGift();
 
@@ -44,7 +48,9 @@ public:
 private:
     void imGui(); // TODO: delete
     void registerMessageHandlers();
+
     void handleCollisions(const sf::Time&);
+    void processCollision(auto const& m, auto const& n);
     sf::Vector3f getManifold(const sf::FloatRect& overlap, const sf::Vector2f& colNormal) const;
 
 private:

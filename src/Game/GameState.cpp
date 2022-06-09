@@ -12,15 +12,14 @@
 #include "StateManager.h"
 
 void GameState::init() {
-    initState();
-    initLayout();
-    initJail();
     initDoors();
+    initState();
+    initWalls();
+    initJail();
     initCamera();
     // initPlay();
     registerMessageHandlers();
 }
-
 
 void GameState::initCamera(){
     m_cam.setView(m_stateManager.getWin().getDefaultView());
@@ -50,62 +49,45 @@ void GameState::initState() {
 
 void GameState::initJail() {
     auto winSize = getWinSize();
-    // left jail
+    auto jailAmount = m_params.m_colors + 1;
+    auto jailSize = Jail(m_params).getSize();
+    // TODO: find the right position
+    sf::Vector2f startPoint { (winSize.x - (jailSize.x * (float)jailAmount)) / 2.f, winSize.y - (jailSize.y / 2.f)};
+
+    LOGI << PLOG_PRINT_VAR(winSize) << ' ' << PLOG_PRINT_VAR(startPoint);
+    for(auto i: std::views::iota(0,jailAmount)){
+        LOGI << i;
+        addJail({((i+1) * jailSize.x) + startPoint.x + 10, startPoint.y}, Colors::STD_COLORS[i]);
+    }
+}
+
+void GameState::addJail(const sf::Vector2f& pos, const sf::Color& color){
     auto j = std::make_unique<Jail>(m_params);
-    j->setColor(Colors::STD_COLORS[0]);
-    m_jails.push_back(std::move(j));
-    m_jails.back()->setOrigin(sf::util::getGlobalCenter(*m_jails.back().get()));
-    m_jails.back()->setPosition(100, (float)winSize.y / 2);
-
-    // right jail
-    j = std::make_unique<Jail>(m_params);
-    j->setColor(Colors::STD_COLORS[1]);
-    m_jails.push_back(std::move(j));
-    m_jails.back()->setOrigin(sf::util::getGlobalCenter(*m_jails.back().get()));
-    m_jails.back()->setPosition((float)winSize.x - 100, (float)winSize.y / 2);
-
-    // bottom right jail
-    j = std::make_unique<Jail>(m_params);
-    j->setColor(Colors::STD_COLORS[2]);
+    j->setColor(color);
     j->setOrigin(sf::util::getGlobalCenter(*j));
-    j->setPosition((float)winSize.x / 2, (float)winSize.y - (j->getGlobalBounds().height / 2));
-    m_jails.push_back(std::move(j));
-
-    // bottom left jail
-    j = std::make_unique<Jail>(m_params);
-    j->setColor(Colors::STD_COLORS[3]);
-    j->setOrigin(sf::util::getGlobalCenter(*j));
-    j->setPosition((float)winSize.x / 2 + j->getGlobalBounds().width + 10,
-                   (float)winSize.y - (j->getGlobalBounds().height / 2));
+    j->setPosition(pos);
     m_jails.push_back(std::move(j));
 }
 
-void GameState::initLayout() {
+void GameState::initWalls() {
     auto winSize = getWinSize();
 
     // left wall
-    m_static.push_back(std::make_unique<Wall>());
-    auto const& w_left = m_static.back();
-    w_left->setPosition(-100, -100);
-    w_left->setSize(100, (float)winSize.y + 200);
-
+    addWall({-100, -100}, {100, (float)winSize.y + 200});
     // bottom wall
-    m_static.push_back(std::make_unique<Wall>());
-    auto const& w_bottom = m_static.back();
-    w_bottom->setPosition(-100, (float)winSize.y);
-    w_bottom->setSize((float)winSize.x + 200, 100);
-
+    addWall({-100, (float)winSize.y}, {(float)winSize.x + 200, 100});
     // right wall
-    m_static.push_back(std::make_unique<Wall>());
-    auto const& w_right = m_static.back();
-    w_right->setPosition((float)winSize.x, -100);
-    w_right->setSize(100, (float)winSize.y + 200);
-
+    addWall({(float)winSize.x, -100}, {100, (float)winSize.y + 200});
     // upper wall
-    m_static.push_back(std::make_unique<Wall>());
-    auto const& w_upper = m_static.back();
-    w_upper->setPosition(-100, -100);
-    w_upper->setSize((float)winSize.x + 200, 100);
+    addWall({-100, -100}, {(float)winSize.x + 200, 100});
+}
+
+
+void GameState::addWall(const sf::Vector2f& pos, const sf::Vector2f& size){   
+    auto wall = std::make_unique<Wall>();
+    wall->setPosition(pos);
+    wall->setSize(size);
+    m_static.push_back(std::move(wall));
 }
 
 void GameState::initDoors() {
@@ -176,11 +158,7 @@ void GameState::imGui() {
         }
     }
 
-    ImGuiWindowFlags window_flags = 0;
-    window_flags |= ImGuiWindowFlags_NoResize;
-    window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
-
-    if (ImGui::Begin("level params", nullptr, window_flags)) {
+    if (ImGui::Begin("level params", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize)) {
         auto tmp = m_params;
         ImGui::SliderFloat("bomb speed", &m_params.m_speed, 100, 1000);
         ImGui::SliderFloat("spawn rate", &m_params.m_spawnRate, 1, 10);
@@ -243,8 +221,6 @@ void GameState::draw(sf::RenderTarget& win) const {
     for (auto& m : m_jails) { m->draw(win, sf::RenderStates::Default); }
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
-    // m_gift2.draw(win);
-    // m_terrorist.draw(win);
     LOGV;
 };
 
@@ -266,30 +242,24 @@ sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vect
 }
 
 void GameState::handleCollisions(const sf::Time&) {
-
     for (auto const& m : m_moving) {
-        // check if need to remove  - for this there is erase_if. the lambda will do it
-        // check if exploded - you don't have to. the lambda expression will do it
-        // check if collided
         for (auto const& n : m_jails) 
-            processColision(m, n);
+            processCollision(m, n);
         for(auto const& n: m_static)
-            processColision(m, n);
-        
+            processCollision(m, n);
     }
 }
 
-void GameState::processColision(auto const& m, auto const& n) {
+void GameState::processCollision(auto const& m, auto const& n) {
     sf::FloatRect overlap;
-
-        if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
-            // method A.
-            auto collisionNormal = n->getPosition() - m->getPosition();
-            auto manifold = getManifold(overlap, collisionNormal);
-            m->handleCollision(n.get(), manifold);
-            // method B.
-            m_col.runCollisionHandler(*m, *n);
-        }
+    if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
+        // method A.
+        auto collisionNormal = n->getPosition() - m->getPosition();
+        auto manifold = getManifold(overlap, collisionNormal);
+        m->handleCollision(n.get(), manifold);
+        // method B.
+        m_col.runCollisionHandler(*m, *n);
+    }
 };
 
 void GameState::spawnBomb() {
@@ -349,7 +319,6 @@ void GameState::registerMessageHandlers() {
             freeTerrorists();
         })
     );
-
 }
 
 void GameState::freeTerrorists() {
