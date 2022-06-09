@@ -11,6 +11,7 @@
 #include <typeinfo>
 #include "Colors.h"
 #include "SfmlUtil.h"
+#include "BaseEntity.h"
 
 enum class CollisionTag
 {
@@ -22,16 +23,12 @@ enum class CollisionTag
     none
 };
 
-class Entity : public sf::Transformable, public sf::Drawable {
+class Entity : public sf::Transformable, public sf::Drawable, public BaseEntity {
 public:
-    Entity() = default;
-
-    /// basic sfml object methods
-
-    virtual void update(const sf::Time& dt) = 0;
-    virtual void handleEvent(const sf::Event& e){
-        // check in events map
+    virtual void handleEvent(const sf::Event&) override {
+        // check event map
     };
+
     virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {
         // debug draw
         // rectangle of global bound
