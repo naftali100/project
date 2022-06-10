@@ -18,9 +18,9 @@ namespace sf
 template <typename Resource, typename Identifier>
 class ResourceHolder;
 
-typedef ResourceHolder<sf::Texture, Textures::ID>			TextureHolder;
-typedef ResourceHolder<sf::Font, Fonts::ID>					FontHolder;
-typedef ResourceHolder<sf::Shader, Shaders::ID>				ShaderHolder;
-typedef ResourceHolder<sf::SoundBuffer, SoundEffect::ID>	SoundBufferHolder;
+using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
+using FontHolder = ResourceHolder<sf::Font, Fonts::ID>;
+using ShaderHolder = ResourceHolder<sf::Shader, Shaders::ID>;
+using SoundBufferHolder = ResourceHolder<sf::SoundBuffer, SoundEffect::ID>;
 
 #endif

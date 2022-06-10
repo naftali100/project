@@ -29,7 +29,7 @@ void Bomb::initSpriteAnimation(){
     m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
     float scale = 2;
     m_sprite.scale(sf::Vector2f(1,1) / scale);
-    m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08);
+    m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08f);
     m_animation.setFrame(0);
 }
 

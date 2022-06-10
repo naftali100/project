@@ -20,7 +20,7 @@ void Timer::set(const Func& function, const float seconds) {
     setTime(sf::seconds(seconds));
 }
 
-void Timer::setInterval(Func function, int interval){
+void Timer::setInterval(const Func& function, float interval){
     set([this, function, interval](){
         function();
         setTime(sf::seconds(interval)); 
@@ -34,10 +34,6 @@ void Timer::update(const sf::Time& dt) {
             m_function();
     }
 }
-
-// void Timer::stop() {
-//     m_isActive = false;
-// }
 
 void Timer::pause() {
     m_isPaused = true;

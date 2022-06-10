@@ -5,12 +5,12 @@
 #include "Random.h"
 
 Gift::Gift() {
-    setSpeed(200);
+    MovingObjects::setSpeed(200);
     m_sprite.setTexture(TextureHolder::get(Textures::Gift2));
 
     m_timer.set([this]() { kill(); }, 10);
 
-    m_giftAnimation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.1);
+    m_giftAnimation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.1f);
     m_giftAnimation.setFrame(11);
 
     Entity::setSize(sf::Vector2f(m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height));

@@ -48,7 +48,6 @@ protected:
     sf::Vector2f m_direction;  // < normalized vector
     bool m_isSelected;
     Timer m_timer;
-    // bool m_isTimeOut = false;
     sf::Sprite m_sprite;
     Animation m_animation{m_sprite};
 

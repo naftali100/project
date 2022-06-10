@@ -15,33 +15,29 @@ public:
     // just basic ping to all subscribers. needed?
     static Func subscribe(const Func& f) {
         getInstance().m_subscribers.push_back({++getInstance().m_id, f});
-        auto id = getInstance().m_id;
-        return [id]() { unsubscribe(id); };
+        return [id = getInstance().m_id]() { unsubscribe(id); };
     };
 
     static Func subscribe(MessageType type, const Func& func) {
         getInstance().m_subscribersWithType.push_back(std::pair(++getInstance().m_id, std::pair(type, func)));
-        auto id = getInstance().m_id;
-        return [id]() { unsubscribe(id); };
+        return [id = getInstance().m_id]() { unsubscribe(id); };
     };
 
     template <typename T>
     static Func subscribe(const std::function<void(const T&)>& func) {
         m_subscribersWithArg<T>.push_back({++getInstance().m_id, func});
-        auto id = getInstance().m_id;
-        return [id]() { unsubscribe<T>(id); };
+        return [id = getInstance().m_id]() { unsubscribe<T>(id); };
     };
 
     template <typename T>
     static Func subscribe(MessageType type, const FuncT<T>& func) {
         m_subscribersWithTypeAndArg<T>.push_back(std::pair(++getInstance().m_id, std::pair(type, func)));
-        auto id = getInstance().m_id;
-        return [id]() { unsubscribe<T>(id); };
+        return [id = getInstance().m_id]() { unsubscribe<T>(id); };
     };
 
     /// unsubscribe
 
-    static void unsubscribe(int id){
+    static void unsubscribe(unsigned long int id){
         std::erase_if(getInstance().m_subscribers, [id](auto i){
             return i.first == id;
         });
@@ -51,7 +47,7 @@ public:
     }
 
     template<typename T>
-    static void unsubscribe(int id){
+    static void unsubscribe(unsigned long int id){
         std::erase_if(m_subscribersWithArg<T>, [id](auto i){
             return i.first == id;
         });
@@ -105,9 +101,7 @@ private:
         return instance;
     }
 
-    MessageBus() {
-        m_id = 0;
-    };
+    MessageBus() = default;
     MessageBus(const MessageBus&) = delete;
 
     std::vector<std::pair<int, std::function<void()>>> m_subscribers;
@@ -120,6 +114,6 @@ private:
     template <typename T>
     inline static std::vector<std::pair<int, std::pair<MessageType, std::function<void(const T&)>>>> m_subscribersWithTypeAndArg;
 
-    unsigned long int m_id;
+    unsigned long int m_id = 0;
 };
 #endif  // __MESSAGEBUS_H__

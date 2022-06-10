@@ -318,8 +318,8 @@ void GameState::registerMessageHandlers() {
     );
 }
 
-void GameState::freeTerrorists() {
-    for (auto& i : m_jails)
+void GameState::freeTerrorists() const {
+    for (auto const& i : m_jails)
         i->freeAll();
 }
 

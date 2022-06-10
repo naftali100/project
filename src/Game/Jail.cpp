@@ -2,10 +2,7 @@
 
 #include "Colors.h"
 
-Jail::Jail(const LevelParams& p)
-// :Animateable::Animateable(2, 1, Textures::Jail, 3.f)
-{
-    m_bombBuffer = p.m_bombToScore;
+Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
     setCollisionTag(CollisionTag::jail);
     float scale = .9f;
     m_sprite.scale(sf::Vector2f(1,1) * scale);
@@ -69,7 +66,7 @@ void Jail::addBomb(Bomb* b) {
 
 
 Jail::~Jail(){
-    for(auto i: m_subs){
+    for(auto const& i: m_subs){
         i();
     }   
 }

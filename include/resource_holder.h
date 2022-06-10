@@ -21,7 +21,7 @@ public:
     }
 
     static void set(Identifier id, const Resource& r){
-        std::unique_ptr<Resource> ptr(new Resource(std::move(r)));
+        std::unique_ptr<Resource> ptr = std::make_unique<Resource>(std::move(r));
         Instance().insertResource(id, std::move(ptr));
     }
 

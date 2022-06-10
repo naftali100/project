@@ -1,8 +1,6 @@
+#ifndef __TIMER_H__
+#define __TIMER_H__
 #pragma once
-#include <iostream>
-#include <thread>
-#include <chrono>
-#include <atomic>
 
 using Func = std::function<void()>;
 
@@ -15,15 +13,15 @@ public:
     void reset(); 
     void set(const Func& function, const float);
     void update(const sf::Time&);
-    void setInterval(Func function, int interval);
+    void setInterval(const Func& function, float interval);
     void stop();
 
     void pause();
     void resume();
 
 private:
-    //std::atomic<bool> m_isActive{ true };
     Func m_function;
-    //sf::Time m_time;
     bool m_isPaused = false;
 };
+
+#endif // __TIMER_H__

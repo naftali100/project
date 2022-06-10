@@ -29,7 +29,7 @@ public:
 
     void initDoors();
 
-    void freeTerrorists();
+    void freeTerrorists() const;
     void initCamera(); // TODO: delete
 
     void handleEvent(const sf::Event&) override;
@@ -64,7 +64,7 @@ private:
     Animation m_starAnimation{m_stars};
 
     // components
-    CollisionHandler m_col;
+    CollisionHandler m_col; // currently not in use
     Camera m_cam;
     std::vector<MessageBus::Func> m_subscription;
 
