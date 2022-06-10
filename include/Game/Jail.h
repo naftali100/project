@@ -6,9 +6,10 @@
 #include "Game/Bomb.h"
 #include "Game/Entity.h"
 #include "Colors.h"
-#include "Animateable.h"
+//#include "Animateable.h"
 #include "MessageBus.h"
 #include "LevelParams.h"
+#include "MovingObjects.h"
 
 // class Jail : public Animateable {
 class Jail : public Entity {
@@ -19,7 +20,9 @@ public:
 
     void addBomb(Bomb* b);
 
-    void update(const sf::Time& ) override{};
+    void update(const sf::Time& dt) override {
+        m_jailBreakTimer.update(dt);
+    };
 
     sf::FloatRect getGlobalBounds() const override;
 
@@ -34,5 +37,7 @@ private:
     sf::Sprite m_sprite { TextureHolder::get(Textures::Jail) };
     int m_bombBuffer;
     std::vector<MessageBus::Func> m_subs;
+    bool m_jailBreak = false;
+    Timer m_jailBreakTimer;
 };
 #endif  // __JAIL_H__
