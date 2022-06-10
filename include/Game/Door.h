@@ -10,11 +10,7 @@ public:
     Door();
     void update(const sf::Time& dt) override;
 
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {
-        // states.transform *= getTransform();
-        // target.draw(m_sprite);
-        Entity::draw(target);
-    }
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 
     // close when gift
     void close(const sf::Time& seconds);

@@ -2,7 +2,13 @@
 
 Door::Door(){
     sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
-    m_animation.initFramesWithFixedSize(textureSize, 1, 5, 0.1);
+    m_animation.initFramesWithFixedSize(textureSize, 1, 5, 0.1f);
+}
+
+void Door::draw(sf::RenderTarget& target, sf::RenderStates states) const  {
+    // states.transform *= getTransform();
+    // target.draw(m_sprite);
+    Entity::draw(target);
 }
 
 void Door::update(const sf::Time& dt) {

@@ -20,6 +20,11 @@ Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
     }));
 }
 
+
+void Jail::update(const sf::Time& dt) {
+    m_jailBreakTimer.update(dt);
+};
+
 void Jail::freeAll()
 {
     m_isJailBreak = true;

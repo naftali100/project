@@ -20,9 +20,8 @@ public:
 
     void addBomb(Bomb* b);
 
-    void update(const sf::Time& dt) override {
-        m_jailBreakTimer.update(dt);
-    };
+    void update(const sf::Time& dt) override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
     sf::FloatRect getGlobalBounds() const override;
 
