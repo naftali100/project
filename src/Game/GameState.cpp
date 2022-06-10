@@ -34,14 +34,14 @@ void GameState::initState() {
     static float spawnInterval = 3;
     m_spawnTimer.set(
         [this]() {
-            m_spawnTimer.setTime(sf::seconds(Random::rnd(0.f, m_params.m_spawnRate)));
+            m_spawnTimer.setTime(sf::seconds(Random::rnd(0.01f, m_params.m_spawnRate)));
             spawnBomb();
         },
         m_params.m_spawnRate);
 
     m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
 
-    for (int _ : rng::views::iota(1, 10)){
+    for (int _ : rng::views::iota(0, m_params.m_maxBomb)){
         spawnBomb();
         // spawnGift();
     }
