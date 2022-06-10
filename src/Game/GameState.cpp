@@ -243,8 +243,9 @@ sf::Vector3f GameState::getManifold(const sf::FloatRect& overlap, const sf::Vect
 
 void GameState::handleCollisions(const sf::Time&) {
     for (auto const& m : m_moving) {
-        for (auto const& n : m_jails) 
-            processCollision(m, n);
+        for (auto const& n : m_jails)
+            if (!n->isBreaked())
+                processCollision(m, n);
         for(auto const& n: m_static)
             processCollision(m, n);
     }

@@ -25,14 +25,18 @@ Jail::Jail(const LevelParams& p)
 
 void Jail::freeAll()
 {
-    m_jailBreak = true;
+    m_isJailBreak = true;
     m_sprite.setTextureRect({ 0, 250, 500, 500 });
     m_jailBreakTimer.set([this]() {
-        m_jailBreak = false; 
+        m_isJailBreak = false; 
         m_sprite.setTextureRect({ 0, 0, 500, 250 });
         }, 5.f);
     for (auto& terrorist : m_bombs)
         terrorist->release();
+}
+
+bool Jail::isBreaked() {
+    return m_isJailBreak;
 }
 
 void Jail::setColor(const sf::Color& c) {

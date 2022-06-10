@@ -26,6 +26,7 @@ public:
 
     sf::FloatRect getGlobalBounds() const override;
 
+    bool isBreaked();
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
     void freeAll();
 
@@ -37,7 +38,7 @@ private:
     sf::Sprite m_sprite { TextureHolder::get(Textures::Jail) };
     int m_bombBuffer;
     std::vector<MessageBus::Func> m_subs;
-    bool m_jailBreak = false;
+    bool m_isJailBreak = false;
     Timer m_jailBreakTimer;
 };
 #endif  // __JAIL_H__

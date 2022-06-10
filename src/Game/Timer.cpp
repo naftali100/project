@@ -30,7 +30,7 @@ void Timer::setInterval(Func function, int interval){
 void Timer::update(const sf::Time& dt) {
     if (!m_isPaused) {
         *this -= dt;
-        if (*this < sf::seconds(0))
+        if (*this < sf::seconds(0) && m_function)
             m_function();
     }
 }
