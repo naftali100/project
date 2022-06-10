@@ -54,9 +54,7 @@ void GameState::initJail() {
     // TODO: find the right position
     sf::Vector2f startPoint { (winSize.x - (jailSize.x * (float)jailAmount)) / 2.f, winSize.y - (jailSize.y / 2.f)};
 
-    LOGI << PLOG_PRINT_VAR(winSize) << ' ' << PLOG_PRINT_VAR(startPoint);
     for(auto i: std::views::iota(0,jailAmount)){
-        LOGI << i;
         addJail({((i+1) * jailSize.x) + startPoint.x + 10, startPoint.y}, Colors::STD_COLORS[i]);
     }
 }
