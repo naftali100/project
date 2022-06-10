@@ -6,15 +6,14 @@
 #include "Game/Bomb.h"
 #include "Game/Entity.h"
 #include "Colors.h"
-//#include "Animateable.h"
 #include "MessageBus.h"
 #include "LevelParams.h"
 #include "MovingObjects.h"
 
-// class Jail : public Animateable {
 class Jail : public Entity {
 public:
     explicit Jail(const LevelParams& p);
+    
     void setColor(const sf::Color& c);
     sf::Color getColor() const;
 
@@ -25,8 +24,7 @@ public:
 
     sf::FloatRect getGlobalBounds() const override;
 
-    bool isBreaked();
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    bool isBroken() const;
     void freeAll();
 
     ~Jail();

@@ -37,7 +37,7 @@ void Jail::freeAll()
         terrorist->release();
 }
 
-bool Jail::isBreaked() {
+bool Jail::isBroken() const {
     return m_isJailBreak;
 }
 
