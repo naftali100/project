@@ -25,6 +25,8 @@ public:
     void stop();
     bool isRunning() const;
 
+    void setupImGuiWindow();
+
     // template <typename S>
     // void registerState(States::ID state);
 
@@ -40,6 +42,8 @@ private:
     sf::RenderWindow& m_win;
     std::stack<StatePtr> m_states;
     bool m_paused = false;
+
+    bool m_shouldPop = false; // for deferred pop
     // std::map<States::ID, std::function<StatePtr()>> m_factories;
 };
 

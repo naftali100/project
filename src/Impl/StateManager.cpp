@@ -1,16 +1,5 @@
 #include "StateManager.h"
 
-void HelpMarker(const char* desc) {
-    ImGui::TextDisabled("what is this");
-    if (ImGui::IsItemHovered()) {
-        ImGui::BeginTooltip();
-        ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
-        ImGui::TextUnformatted(desc);
-        ImGui::PopTextWrapPos();
-        ImGui::EndTooltip();
-    }
-}
-
 StateManager::StateManager(sf::RenderWindow& win) : m_win(win) {
     LOGV << "state manager constructor - start";
     // registerState<DemoState>(States::Main);
@@ -30,8 +19,7 @@ void StateManager::replaceState(StatePtr ptr) {
 }
 
 void StateManager::popState() {
-    if (!m_states.empty())
-        m_states.pop();
+    m_shouldPop = true;
 }
 
 void StateManager::handleEvent(const sf::Event& e) {
@@ -54,36 +42,22 @@ void StateManager::update(const sf::Time& td) {
     if (m_paused)
         return;
 
-    // create window with my title and flags
-    // MAYBE: check how to change debug window flags
-    // to use the defult Debug window of ImGui use imGui::End in the begining of your stat's update method
-    // and ImGui::Begin in the end of the update
-    static bool shouldEnd = m_showImGuiGameWindow;
-    if (m_showImGuiGameWindow) {
-        shouldEnd = true;
-        ImGuiWindowFlags window_flags = 0;
-        window_flags |= ImGuiWindowFlags_NoResize;
-        window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
-        // ImGui::SetNextWindowPos(sf::Vector2f(10, 10));
-        if (ImGui::Begin("game window", &m_showImGuiGameWindow, window_flags)) {
-            HelpMarker(
-                "my game state manager's default window\nyou can close this by setting show to false\nyou can add "
-                "stuff to the window for consistant\nif you close this and add stuff they go to debug window");
-        }
-    }
+    setupImGuiWindow();
 
+    if (!m_states.empty() && m_shouldPop) {
+        m_states.pop();
+        m_shouldPop = false;
+    }
     if (!m_states.empty()) {
         static bool noDraw = false;
         ImGui::Checkbox("pause", &noDraw);
-        if (!noDraw)
-            m_states.top()->update(td);
+        if(!noDraw) m_states.top()->update(td);
     }
     else
         LOGD << "empty states stack";
 
-    if (shouldEnd) {
+    if (m_showImGuiGameWindow) {
         ImGui::End();  // end "game window"
-        shouldEnd = false;
     }
 
     LOGV << "stateManage update - finish";
@@ -113,13 +87,32 @@ void StateManager::stop() {
     LOGV << "state Manager stop - start";
 
     while (!m_states.empty()) m_states.pop();
-    // m_states = {};
 
     LOGV << "state Manager stop - finish";
 }
 
 bool StateManager::isRunning() const {
     return !m_states.empty();
+}
+
+void StateManager::setupImGuiWindow() {
+    // create window with my title and flags
+    // MAYBE: check how to change debug window flags
+    // to use the default Debug window of ImGui use imGui::End in the beginning of your stat's update method
+    // and ImGui::Begin in the end of the update
+    if (m_showImGuiGameWindow) {
+        ImGuiWindowFlags window_flags = 0;
+        window_flags |= ImGuiWindowFlags_NoResize;
+        window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+        // ImGui::SetNextWindowPos(sf::Vector2f(10, 10));
+        if (ImGui::Begin("game window", &m_showImGuiGameWindow, window_flags)) {
+            ImGui::TextDisabled("what is this?");
+            if(ImGui::IsItemHovered())
+                ImGui::SetTooltip(
+                    "my game state manager's default window\nyou can close this by setting show to false\nyou can add "
+                    "stuff to the window for consistant\nif you close this and add stuff they go to debug window");
+        }
+    }
 }
 
 sf::RenderWindow& StateManager::getWin() {
