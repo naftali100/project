@@ -16,7 +16,6 @@ void MovingObjects::setDirection(const sf::Vector2f& v){
     m_direction = sf::util::normalize(v);
 }
 
-
 void MovingObjects::handleCollision(Entity* e, const sf::Vector3f& manifold) {
     switch (e->getCollisionTag()) {
         case CollisionTag::wall:

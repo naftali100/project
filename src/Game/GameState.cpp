@@ -124,7 +124,9 @@ void GameState::update(const sf::Time& dt) {
 
     m_cam.update(dt);
     m_starAnimation.update(dt);
-    m_spawnTimer.update(dt);
+    if (m_nonJailedBomb < m_params.m_maxBomb) 
+        m_spawnTimer.update(dt);
+    
     for (auto const& i : m_doors) { i->update(dt); }
     for (auto const& i : m_moving) { i->update(dt); }
     for (auto const& i : m_jails) { i->update(dt); }
@@ -135,12 +137,6 @@ void GameState::update(const sf::Time& dt) {
 
     std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
 
-    if (m_nonJailedBomb > m_params.m_maxBomb) {
-        m_spawnTimer.pause();
-    }
-    else {
-        m_spawnTimer.resume();
-    }
     LOGV;
 };
 

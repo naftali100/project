@@ -79,8 +79,8 @@ void Bomb::handleEvent(const sf::Event& e) {
 }
 
 void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
-    if (m_isJailed)
-        return;
+    if (m_isJailed) return;
+
     if (e->getCollisionTag() == CollisionTag::jail) {
         sf::FloatRect tempRect;
         // if intersects, and the whole entity is inside the jail
@@ -88,8 +88,7 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
             tempRect.height == getGlobalBounds().height) {
             auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color. TODO: can we avoid this?
             if (m_color != jail->getColor()) {
-                // make the bomb to timeout and "explode"
-                m_timer.reset();
+                kill();
             }
             else {
                 MessageBus::notify(MessageType::BombJailed);
@@ -107,7 +106,6 @@ void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     MovingObjects::draw(win, states);
     sf::CircleShape rec;
     rec.setRadius(20);
-    // rec.setPosition(sf::util::getGlobalTopLeft(*this));
     rec.setFillColor(m_color);
     win.draw(rec, getTransform());
 }

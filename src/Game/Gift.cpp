@@ -47,8 +47,6 @@ void Gift::takeGift() {
     }
 }
 
-
-const MessageType Gift::getRandGift() const
-{
+const MessageType Gift::getRandGift() const {
     return MessageType(Random::rnd(int(MessageType::ScoreGift), int(MessageType::Count)));
 }
