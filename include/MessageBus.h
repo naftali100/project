@@ -6,7 +6,6 @@
 
 class MessageBus {
 public:
-    using Func = std::function<void()>;
     template <typename T>
     using FuncT = std::function<void(const T&)>;
 
@@ -104,8 +103,8 @@ private:
     MessageBus() = default;
     MessageBus(const MessageBus&) = delete;
 
-    std::vector<std::pair<int, std::function<void()>>> m_subscribers;
-    std::vector<std::pair<int, std::pair<MessageType, std::function<void()>>>> m_subscribersWithType;
+    std::vector<std::pair<int, Func>> m_subscribers;
+    std::vector<std::pair<int, std::pair<MessageType, Func>>> m_subscribersWithType;
 
     // MAYBE: make this class templated and this two will be class members
     template <typename T>

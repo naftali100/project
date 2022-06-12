@@ -35,7 +35,7 @@ public:
         target.draw(sf::util::debugDraw(*this));
     }
 
-    virtual void onEvent(const sf::Event::EventType& e, std::function<void()> func) {
+    virtual void onEvent(const sf::Event::EventType& e, Func func) {
         // map<event, function>
     }
 

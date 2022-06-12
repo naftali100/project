@@ -66,7 +66,7 @@ private:
     // components
     CollisionHandler m_col; // currently not in use
     Camera m_cam;
-    std::vector<MessageBus::Func> m_subscription;
+    std::vector<Func> m_subscription;
 
     // game data
     int m_lives = 3;

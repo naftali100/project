@@ -22,3 +22,5 @@
 #include <vector>
 
 namespace rng = std::ranges;
+// basic lambda with no params that return void
+using Func = std::function<void()>;

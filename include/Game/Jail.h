@@ -34,7 +34,7 @@ private:
     std::vector<Bomb*> m_bombs;
     sf::Sprite m_sprite { TextureHolder::get(Textures::Jail) };
     int m_bombBuffer;
-    std::vector<MessageBus::Func> m_subs;
+    std::vector<Func> m_subs;
     bool m_isJailBreak = false;
     Timer m_jailBreakTimer;
 };

@@ -33,6 +33,6 @@ private:
     sf::Color m_color;
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
-    MessageBus::Func m_sub;
+    Func m_sub;
 };
 #endif  // __BOMB_H__
