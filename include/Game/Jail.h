@@ -20,7 +20,7 @@ public:
     void addBomb(Bomb* b);
 
     void update(const sf::Time& dt) override;
-    void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 
     sf::FloatRect getGlobalBounds() const override;
 
