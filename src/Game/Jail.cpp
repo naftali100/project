@@ -22,6 +22,7 @@ Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
 
 
 void Jail::update(const sf::Time& dt) {
+    MovingObjects::update(dt);
     m_jailBreakTimer.update(dt);
 };
 

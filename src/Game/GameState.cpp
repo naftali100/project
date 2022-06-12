@@ -12,6 +12,7 @@
 #include "StateManager.h"
 
 void GameState::init() {
+    initBackground();
     initDoors();
     initState();
     initWalls();
@@ -19,6 +20,13 @@ void GameState::init() {
     initCamera();
     // initPlay();
     registerMessageHandlers();
+}
+
+void GameState::initBackground()
+{
+    m_background.setTexture(&TextureHolder::get(Textures::Background));
+    m_background.setSize({ float(m_stateManager.getWin().getSize().x),
+        float(m_stateManager.getWin().getSize().y) });
 }
 
 void GameState::initCamera(){
@@ -61,6 +69,8 @@ void GameState::initJail() {
 
 void GameState::addJail(const sf::Vector2f& pos, const sf::Color& color){
     auto j = std::make_unique<Jail>(m_params);
+    j->setDirection({ static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0)) });
+    j->setSpeed(100.f);
     j->setColor(color);
     j->setOrigin(sf::util::getGlobalCenter(*j));
     j->setPosition(pos);
@@ -173,7 +183,10 @@ void GameState::imGui() {
     }
     if (ImGui::Button("delete all bombs")) {
         m_nonJailedBomb = 0;
-        m_moving.clear();
+        //m_moving.clear();
+        for (auto& item : m_moving)
+            if (item->getCollisionTag() == CollisionTag::bomb)
+                item->kill();
     }
     if (ImGui::Button("spawn gift")) {
         spawnGift();
@@ -202,6 +215,7 @@ void GameState::imGui() {
 void GameState::draw(sf::RenderTarget& win) const {
     LOGV;
     m_cam.draw(win);  // set view
+    win.draw(m_background);
 
     auto localStars = m_stars;
     for (int i = 0; i < m_lives; i++) {
@@ -242,6 +256,16 @@ void GameState::handleCollisions(const sf::Time&) {
                 processCollision(m, n);
         for(auto const& n: m_static)
             processCollision(m, n);
+    }
+    for (auto const& j : m_jails)
+    {
+        if (!j->isBroken())
+        {
+            for (auto const& m : m_moving)
+                processCollision(j, m);
+            for (auto const& m : m_static)
+                processCollision(j, m);
+        }
     }
 }
 

@@ -10,7 +10,7 @@
 #include "LevelParams.h"
 #include "MovingObjects.h"
 
-class Jail : public Entity {
+class Jail : public MovingObjects {
 public:
     explicit Jail(const LevelParams& p);
     

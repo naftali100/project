@@ -20,7 +20,7 @@ public:
 
     void init() override;
     void initState();
-
+    void initBackground();
     void initWalls();
     void addWall(const sf::Vector2f& pos, const sf::Vector2f& size);
 
@@ -76,6 +76,7 @@ private:
 
     Timer m_spawnTimer;
     StatusBar m_sb{m_lives, m_score};
+    sf::RectangleShape m_background;
 };
 
 #endif  // __GAMESTATE_H__
