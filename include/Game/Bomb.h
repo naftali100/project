@@ -12,7 +12,7 @@
 class Bomb : public MovingObjects {
 public:
     explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions, const LevelParams& p);
-    void initFromLevelParam(const LevelParams& p, bool = true);
+    void configLevelParam(const LevelParams& p);
     void registerMessageHandler();
     void initSpriteAnimation();
 
