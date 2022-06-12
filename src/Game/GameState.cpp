@@ -182,8 +182,7 @@ void GameState::imGui() {
     }
     if (ImGui::Button("delete all bombs")) {
         m_nonJailedBomb = 0;
-        //m_moving.clear();
-        for (auto& item : m_moving)
+        for (auto const& item : m_moving)
             if (item->getCollisionTag() == CollisionTag::bomb)
                 item->kill();
     }
@@ -195,12 +194,8 @@ void GameState::imGui() {
     }
 
     if (ImGui::Button("exit state")) {
-        // will cause seg fault because the update method is continuing after the state has been poped
         m_stateManager.popState(); 
         return;
-    }
-    if (ImGui::IsItemHovered()) {
-        ImGui::SetTooltip("will cause seg fault\nbecause the update method is continuing after the state has been poped");
     }
     if (ImGui::Button("exit program")) {
         exit(EXIT_SUCCESS);
@@ -225,7 +220,7 @@ void GameState::draw(sf::RenderTarget& win) const {
 
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
-    for (auto& m : m_jails) { m->draw(win, sf::RenderStates::Default); }
+    for (auto& m : m_jails) { m->draw(win); }
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
     LOGV;
@@ -355,7 +350,7 @@ sf::Vector2u GameState::getWinSize(){
 }
 
 GameState::~GameState() {
-    for (auto& i : m_subscription) { 
+    for (auto const& i : m_subscription) { 
         i(); 
     }
 }
