@@ -329,8 +329,11 @@ void GameState::registerMessageHandlers() {
     );
     m_subscription.push_back(
         MessageBus::subscribe(MessageType::RemoveTerroristsGift, [this](){
-            // m_nonJailedBomb = 0;
-            // m_moving.clear();
+            m_nonJailedBomb = 0;
+            rng::for_each(m_moving, [](auto& i){
+                if(i->getCollisionTag() == CollisionTag::bomb)
+                    i->kill();
+            });
         })
     );
     m_subscription.push_back(
