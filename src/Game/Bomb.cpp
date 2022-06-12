@@ -88,7 +88,7 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
             tempRect.height == getGlobalBounds().height) {
             auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color. TODO: can we avoid this?
             if (m_color != jail->getColor()) {
-                kill();
+                m_timer.reset(); // calls kill and add explosion
             }
             else {
                 MessageBus::notify(MessageType::BombJailed);
