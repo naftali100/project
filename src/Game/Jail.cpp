@@ -5,12 +5,13 @@
 Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
     setCollisionTag(CollisionTag::jail);
     float scale = .9f;
+    m_sprite.setTexture(TextureHolder::get(Textures::Jail));
     m_sprite.scale(sf::Vector2f(1,1) * scale);
     m_sprite.setTextureRect({0, 0, 500, 250});
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
 
-    m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams* i){
+    m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* i){
         m_bombBuffer = i->m_bombToScore;
     }));
     m_subs.push_back(MessageBus::subscribe(MessageType::FreeTerroristsGift, [this](){
