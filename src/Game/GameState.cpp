@@ -22,11 +22,9 @@ void GameState::init() {
     registerMessageHandlers();
 }
 
-void GameState::initBackground()
-{
-    m_background.setTexture(&TextureHolder::get(Textures::Background));
-    m_background.setSize({ float(m_stateManager.getWin().getSize().x),
-        float(m_stateManager.getWin().getSize().y) });
+void GameState::initBackground() {
+    m_background.setTexture(&TextureHolder::get(Textures::SkyBackground));
+    m_background.setSize((sf::Vector2f)getWinSize());
 }
 
 void GameState::initCamera(){
