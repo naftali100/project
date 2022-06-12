@@ -8,6 +8,7 @@ Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
     m_sprite.setTexture(TextureHolder::get(Textures::Jail));
     m_sprite.scale(sf::Vector2f(1,1) * scale);
     m_sprite.setTextureRect({0, 0, 500, 250});
+    m_timer.setTime(sf::seconds(5)); // HACK: so the jail wont flicker
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
 
