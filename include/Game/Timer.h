@@ -2,8 +2,6 @@
 #define __TIMER_H__
 #pragma once
 
-using Func = std::function<void()>;
-
 class Timer : public sf::Time {
 public:
     Timer() = default;
