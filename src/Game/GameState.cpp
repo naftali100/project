@@ -65,9 +65,9 @@ void GameState::initJail() {
     }
 }
 
-void GameState::addJail(const sf::Vector2f& pos, const sf::Color& color){
+void GameState::addJail(const sf::Vector2f& pos, const sf::Color& color) {
     auto j = std::make_unique<Jail>(m_params);
-    j->setDirection({ static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0)) });
+    j->setDirection({Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)});
     j->setSpeed(100.f);
     j->setColor(color);
     j->setOrigin(sf::util::getGlobalCenter(*j));
@@ -284,7 +284,7 @@ void GameState::processCollision(auto const& m, auto const& n) {
 void GameState::spawnBomb() {
     auto winSize = getWinSize();
     auto b = std::make_unique<Bomb>(m_explosions, m_params);
-    b->setDirection({static_cast<float>(Random::rnd(-1.0, 1.0)), static_cast<float>(Random::rnd(-1.0, 1.0))});
+    b->setDirection({Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)});
     if (!m_doors.empty())
         b->setPosition(m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition());
     else
@@ -296,7 +296,7 @@ void GameState::spawnBomb() {
 void GameState::spawnGift() {
     auto winSize = getWinSize();
     auto b = std::make_unique<Gift>();
-    b->setDirection({static_cast<float>(Random::rnd(1.0, 100.0)), static_cast<float>(Random::rnd(1.0, 100.0))});
+    b->setDirection({Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)});
     b->setPosition((float)Random::rnd(10, winSize.x - 10), (float)Random::rnd(10, winSize.y - 10));
     m_moving.push_back(std::move(b));
 }
