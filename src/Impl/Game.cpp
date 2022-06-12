@@ -20,7 +20,7 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Gift2, "textures/gift4.png");
     // TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
-    TextureHolder::load(Textures::Background, "textures/background.jpg");
+    TextureHolder::load(Textures::Background, "textures/sky.jpg");
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
     // SoundBufferHolder::load(SoundEffect::Main, "music/background.ogg");

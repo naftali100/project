@@ -50,9 +50,9 @@ protected:
     Timer m_timer;
     sf::Sprite m_sprite;
     Animation m_animation{m_sprite};
+    float m_speed;
 
 private:
-    float m_speed;
     void resolveCollision(const sf::Vector3f& manifold);
     int m_flicker = 0;
 

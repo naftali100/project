@@ -24,6 +24,8 @@ Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
 void Jail::update(const sf::Time& dt) {
     MovingObjects::update(dt);
     m_jailBreakTimer.update(dt);
+    for(auto& bomb: m_bombs)
+        bomb->move(m_direction * m_speed * dt.asSeconds());
 };
 
 void Jail::freeAll()
