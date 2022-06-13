@@ -35,6 +35,8 @@ private:
     int m_bombBuffer;
     std::vector<Func> m_subs;
     bool m_isJailBreak = false;
+    //bool m_isActive = false;
     Timer m_jailBreakTimer;
+    Explosion m_explosion;
 };
 #endif  // __JAIL_H__

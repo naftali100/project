@@ -6,6 +6,7 @@
 #include "SfmlUtil.h"
 #include "State.h"
 #include "StateManager.h"
+#include "setState.h"
 
 class WelcomeState : public State {
 public:
@@ -17,7 +18,9 @@ public:
         m_cam.setInitialView();
 
         auto btnXPos = ((float)m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_btn).x;
-        m_btn.setPosition({btnXPos, 100});
+        m_setBtn.setPosition({btnXPos, 100});
+        m_btn.setPosition({btnXPos, 200});
+        m_setBtn.setFunction([this]() { m_stateManager.pushState(std::make_unique<setState>(m_stateManager)); });
         m_btn.setFunction([this]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager)); });
         LOGV;
     }
@@ -25,11 +28,13 @@ public:
     void handleEvent(const sf::Event& e) override {
         LOGV << "start";
         m_btn.handleEvent(e);
+        m_setBtn.handleEvent(e);
         LOGV << "finish";
     }
     void update(const sf::Time& dt) override {
         LOGV;
         m_btn.update();
+        m_setBtn.update();
         ImGui::ShowDemoWindow();
         if (ImGui::Button("close state")) {
             m_stateManager.popState();
@@ -49,9 +54,11 @@ public:
         rec.scale(newSize.y / oldSize.y, newSize.y / oldSize.y);
         win.draw(rec);
         m_btn.draw(win);
+        m_setBtn.draw(win);
     }
 
 private:
     gui::Button m_btn{"start the game!!"};
+    gui::Button m_setBtn{"settings"};
     Camera m_cam;
 };

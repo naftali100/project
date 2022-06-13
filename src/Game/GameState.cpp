@@ -257,12 +257,11 @@ void GameState::handleCollisions(const sf::Time&) {
         {
             for (auto const& j2 : m_jails)
                 if (j != j2)
-                {
                     processCollision(j, j2);
-                }
 
             //for (auto const& m : m_moving)
             //    processCollision(j, m);
+
             for (auto const& m : m_static)
                 processCollision(j, m);
         }

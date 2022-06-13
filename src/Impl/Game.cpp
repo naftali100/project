@@ -3,6 +3,7 @@
 #include "Colors.h"
 #include "Config.h"
 #include "Game/States/WelcomeState.h"
+#include "Game/States/setState.h"
 #include "Resources.h"
 #include "SfmlUtil.h"
 
