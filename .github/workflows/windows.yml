@@ -20,7 +20,8 @@ jobs:
         submodules: recursive
       
     - name: Add MSBuild to PATH
-      uses: microsoft/setup-msbuild@v1.0.2
+      uses: ilammy/msvc-dev-cmd@v1.10.0
+      # uses: microsoft/setup-msbuild@v1.1
 
     - name: add cmake
       uses: lukka/get-cmake@latest
