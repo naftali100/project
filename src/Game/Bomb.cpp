@@ -7,11 +7,7 @@
 #include "SfmlUtil.h"
 
 Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p) : m_explosions(explosions) {
-    m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
-    MovingObjects::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
-    setOrigin(MovingObjects::getSize() / 2.f);
-    
-    initSpriteAnimation();
+    initSprite();
     configLevelParam(p);
     registerMessageHandler();
     // color here because it's should done only once
@@ -29,11 +25,15 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
 }
 
 
-void Bomb::initSpriteAnimation(){
-    float scale = 2;
-    m_sprite.scale(sf::Vector2f(1,1) / scale);
+void Bomb::initSprite(){
+    m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
     m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08f);
     m_animation.setFrame(0);
+
+    float scale = 2;
+    m_sprite.scale(sf::Vector2f(1,1) / scale);
+    MovingObjects::setSize(m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height);
+    setOrigin(MovingObjects::getSize() / 2.f);
 }
 
 void Bomb::configLevelParam(const LevelParams& p) {
