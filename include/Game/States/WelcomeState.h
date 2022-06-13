@@ -39,6 +39,15 @@ public:
     }
     void draw(sf::RenderTarget& win) const override {
         m_cam.draw(win);
+        // win.draw(sf::Sprite{TextureHolder::get(Textures::Test)});
+        auto newSize = (sf::Vector2f) m_cam.getView().getSize();
+        // auto newSize = (sf::Vector2f) m_stateManager.getWin().getView().getSize();
+        sf::RectangleShape rec{(sf::Vector2f)TextureHolder::get(Textures::Test).getSize()};
+        rec.setTexture(&TextureHolder::get(Textures::Test));
+        // rec.setSize(newSize);
+        auto oldSize = rec.getSize();
+        rec.scale(newSize.y / oldSize.y, newSize.y / oldSize.y);
+        win.draw(rec);
         m_btn.draw(win);
     }
 

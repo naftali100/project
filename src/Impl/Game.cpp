@@ -11,16 +11,17 @@
 //  Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
 
 void Game::loadResources() const {
-    // TextureHolder::load(Textures::SoldierBackground, "textures/background.jpg");
-    TextureHolder::load(Textures::SkyBackground, "textures/sky.jpg");
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
     TextureHolder::load(Textures::Door, "textures/door.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::Gift, "textures/gift.png");
     TextureHolder::load(Textures::Gift2, "textures/gift4.png");
     TextureHolder::load(Textures::Jail, "textures/jail.png");
+    TextureHolder::load(Textures::SkyBackground, "textures/sky.jpg");
+    // TextureHolder::load(Textures::SoldierBackground, "textures/background.jpg");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
     TextureHolder::load(Textures::Terrorist, "textures/trrorist-final-1.png");
+    TextureHolder::load(Textures::Test, "textures/test1.jpg");
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
     // SoundBufferHolder::load(SoundEffect::Main, "music/background.ogg");
