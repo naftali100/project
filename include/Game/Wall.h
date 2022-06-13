@@ -4,6 +4,7 @@
 
 #include "Entity.h"
 
+//TODO: set texture
 // basically a rectangle with collision tag set to wall
 class Wall : public Entity {
 public:

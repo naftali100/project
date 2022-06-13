@@ -12,16 +12,9 @@
 #include "Colors.h"
 #include "SfmlUtil.h"
 #include "BaseEntity.h"
+#include "CollisionTag.h"
 
-enum class CollisionTag
-{
-    player,
-    wall,
-    jail,
-    enemy,
-    bomb,
-    none
-};
+
 
 class Entity : public sf::Transformable, public sf::Drawable, public BaseEntity {
 public:

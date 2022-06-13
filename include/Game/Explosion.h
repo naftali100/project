@@ -4,6 +4,8 @@
 #include "Resources.h"
 #include "Animateable.h"
 
+
+//TODO: change inheritance
 class Explosion : public Animateable {
 public:
     Explosion(const sf::Vector2f position = sf::Vector2f{ 0.0, 0.0 })
