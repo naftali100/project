@@ -41,6 +41,7 @@ enum ID
     Door,
     Terrorist,
     Gift2,
+    Test,
     MAX
 };  // add textures here
 }  // namespace Textures
