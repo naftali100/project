@@ -86,6 +86,7 @@ void ParticleSystem::fuel(int particles) {
             case Shape::SQUARE:
                 particle->m_vel.x = Random::rnd<float>(-1.0f, 1.0f);
                 particle->m_vel.y = Random::rnd<float>(-1.0f, 1.0f);
+                particle->m_gravity = m_gravity;
                 break;
             default:
                 particle->m_vel.x = 0.5f;  // Easily detected

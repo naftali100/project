@@ -11,7 +11,6 @@ void WelcomeState::init() {
 	m_setBtn.setFunction([this]() { m_stateManager.pushState(std::make_unique<setState>(m_stateManager)); });
 	m_btn.setFunction([this]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager)); });
 
-	m_ps.setDissolve(true);
 	m_ps.setDissolutionRate(0.8);
 	m_ps.setShape(Shape::CIRCLE);
 	m_ps.setParticleSpeed(50.0f);
@@ -49,7 +48,7 @@ void WelcomeState::update(const sf::Time& dt) {
 		m_ps.fuel<spriteParticle>(Random::rnd(3,8));
 		deffer = defferAmount;
 	}
-	m_ps.update();
+	m_ps.update(dt);
 	LOGV;
 }
 
