@@ -7,6 +7,8 @@
 #include "State.h"
 #include "StateManager.h"
 #include "setState.h"
+#include "ParticleSystem.h"
+#include "Game/Timer.h"
 
 class WelcomeState : public State {
 public:
@@ -22,4 +24,6 @@ private:
     gui::Button m_btn{"start the game!!"};
     gui::Button m_setBtn{"settings"};
     Camera m_cam;
+    mutable ParticleSystem m_ps{m_stateManager.getWin().getSize()};
+    Timer m_gravityChangeTimer;
 };
