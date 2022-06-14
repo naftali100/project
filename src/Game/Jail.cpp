@@ -5,10 +5,9 @@
 Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
     setCollisionTag(CollisionTag::jail);
     float scale = .9f;
-    m_sprite.setTexture(TextureHolder::get(Textures::Jail));
     m_sprite.scale(sf::Vector2f(1,1) * scale);
     m_sprite.setTextureRect({0, 0, 500, 250});
-    m_timer.setTime(sf::seconds(5)); // HACK: so the jail wont flicker
+    // m_timer.setTime(sf::seconds(5)); // HACK: so the jail wont flicker
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
 
@@ -24,10 +23,10 @@ Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
 
 
 void Jail::update(const sf::Time& dt) {
-    MovingObjects::update(dt);
+    // MovingObjects::update(dt);
     m_jailBreakTimer.update(dt);
-    for(auto& bomb: m_bombs)
-        bomb->move(m_direction * m_speed * dt.asSeconds());
+    // for(auto& bomb: m_bombs)
+    //     bomb->move(m_direction * m_speed * dt.asSeconds());
 };
 
 void Jail::freeAll()

@@ -10,7 +10,7 @@
 #include "LevelParams.h"
 #include "MovingObjects.h"
 
-class Jail : public MovingObjects {
+class Jail : public Entity {
 public:
     explicit Jail(const LevelParams& p);
     
@@ -31,6 +31,7 @@ public:
     ~Jail();
 
 private:
+    sf::Sprite m_sprite{TextureHolder::get(Textures::Jail)};
     sf::Color m_color = Colors::White;
     std::vector<Bomb*> m_bombs;
     int m_bombBuffer;
