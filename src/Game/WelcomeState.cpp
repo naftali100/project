@@ -1,8 +1,9 @@
 #include "Game/States/WelcomeState.h"
 
+#include "EnumPrint.h"
+
 void WelcomeState::init() {
 	LOGV;
-	
 	static bool firstTime = true;
 	if(firstTime){
 		firstTime = false;
@@ -11,7 +12,7 @@ void WelcomeState::init() {
 		}
 	}
 
-	m_cam.setView(m_stateManager.getWin().getView());
+	m_cam.setView(m_stateManager.getWin().getDefaultView());
 	initBackground();
 
 	auto btnXPos = (((float)m_stateManager.getWin().getSize().x / 3) * 2.5f) - sf::util::getGlobalCenter(m_btn).x;
@@ -80,10 +81,9 @@ void WelcomeState::update(const sf::Time& dt) {
 	// change music
 	static int selected = 0;
 	for(int i = 0; i < Music::Count; i++){
-		std::string label = "music no: " + std::to_string(i);
+		std::string label = "music no: " + std::string(magic_enum::enum_name((Music::ID)i));
 		int oldSelected = selected;
 		if(ImGui::Selectable(label.c_str(), selected == i)){
-			LOGI << PLOG_PRINT_VAR(i) << ' ' << PLOG_PRINT_VAR(selected) << ' ' << PLOG_PRINT_VAR(oldSelected);
 			selected = i;
 			MusicHolder::get((Music::ID)oldSelected).stop();
 			MusicHolder::get((Music::ID)selected).play();
@@ -93,7 +93,7 @@ void WelcomeState::update(const sf::Time& dt) {
 }
 
 void WelcomeState::draw(sf::RenderTarget& win) const {
-	m_cam.draw(win);
+	// m_cam.draw(win);
 	win.draw(m_background);
 	m_btn.draw(win);
 	m_setBtn.draw(win);

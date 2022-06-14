@@ -6,9 +6,8 @@
 void SettingsState::init() {
     LOGV;
     initBackground();
-    auto window = ImGui::GetCurrentContext()->Windows.back();
     auto btnXPos = ((float)m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_OKBtn).x;
-    m_OKBtn.setPosition({ btnXPos, window->Pos.y + window->Size.y + 100 });
+    m_OKBtn.setPosition({ btnXPos, 100 });
     
     m_OKBtn.setFunction([this]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager, m_params)); });
     LOGV;
@@ -46,7 +45,7 @@ void SettingsState::imGui() {
     //    return;
     //}
     // ImGui::SetNextWindowPos({500, 500});
-    if (ImGui::Begin("level params", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
+    if (ImGui::Begin("level params##settingsState", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
                                               ImGuiWindowFlags_NoBackground     |
                                               ImGuiWindowFlags_NoCollapse       |
                                               ImGuiWindowFlags_NoMove           |
@@ -88,7 +87,7 @@ void SettingsState::imGui() {
     }
     ImGui::End();
     if(ImGui::Button("go to welcome state")){
-        m_stateManager.pushState(std::make_unique<WelcomeState>(m_stateManager));
+        m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
     }
 }
 
