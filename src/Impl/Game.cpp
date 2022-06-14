@@ -113,7 +113,8 @@ void Game::update(sf::Time deltaTime) {
 }
 
 void Game::showStatWin() const {
-    static bool open = true;
+    //static bool open = true;      //TODO: replace
+    static bool open = false;
     // IF_PLOG(plog::verbose) {
     ImGui::StyleColorsLight();
     auto& style = ImGui::GetStyle();
@@ -122,8 +123,7 @@ void Game::showStatWin() const {
     style.ItemSpacing = { 20, 20 };
     style.ScrollbarSize = 20;
 
-        //if (open) {
-        if (0) {    //TODO:
+        if (open) {
             if (ImGui::Begin("stat window", &open)) {
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
                             ImGui::GetIO().Framerate);
