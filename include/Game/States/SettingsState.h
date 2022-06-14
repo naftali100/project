@@ -11,7 +11,7 @@
 #include "SfmlUtil.h"
 
 
-class setState : public State {
+class SettingsState : public State {
 public:
     using State::State;
 
@@ -27,9 +27,6 @@ private:
 private:
     sf::RectangleShape m_background;
     gui::Button m_OKBtn{ "OK" };
-    Camera m_cam;
     LevelParams m_params;
-
-
 };
 
