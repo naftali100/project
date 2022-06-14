@@ -14,21 +14,26 @@ enum TileName
 class TileMap {
 public:
     TileMap() = default;
+
     void setTexture(Textures::ID texture) {
         m_textureID = texture;
     }
+
     void setTileSize(const sf::Vector2f& tileSize) {
         m_tileSize = tileSize;
     }
+
     void setOffset(const sf::Vector2f& offset) {}
 
     void setLayout(const std::vector<TileName>& layout) {
         m_layout.reserve(layout.size());
         for (int i : layout) { m_layout.emplace_back(i); }
     }
+
     void setLayout(const std::vector<int>& layout) {
         m_layout = layout;
     }
+
     void setLayoutWidth(int w) {
         m_layoutWidth = w;
     }

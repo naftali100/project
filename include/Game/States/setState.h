@@ -20,10 +20,15 @@ public:
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
+
+private:
+    void imGui();
+
 private:
     sf::RectangleShape m_background;
     gui::Button m_OKBtn{ "OK" };
     Camera m_cam;
+    LevelParams m_params;
 
 
 };

@@ -44,9 +44,7 @@ void GameState::initState() {
             spawnBomb();
         },
         m_params.m_spawnRate);
-
     m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
-
     for (int _ : rng::views::iota(0, m_params.m_maxBomb)){
         spawnBomb();
         // spawnGift();
@@ -159,7 +157,7 @@ void GameState::imGui() {
             m_doors.clear();
         }
     }
-
+    //TODO: hide before handing over
     if (ImGui::Begin("level params", nullptr, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_AlwaysAutoResize)) {
         auto tmp = m_params;
         ImGui::SliderFloat("bomb speed", &m_params.m_speed, 100, 1000);

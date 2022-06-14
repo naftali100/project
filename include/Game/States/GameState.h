@@ -17,6 +17,7 @@
 class GameState : public State {
 public:
     using State::State;
+    GameState(StateManager& sm, LevelParams LP) : State(sm), m_params(LP) {};
 
     void init() override;
     void initState();
