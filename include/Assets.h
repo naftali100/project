@@ -42,6 +42,7 @@ enum ID
     Terrorist,
     Gift2,
     Test,
+    Smoke,
     MAX
 };  // add textures here
 }  // namespace Textures
