@@ -55,7 +55,7 @@ void GameState::initJail() {
     auto winSize = getWinSize();
     auto jailSize = Jail(m_params).getSize();
     // TODO: find the right position
-    sf::Vector2f startPoint {jailSize.x, winSize.y - (jailSize.y / 2.f)};
+    sf::Vector2f startPoint {jailSize.x / 2, winSize.y - (jailSize.y / 2.f)};
     // sf::Vector2f startPoint { (winSize.x - (jailSize.x * (float)jailAmount)) / 2.f, winSize.y - (jailSize.y / 2.f)};
 
     for(auto i: std::views::iota(0,10)){
@@ -106,10 +106,12 @@ void GameState::initDoors() {
     m_doors.back()->setPosition(0, 0);
     d = std::make_unique<Door>();
     m_doors.push_back(std::move(d));
-    m_doors.back()->setPosition(10, (float)winSize.y - 10);
+    m_doors.back()->setPosition(500, 0);
+    // m_doors.back()->setPosition(10, (float)winSize.y - 10);
     d = std::make_unique<Door>();
     m_doors.push_back(std::move(d));
-    m_doors.back()->setPosition((float)winSize.x - 10, (float)winSize.y - 10);
+    m_doors.back()->setPosition(1000, 0);
+    // m_doors.back()->setPosition((float)winSize.x - 10, (float)winSize.y - 10);
 }
 
 void GameState::handleEvent(const sf::Event& e) {
