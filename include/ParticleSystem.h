@@ -22,13 +22,12 @@ public:
     ParticleSystem(int width, int height);
     template<typename T>
     ParticleSystem(const sf::Vector2<T>& size): ParticleSystem((int)size.x, (int)size.y){};
-    ~ParticleSystem();
 
 // TODO: support screen resize (using view?)
 // TODO: switch to vertexArray for better performance
     template<DerivedFromParticle P>
     void fuel(int particles);  // Adds new particles to m_particles
-    void update();             // Updates position, velocity and opacity of all particles
+    void update(const sf::Time&);             // Updates position, velocity and opacity of all particles
     void draw(sf::RenderTarget&) const;             // Renders all particles onto m_image
 
     void setPosition(float x, float y) {
@@ -42,9 +41,6 @@ public:
     void setParticleSpeed(float speed) {
         m_particleSpeed = speed;
     }
-    void setDissolve(bool enable) {
-        m_dissolve = enable;
-    }
     void setDissolutionRate(float rate) {
         m_dissolutionRate = rate;
     }
@@ -56,19 +52,11 @@ public:
         return m_particles.size();
     }
     std::string getNumberOfParticlesString();
-    sf::Sprite& getSprite() {
-        return m_sprite;
-    }
 
 private:
     sf::Vector2f m_position;  // Particle origin (pixel co-ordinates)
     sf::Vector2f m_gravity;   // Affects particle velocities
-    sf::Clock m_clock;        // Used to scale particle motion
-    sf::Color m_transparent;  // sf::Color( 0, 0, 0, 0 )
-    sf::RenderTexture m_texture;
-    sf::Sprite m_sprite;    // Connected to m_image
     float m_particleSpeed;  // Pixels per second (at most)
-    bool m_dissolve;        // Dissolution enabled?
     float m_dissolutionRate;
     unsigned char m_shape;
 
