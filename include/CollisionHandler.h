@@ -9,8 +9,8 @@
 class CollisionHandler {
 public:
     using CollisionHandlerFunction = std::function<void(const Entity&, const Entity&)>;
-    void addCollision(std::string& e1, std::string& e2, CollisionHandlerFunction function);
 
+    void addCollision(std::string& e1, std::string& e2, CollisionHandlerFunction function);
     void runCollisionHandler(const Entity& e1, const Entity& e2);
 
 private:
