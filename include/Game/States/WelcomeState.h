@@ -6,7 +6,7 @@
 #include "SfmlUtil.h"
 #include "State.h"
 #include "StateManager.h"
-#include "setState.h"
+#include "SettingsState.h"
 #include "ParticleSystem.h"
 #include "Game/Timer.h"
 
@@ -15,6 +15,7 @@ public:
     using State::State;
 
     void init() override;
+    void initBackground();
 
     void handleEvent(const sf::Event& e) override;
     void update(const sf::Time& dt) override;
@@ -23,7 +24,10 @@ public:
 private:
     gui::Button m_btn{"start the game!!"};
     gui::Button m_setBtn{"settings"};
-    Camera m_cam;
-    mutable ParticleSystem m_ps{m_stateManager.getWin().getSize()};
+    ParticleSystem m_ps;
+    ParticleSystem m_ps1;
     Timer m_gravityChangeTimer;
+    sf::RectangleShape m_background;
+
+    Camera m_cam;
 };
