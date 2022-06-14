@@ -1,6 +1,7 @@
 #include "Game/States/SettingsState.h"
 #include "Game/States/GameState.h"
 #include "imgui/imgui_internal.h"
+#include "Game/States/WelcomeState.h"
 
 void SettingsState::init() {
     LOGV;
@@ -86,6 +87,9 @@ void SettingsState::imGui() {
         ImGui::SetWindowPos( {m_stateManager.getWin().getView().getSize().x / 2 - size.x / 2, 300});
     }
     ImGui::End();
+    if(ImGui::Button("go to welcome state")){
+        m_stateManager.pushState(std::make_unique<WelcomeState>(m_stateManager));
+    }
 }
 
 void SettingsState::draw(sf::RenderTarget& win) const {
