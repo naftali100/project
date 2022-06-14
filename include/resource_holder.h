@@ -24,9 +24,16 @@ public:
         std::unique_ptr<Resource> ptr = std::make_unique<Resource>(std::move(r));
         Instance().insertResource(id, std::move(ptr));
     }
+    static void set(Identifier id, std::unique_ptr<Resource> r){
+        Instance().insertResource(id, std::move(r));
+    }
 
     static Resource& get(Identifier id){
         return Instance().getResource(id);
+    }
+
+    static void unload(Identifier i){
+        Instance().mResourceMap[i] = nullptr;
     }
 
 private:
