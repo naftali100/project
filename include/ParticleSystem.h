@@ -19,9 +19,27 @@ enum
 
 class ParticleSystem {
 public:
-    ParticleSystem(int width, int height);
-    template<typename T>
-    ParticleSystem(const sf::Vector2<T>& size): ParticleSystem((int)size.x, (int)size.y){};
+    ParticleSystem() {
+        m_particleSpeed = 20.0f;
+        m_dissolutionRate = 0;
+        m_shape = Shape::CIRCLE;
+    }
+    
+    ParticleSystem(const ParticleSystem& other);
+
+    ParticleSystem& operator=(const ParticleSystem& other){
+        if (this == &other)
+            return *this;
+
+        m_dissolutionRate = other.m_dissolutionRate;
+        m_position = other.m_position;
+        m_gravity = other.m_gravity;
+        m_particleSpeed = other.m_particleSpeed;
+        m_dissolutionRate;
+        m_shape = other.m_shape;        
+
+        return *this;
+    }
 
 // TODO: support screen resize (using view?)
 // TODO: switch to vertexArray for better performance
@@ -79,8 +97,8 @@ void ParticleSystem::fuel(int particles) {
             case Shape::CIRCLE:
 
                 angle = Random::rnd<float>(0.0f, 6.2832f);
-                particle->m_vel.x = Random::rnd<float>(std::min(0.0f, cos(angle)), std::max(0.0f, cos(angle)));
-                particle->m_vel.y = Random::rnd<float>(std::min(0.0f, sin(angle)), std::max(0.0f, sin(angle)));
+                particle->m_vel.x = Random::rnd<float>(std::min(0.0f, std::cos(angle)), std::max(0.0f, std::cos(angle)));
+                particle->m_vel.y = Random::rnd<float>(std::min(0.0f, std::sin(angle)), std::max(0.0f, std::sin(angle)));
                 particle->m_gravity = m_gravity;
                 break;
             case Shape::SQUARE:

@@ -3,12 +3,13 @@
 #include <sstream>
 #include "Random.h"
 
-ParticleSystem::ParticleSystem(int width, int height) {
-    m_position.x = 0.5f * width;
-    m_position.y = 0.5f * height;
-    m_particleSpeed = 20.0f;
-    m_dissolutionRate = 0;
-    m_shape = Shape::CIRCLE;
+ParticleSystem::ParticleSystem(const ParticleSystem& other){
+    m_dissolutionRate = other.m_dissolutionRate;
+    m_position = other.m_position;
+    m_gravity = other.m_gravity;
+    m_particleSpeed = other.m_particleSpeed;
+    m_dissolutionRate;
+    m_shape = other.m_shape;
 }
 
 void ParticleSystem::update(const sf::Time& dt) {
