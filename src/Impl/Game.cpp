@@ -3,7 +3,6 @@
 #include "Colors.h"
 #include "Config.h"
 #include "Game/States/WelcomeState.h"
-#include "Game/States/setState.h"
 #include "Resources.h"
 #include "SfmlUtil.h"
 
@@ -39,9 +38,15 @@ void Game::initImGui() {
     // set my style for ImGui
     ImGuiStyle& style = ImGui::GetStyle();
     style.WindowRounding = 12;
-    style.FrameRounding = 4;
+    style.FrameRounding = 12;
     style.ScrollbarRounding = 12;
     style.GrabRounding = 12;
+
+    ImGui::StyleColorsLight();
+    style.WindowBorderSize = 0;
+    style.FramePadding = { 20, 20 };
+    style.ItemSpacing = { 20, 20 };
+    style.ScrollbarSize = 20;
 }
 
 void Game::run() {
@@ -116,12 +121,6 @@ void Game::showStatWin() const {
     //static bool open = true;      //TODO: replace
     static bool open = false;
     // IF_PLOG(plog::verbose) {
-    ImGui::StyleColorsLight();
-    auto& style = ImGui::GetStyle();
-    style.WindowBorderSize = 0;
-    style.FramePadding = { 20, 20 };
-    style.ItemSpacing = { 20, 20 };
-    style.ScrollbarSize = 20;
 
         if (open) {
             if (ImGui::Begin("stat window", &open)) {
