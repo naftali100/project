@@ -53,20 +53,21 @@ void GameState::initState() {
 
 void GameState::initJail() {
     auto winSize = getWinSize();
-    auto jailAmount = m_params.m_colors + 1;
     auto jailSize = Jail(m_params).getSize();
     // TODO: find the right position
-    sf::Vector2f startPoint { (winSize.x - (jailSize.x * (float)jailAmount)) / 2.f, winSize.y - (jailSize.y / 2.f)};
+    sf::Vector2f startPoint {jailSize.x, winSize.y - (jailSize.y / 2.f)};
+    // sf::Vector2f startPoint { (winSize.x - (jailSize.x * (float)jailAmount)) / 2.f, winSize.y - (jailSize.y / 2.f)};
 
-    for(auto i: std::views::iota(0,jailAmount)){
-        addJail({((i+1) * jailSize.x) + startPoint.x + 10, startPoint.y}, Colors::STD_COLORS[i]);
+    for(auto i: std::views::iota(0,10)){
+        // addJail({100,100}, Colors::STD_COLORS[i]);
+        addJail({(i * jailSize.x) + startPoint.x + 10, startPoint.y}, Colors::STD_COLORS[i]);
     }
 }
 
 void GameState::addJail(const sf::Vector2f& pos, const sf::Color& color) {
     auto j = std::make_unique<Jail>(m_params);
-    j->setDirection({Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)});
-    j->setSpeed(100.f);
+    // j->setDirection({Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)});
+    // j->setSpeed(100.f);
     j->setColor(color);
     j->setOrigin(sf::util::getGlobalCenter(*j));
     j->setPosition(pos);
@@ -218,7 +219,8 @@ void GameState::draw(sf::RenderTarget& win) const {
 
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
-    for (auto& m : m_jails) { m->draw(win); }
+    auto size = m_params.m_colors;
+    for (auto& m : m_jails | std::views::take(m_params.m_colors + 1)) { m->draw(win); }
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
     LOGV;
