@@ -10,6 +10,13 @@
  Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World"), m_stateManager(m_win) {}
 //  Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
 
+void loadMusic(Music::ID i, const std::string& path){
+	std::unique_ptr<sf::Music> music = std::make_unique<sf::Music>();
+	music->openFromFile(path);
+    music->setLoop(true);
+	MusicHolder::set(i, std::move(music));
+}
+
 void Game::loadResources() const {
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
     TextureHolder::load(Textures::Door, "textures/door.png");
@@ -25,7 +32,10 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Test, "textures/test1.jpg");
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
-    // SoundBufferHolder::load(SoundEffect::Main, "music/background.ogg");
+    loadMusic(Music::Background1, "music/b1.ogg");
+	loadMusic(Music::Background2, "music/b2.ogg");
+	loadMusic(Music::Background3, "music/b3.ogg");
+	loadMusic(Music::Background4, "music/b4.ogg");
 }
 
 void Game::initImGui() {

@@ -69,7 +69,13 @@ enum ID
 
 namespace Music {
 enum ID
-{};
+{
+    Background1, // fun and suitable
+    Background2, // only dramatic, not fun
+    Background3, // fun, more music then drama
+    Background4, // funny :)
+    Count
+};
 }  // namespace Music
 
 

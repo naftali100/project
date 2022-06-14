@@ -2,6 +2,15 @@
 
 void WelcomeState::init() {
 	LOGV;
+	
+	static bool firstTime = true;
+	if(firstTime){
+		firstTime = false;
+		if(MusicHolder::get(Music::Background1).getStatus() != sf::Music::Playing){
+			MusicHolder::get(Music::Background1).play();
+		}
+	}
+
 	m_cam.setView(m_stateManager.getWin().getView());
 	initBackground();
 
@@ -67,6 +76,19 @@ void WelcomeState::update(const sf::Time& dt) {
 	}
 	m_ps.update(dt);
 	m_ps1.update(dt);
+
+	// change music
+	static int selected = 0;
+	for(int i = 0; i < Music::Count; i++){
+		std::string label = "music no: " + std::to_string(i);
+		int oldSelected = selected;
+		if(ImGui::Selectable(label.c_str(), selected == i)){
+			LOGI << PLOG_PRINT_VAR(i) << ' ' << PLOG_PRINT_VAR(selected) << ' ' << PLOG_PRINT_VAR(oldSelected);
+			selected = i;
+			MusicHolder::get((Music::ID)oldSelected).stop();
+			MusicHolder::get((Music::ID)selected).play();
+		}
+	}
 	LOGV;
 }
 

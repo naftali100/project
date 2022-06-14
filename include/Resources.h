@@ -22,5 +22,6 @@ using TextureHolder = ResourceHolder<sf::Texture, Textures::ID>;
 using FontHolder = ResourceHolder<sf::Font, Fonts::ID>;
 using ShaderHolder = ResourceHolder<sf::Shader, Shaders::ID>;
 using SoundBufferHolder = ResourceHolder<sf::SoundBuffer, SoundEffect::ID>;
+using MusicHolder = ResourceHolder<sf::Music, Music::ID>;
 
 #endif
