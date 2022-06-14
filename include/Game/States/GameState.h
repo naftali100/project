@@ -66,7 +66,7 @@ private:
 
     // components
     CollisionHandler m_col; // currently not in use
-    Camera m_cam;
+    Camera m_cam; // TODO: remove
     std::vector<Func> m_subscription;
 
     // game data

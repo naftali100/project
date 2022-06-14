@@ -7,7 +7,7 @@
 
 int main() {
     // init plog
-    plog::init<plog::TxtFormatter>(plog::verbose, plog::streamStdOut);
+    plog::init<plog::TxtFormatter>(plog::info, plog::streamStdOut);
 
     Game().run();
     return 0;
