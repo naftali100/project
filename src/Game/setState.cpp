@@ -45,12 +45,6 @@ void setState::imGui() {
     //    m_stateManager.popState();
     //    return;
     //}
-        ImGui::StyleColorsLight();
-        auto& style = ImGui::GetStyle();
-        style.WindowBorderSize = 0;
-        style.FramePadding = { 20, 20 };
-        style.ItemSpacing = { 20, 20 };
-        style.ScrollbarSize = 20;
     if (ImGui::Begin("level params", nullptr, ImGuiWindowFlags_NoResize         |
                                               ImGuiWindowFlags_AlwaysAutoResize |
                                               ImGuiWindowFlags_NoBackground     |
@@ -58,9 +52,9 @@ void setState::imGui() {
                                               ImGuiWindowFlags_NoMove           |
                                               ImGuiWindowFlags_NoCollapse)) {
 
-        ImGui::SliderFloat("bomb speed", &m_params.m_speed, 100, 1000);
-        ImGui::SliderFloat("spawn rate", &m_params.m_spawnRate, 1, 10);
-        ImGui::SliderFloat("bomb timeout", &m_params.m_bombTime, 1, 10);
+        ImGui::SliderInt("bomb speed", &m_params.m_speed, 100, 1000);
+        ImGui::SliderInt("spawn rate", &m_params.m_spawnRate, 1, 10);
+        ImGui::SliderInt("bomb timeout", &m_params.m_bombTime, 1, 10);
         ImGui::SliderInt("color amount", &m_params.m_colors, 1, 3);
         ImGui::SliderInt("non jailed at same time", &m_params.m_maxBomb, 5, 10);
         ImGui::SliderInt("bomb to score", &m_params.m_bombToScore, 3, 10);

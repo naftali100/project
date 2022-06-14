@@ -115,7 +115,15 @@ void Game::update(sf::Time deltaTime) {
 void Game::showStatWin() const {
     static bool open = true;
     // IF_PLOG(plog::verbose) {
-        if (open) {
+    ImGui::StyleColorsLight();
+    auto& style = ImGui::GetStyle();
+    style.WindowBorderSize = 0;
+    style.FramePadding = { 20, 20 };
+    style.ItemSpacing = { 20, 20 };
+    style.ScrollbarSize = 20;
+
+        //if (open) {
+        if (0) {    //TODO:
             if (ImGui::Begin("stat window", &open)) {
                 ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
                             ImGui::GetIO().Framerate);

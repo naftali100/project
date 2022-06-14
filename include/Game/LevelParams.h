@@ -3,14 +3,14 @@
 
 struct LevelParams
 {
-    float m_speed = 300;
-    float m_spawnRate = 3; // MAYBE: spread across time and not spawn in fixed intervals
+    int m_speed = 300;
+    int m_spawnRate = 3; // MAYBE: spread across time and not spawn in fixed intervals
     int m_colors = 2;
     // sf::Vector2f m_size {5,5};
     float m_scale = 0;
     float m_timeoutTimer = 10;
     float m_giftTime = 10;
-    float m_bombTime = 10;
+    int m_bombTime = 10;
     int m_maxBomb = 4;
     int m_bombToScore = 3;
 

@@ -77,20 +77,22 @@ private:
 
 template<DerivedFromParticle T>
 void ParticleSystem::fuel(int particles) {
+    LOGV;
     float angle;
     for (int i = 0; i < particles; i++) {
+        LOGV;
         ParticlePtr particle = std::make_unique<T>();
         particle->m_pos.x = m_position.x;
         particle->m_pos.y = m_position.y;
 
-        particle->rotate(Random::rnd(0.0f, 90.f));
+        particle->rotate(Random::rnd<float>(0.0f, 90.f));
 
         switch (m_shape) {
             case Shape::CIRCLE:
-                angle = Random::rnd(0.0f, 10.0f);
-                // angle = Random::rnd(0.0f, 6.2832f);
-                particle->m_vel.x = Random::rnd<float>(0.0f, cos(angle));
-                particle->m_vel.y = Random::rnd<float>(0.0f, sin(angle));
+
+                angle = Random::rnd<float>(0.0f, 6.2832f);
+                particle->m_vel.x = Random::rnd<float>(std::min(0.0f, cos(angle)), std::max(0.0f, cos(angle)));
+                particle->m_vel.y = Random::rnd<float>(std::min(0.0f, sin(angle)), std::max(0.0f, sin(angle)));
                 particle->m_gravity = m_gravity;
                 break;
             case Shape::SQUARE:
@@ -110,6 +112,7 @@ void ParticleSystem::fuel(int particles) {
         particle->init();
         m_particles.push_back(std::move(particle));
     }
+    LOGV;
 }
 
 #endif
