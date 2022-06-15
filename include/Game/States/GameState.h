@@ -62,8 +62,6 @@ private:
     std::vector<std::unique_ptr<Entity>> m_static;
     std::vector<std::unique_ptr<Explosion>> m_explosions;
     std::vector<std::unique_ptr<Door>> m_doors;
-    sf::Sprite m_stars{TextureHolder::get(Textures::Stars)};
-    Animation m_starAnimation{m_stars};
 
     // components
     CollisionHandler m_col; // currently not in use

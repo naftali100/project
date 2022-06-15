@@ -26,7 +26,6 @@ void GameState::initBackground() {
 }
 
 void GameState::initState() {
-    m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
     m_spawnTimer.set([this]() {
             m_spawnTimer.setTime(sf::seconds(Random::rnd(0.01f, m_params.m_spawnRate)));
             spawnBomb();
@@ -89,7 +88,7 @@ void GameState::update(const sf::Time& dt) {
         // m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
         // return;
     }
-    m_starAnimation.update(dt);
+    m_sb.update(dt);
     if (m_nonJailedBomb < m_params.m_maxBomb) 
         m_spawnTimer.update(dt);
     
@@ -107,12 +106,6 @@ void GameState::update(const sf::Time& dt) {
 void GameState::draw(sf::RenderTarget& win) const {
     LOGV;
     win.draw(m_background);
-
-    auto localStars = m_stars;
-    for (int i = 0; i < m_lives; i++) {
-        localStars.setPosition(100 * (float)i, 0);
-        win.draw(localStars);
-    }
     m_sb.draw(win);
 
     for (auto& m : m_moving) { m->draw(win); }
@@ -163,20 +156,18 @@ void GameState::processCollision(auto const& m, auto const& n) {
 };
 
 void GameState::spawnBomb() {
-    auto winSize = getWinSize();
-    auto b = std::make_unique<Bomb>(
+    m_moving.push_back(std::make_unique<Bomb>(
         m_explosions, 
         m_params, 
-        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(), 
+        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(), // random door position
         sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}
-    );
-    m_moving.push_back(std::move(b));
+    ));
     m_nonJailedBomb++;
 }
 
 void GameState::spawnGift() {
     m_moving.push_back(std::make_unique<Gift>(
-        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(), // random door
+        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(), // random door position
         sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)} // random direction
     ));
 }
