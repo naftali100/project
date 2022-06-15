@@ -2,15 +2,17 @@
 
 #include "Colors.h"
 
-Jail::Jail(const LevelParams& p): m_bombBuffer(p.m_bombToScore){
+Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos): m_bombBuffer(p.m_bombToScore){
+    setPosition(pos);
+    setColor(color);
     setCollisionTag(CollisionTag::jail);
     float scale = .9f;
     m_sprite.scale(sf::Vector2f(1,1) * scale);
     m_sprite.setTextureRect({0, 0, 500, 250});
-    // m_timer.setTime(sf::seconds(5)); // HACK: so the jail wont flicker
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
-
+    setOrigin(getSize() / 2.f);
+    
     m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* i){
         m_bombBuffer = i->m_bombToScore;
     }));

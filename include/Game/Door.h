@@ -7,7 +7,7 @@
 
 class Door : public Entity {
 public:
-    Door();
+    Door(const sf::Vector2f& pos);
     void update(const sf::Time& dt) override;
 
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;

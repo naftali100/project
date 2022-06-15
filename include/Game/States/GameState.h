@@ -29,6 +29,7 @@ public:
     void addJail(const sf::Vector2f& pos, const sf::Color& color);
 
     void initDoors();
+    void addDoor(const sf::Vector2f& pos);
 
     void freeTerrorists() const;
     void initCamera(); // TODO: delete
@@ -61,7 +62,7 @@ private:
     std::vector<std::unique_ptr<Entity>> m_static;
     std::vector<std::unique_ptr<Explosion>> m_explosions;
     std::vector<std::unique_ptr<Door>> m_doors;
-    sf::Sprite m_stars;
+    sf::Sprite m_stars{TextureHolder::get(Textures::Stars)};
     Animation m_starAnimation{m_stars};
 
     // components

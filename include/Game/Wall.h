@@ -8,8 +8,10 @@
 // basically a rectangle with collision tag set to wall
 class Wall : public Entity {
 public:
-    Wall() {
+    Wall(const sf::Vector2f& pos, const sf::Vector2f& size) {
         setCollisionTag(CollisionTag::wall);
+        setPosition(pos);
+        setSize(size);
     }
     void update(const sf::Time& dt) override{};
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {

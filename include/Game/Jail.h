@@ -12,7 +12,7 @@
 
 class Jail : public Entity {
 public:
-    explicit Jail(const LevelParams& p);
+    Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos);
     
     void setColor(const sf::Color& c);
     sf::Color getColor() const;

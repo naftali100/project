@@ -1,6 +1,7 @@
 #include "Game/Door.h"
 
-Door::Door(){
+Door::Door(const sf::Vector2f& pos){
+    setPosition(pos);
     sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
     m_animation.initFramesWithFixedSize(textureSize, 1, 5, 0.1f);
 }

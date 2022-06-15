@@ -6,7 +6,9 @@
 #include "Random.h"
 #include "SfmlUtil.h"
 
-Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p) : m_explosions(explosions) {
+Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p, const sf::Vector2f& pos, const sf::Vector2f& dir) : m_explosions(explosions) {
+    setPosition(pos);
+    setDirection(dir);
     initSprite();
     configLevelParam(p);
     registerMessageHandler();

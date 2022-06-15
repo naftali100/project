@@ -4,7 +4,9 @@
 #include "Resources.h"
 #include "Random.h"
 
-Gift::Gift() {
+Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir) {
+    setDirection(dir);
+    setPosition(pos);
     MovingObjects::setSpeed(200);
     m_sprite.setTexture(TextureHolder::get(Textures::Gift2));
 
