@@ -47,6 +47,11 @@ void Game::initImGui() {
     bool i = ImGui::SFML::UpdateFontTexture();
     // set my style for ImGui
     ImGuiStyle& style = ImGui::GetStyle();
+    ImGui::StyleColorsLight();
+    style.WindowBorderSize = 0;
+    style.FramePadding = { 20, 20 };
+    style.ItemSpacing = { 20, 20 };
+    style.ScrollbarSize = 20;
     style.WindowRounding = 12;
     style.FrameRounding = 12;
     style.ScrollbarRounding = 12;

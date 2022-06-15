@@ -13,42 +13,27 @@
 #include "State.h"
 #include "StateComponents/Camera.h"
 #include "Game/Jail.h"
+#include "Game/States/GameStateInitializer.h"
 
 class GameState : public State {
 public:
-    using State::State;
-    GameState(StateManager& sm, LevelParams LP) : State(sm), m_params(LP) {};
-
+    //using State::State;
+    GameState(StateManager& sm, LevelParams LP = LevelParams{});
     void init() override;
-    void initState();
-    void initBackground();
-    void initWalls();
-    void addWall(const sf::Vector2f& pos, const sf::Vector2f& size);
+    
 
-    void initJail();
-    void addJail(const sf::Vector2f& pos, const sf::Color& color);
-
-    void initDoors();
-
-    void freeTerrorists() const;
-    void initCamera(); // TODO: delete
+    //void freeTerrorists() const;
 
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
 
-    // spawn
-    void spawnBomb();
-    void spawnGift();
-
-    // util
-    sf::Vector2u getWinSize();
 
     ~GameState();
 
 private:
     void imGui(); // TODO: delete
-    void registerMessageHandlers();
+    //void registerMessageHandlers();
 
     void handleCollisions(const sf::Time&);
     void processCollision(auto const& m, auto const& n);
