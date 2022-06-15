@@ -64,8 +64,7 @@ void GameState::initWalls() {
 }
 
 void GameState::addWall(const sf::Vector2f& pos, const sf::Vector2f& size){   
-    auto wall = std::make_unique<Wall>(pos, size);
-    m_static.push_back(std::move(wall));
+    m_static.push_back(std::make_unique<Wall>(pos, size));
 }
 
 void GameState::initDoors() {
