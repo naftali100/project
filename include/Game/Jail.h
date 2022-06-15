@@ -3,25 +3,24 @@
 
 #pragma once
 
+#include "Colors.h"
 #include "Game/Bomb.h"
 #include "Game/Entity.h"
-#include "Colors.h"
-#include "MessageBus.h"
 #include "LevelParams.h"
+#include "MessageBus.h"
 #include "MovingObjects.h"
 
 class Jail : public Entity {
 public:
     Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos);
-    
+
     void setColor(const sf::Color& c);
     sf::Color getColor() const;
 
     void addBomb(Bomb* b);
 
     void update(const sf::Time& dt) override;
-    void draw(sf::RenderTarget& target,
-        sf::RenderStates states = sf::RenderStates::Default) const override;
+    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 
     sf::FloatRect getGlobalBounds() const override;
 
@@ -37,7 +36,7 @@ private:
     int m_bombBuffer;
     std::vector<Func> m_subs;
     bool m_isJailBreak = false;
-    //bool m_isActive = false;
+    // bool m_isActive = false;
     Timer m_jailBreakTimer;
     Explosion m_explosion;
 };

@@ -2,11 +2,11 @@
 
 #include <cmath>
 
+#include "Animation.h"
 #include "Colors.h"
 #include "Game/Entity.h"
 #include "SfmlUtil.h"
 #include "Timer.h"
-#include "Animation.h"
 
 class MovingObjects : public Entity {
 public:
@@ -28,7 +28,7 @@ public:
         return m_shouldDie;
     };
 
-    void kill(){
+    void kill() {
         m_shouldDie = true;
     }
 

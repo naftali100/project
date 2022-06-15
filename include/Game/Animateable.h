@@ -1,28 +1,24 @@
 #pragma once
-#include "Entity.h"
 #include "Animation.h"
-#include "Resources.h"
+#include "Entity.h"
 #include "Log.h"
+#include "Resources.h"
 
 class Animateable : public Entity {
 public:
-    Animateable(const int textureRows,
-                const int textureCols,
-                const Textures::ID texture,
-                const float timeForFrame,
-                const sf::Vector2f position = sf::Vector2f{0.0, 0.0},
-                const float duration = -1) {
+    Animateable(const int textureRows, const int textureCols, const Textures::ID texture, const float timeForFrame,
+                const sf::Vector2f position = sf::Vector2f{0.0, 0.0}, const float duration = -1) {
         m_position = position;
-        
+
         m_sprite.setTexture(TextureHolder::get(texture));
 
         sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
         m_animation.initFramesWithFixedSize(textureSize, textureRows, textureCols, timeForFrame);
-        
+
         if (duration == 0)
             // this value make the animation do only one one the entire animation sheet (amount of all frames)
             m_animation.setDuration(((textureRows * textureCols) - 1) * timeForFrame);
-        else if(duration != -1)
+        else if (duration != -1)
             m_animation.setDuration(duration);
     }
 
@@ -45,8 +41,7 @@ public:
 protected:
     sf::Vector2f m_position;
     sf::Sprite m_sprite;
-    Animation m_animation{ m_sprite };
+    Animation m_animation{m_sprite};
 
 private:
-
 };

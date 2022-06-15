@@ -1,10 +1,9 @@
 #ifndef __LEVELPARAMS_H__
 #define __LEVELPARAMS_H__
 
-struct LevelParams
-{
+struct LevelParams {
     int m_speed = 300;
-    int m_spawnRate = 3; // MAYBE: spread across time and not spawn in fixed intervals
+    int m_spawnRate = 3;  // MAYBE: spread across time and not spawn in fixed intervals
     int m_colors = 2;
     // sf::Vector2f m_size {5,5};
     float m_scale = 0;
@@ -30,4 +29,4 @@ struct LevelParams
     // }
 };
 
-#endif // __LEVELPARAMS_H__
+#endif  // __LEVELPARAMS_H__

@@ -10,4 +10,4 @@ public:
 
     virtual ~BaseEntity() = default;
 };
-#endif // __HOLYTHREE_H__
+#endif  // __HOLYTHREE_H__

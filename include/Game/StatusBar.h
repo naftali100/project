@@ -2,12 +2,12 @@
 #define __STATUSBAR_H__
 #pragma once
 
-#include "Resources.h"
 #include "Animation.h"
+#include "Resources.h"
 
 class StatusBar {
 public:
-    StatusBar(int& lives, int& score): m_lives(lives), m_score(score){
+    StatusBar(int& lives, int& score) : m_lives(lives), m_score(score) {
         m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
     };
     int getLive();
@@ -27,4 +27,4 @@ private:
     int& m_score;
 };
 
-#endif // __STATUSBAR_H__
+#endif  // __STATUSBAR_H__

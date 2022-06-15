@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Game/MovingObjects.h"
 #include "Animation.h"
+#include "Game/MovingObjects.h"
 #include "MessageBus.h"
 
 class Gift : public MovingObjects {

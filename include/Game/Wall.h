@@ -6,8 +6,8 @@
 #include "resource_holder.h"
 #include "Resources.h"
 
-//TODO: set texture
-// basically a rectangle with collision tag set to wall
+// TODO: set texture
+//  basically a rectangle with collision tag set to wall
 class Wall : public Entity {
 public:
     Wall(const sf::Vector2f& pos, const sf::Vector2f& size, const float rotation = 0)

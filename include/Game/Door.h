@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Game/Entity.h"
-#include "Resources.h"
 #include "Animation.h"
+#include "Game/Entity.h"
 #include "Log.h"
+#include "Resources.h"
 
 class Door : public Entity {
 public:
@@ -15,13 +15,13 @@ public:
     // close when gift
     void close(const sf::Time& seconds);
 
-    sf::FloatRect getGlobalBounds() const override { 
+    sf::FloatRect getGlobalBounds() const override {
         return m_sprite.getGlobalBounds();
     }
 
 private:
     bool m_isOpen = false;
-    sf::Sprite m_sprite { TextureHolder::get(Textures::Door) };
-    Animation m_animation { m_sprite };
+    sf::Sprite m_sprite{TextureHolder::get(Textures::Door)};
+    Animation m_animation{m_sprite};
     // timer for closed time
 };

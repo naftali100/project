@@ -9,16 +9,15 @@
 #pragma once
 
 #include <typeinfo>
-#include "Colors.h"
-#include "SfmlUtil.h"
+
 #include "BaseEntity.h"
 #include "CollisionTag.h"
-
-
+#include "Colors.h"
+#include "SfmlUtil.h"
 
 class Entity : public sf::Transformable, public sf::Drawable, public BaseEntity {
 public:
-    virtual void handleEvent(const sf::Event&) override {
+    virtual void handleEvent(const sf::Event&) override{
         // check event map
     };
 

@@ -8,7 +8,7 @@ public:
     Timer(const Func& function, const float delay);
     void setTime(const sf::Time&);
     // set ths timer to 0
-    void reset(); 
+    void reset();
     void set(const Func& function, const float);
     void update(const sf::Time&);
     void setInterval(const Func& function, float interval);
@@ -22,4 +22,4 @@ private:
     bool m_isPaused = false;
 };
 
-#endif // __TIMER_H__
+#endif  // __TIMER_H__
