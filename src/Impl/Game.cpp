@@ -6,8 +6,8 @@
 #include "Resources.h"
 #include "SfmlUtil.h"
 
-//Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
- Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World"), m_stateManager(m_win) {}
+Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
+// Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World"), m_stateManager(m_win) {}
 //  Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
 
 void loadMusic(Music::ID i, const std::string& path){
@@ -19,6 +19,7 @@ void loadMusic(Music::ID i, const std::string& path){
 
 void Game::loadResources() const {
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
+    TextureHolder::load(Textures::Wall, "textures/Wall2.jpg");
     TextureHolder::load(Textures::Door, "textures/door.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::Gift, "textures/gift.png");

@@ -8,7 +8,6 @@ endif()
 
 include(cmake/conf.cmake)
 
-
 # souces lib name
 set(SOURCES_LIB sources)
 add_subdirectory(src)

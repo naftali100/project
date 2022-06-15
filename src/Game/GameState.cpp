@@ -54,17 +54,17 @@ void GameState::initWalls() {
     auto winSize = getWinSize();
 
     // left wall
-    addWall({-100, -100}, {100, (float)winSize.y + 200});
+    addWall({-100, -100}, {200, (float)winSize.y + 300}, 90.f);
     // bottom wall
-    addWall({-100, (float)winSize.y}, {(float)winSize.x + 200, 100});
+    addWall({-100, (float)winSize.y}, {(float)winSize.x + 300, 200});
     // right wall
-    addWall({(float)winSize.x, -100}, {100, (float)winSize.y + 200});
+    addWall({(float)winSize.x, -100}, {200, (float)winSize.y + 300}, 90.f);
     // upper wall
-    addWall({-100, -100}, {(float)winSize.x + 200, 100});
+    addWall({-100, -100}, {(float)winSize.x + 300, 200});
 }
 
-void GameState::addWall(const sf::Vector2f& pos, const sf::Vector2f& size){   
-    m_static.push_back(std::make_unique<Wall>(pos, size));
+void GameState::addWall(const sf::Vector2f& pos, const sf::Vector2f& size, const float rotation){   
+    m_static.push_back(std::make_unique<Wall>(pos, size, rotation));
 }
 
 void GameState::initDoors() {

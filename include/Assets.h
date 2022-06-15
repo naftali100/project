@@ -43,6 +43,7 @@ enum ID
     Gift2,
     Test,
     Smoke,
+    Wall,
     MAX
 };  // add textures here
 }  // namespace Textures
