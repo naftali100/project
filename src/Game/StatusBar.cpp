@@ -1,16 +1,13 @@
 #include "Game/StatusBar.h"
 
-
-void StatusBar::update(const sf::Time& dt){
+void StatusBar::update(const sf::Time& dt) {
     m_starAnimation.update(dt);
 }
 
-void StatusBar::draw(sf::RenderTarget& win) const
-{
-
+void StatusBar::draw(sf::RenderTarget& win) const {
     sf::Text m_status;
     m_status.setFont(FontHolder::get(Fonts::Main));
-    sf::String m_text{ "score: " + std::to_string(m_score) + " lives: " };
+    sf::String m_text{"score: " + std::to_string(m_score) + " lives: "};
     m_status.setString(m_text);
     m_status.setOutlineColor(sf::Color::Black);
     m_status.setOutlineThickness(2);

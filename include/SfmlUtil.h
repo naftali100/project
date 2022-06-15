@@ -105,7 +105,7 @@ namespace sf {
 
     template <hasGlobal T>
     sf::RectangleShape debugDraw(const T& object);
-#else  // has_concepts
+#else   // has_concepts
 template <typename T>
 inline sf::Vector2f getGlobalCenter(const T& object) {
     const sf::FloatRect bounds{object.getGlobalBounds()};
@@ -116,7 +116,7 @@ inline sf::Vector2f getGlobalTopRight(const T& object) {
     const sf::FloatRect bounds{object.getGlobalBounds()};
     return {bounds.left + bounds.width, bounds.top};
 }
-#endif // has_concepts
+#endif  // has_concepts
     template <typename T>
     inline sf::Vector2<T> normalize(const sf::Vector2<T>& v) {
         float length = std::sqrt((v.x * v.x) + (v.y * v.y));
@@ -125,13 +125,13 @@ inline sf::Vector2f getGlobalTopRight(const T& object) {
         else
             return v;
     }
-    
-    template<typename T>
+
+    template <typename T>
     inline float dot(const sf::Vector2<T>& lv, const sf::Vector2<T>& rv) {
         return lv.x * rv.x + lv.y * rv.y;
     }
 
-    template<typename T>
+    template <typename T>
     inline sf::Vector2<T> reflect(const sf::Vector2<T>& velocity, const sf::Vector2<T>& normal) {
         return -2.f * dot(velocity, normal) * normal + velocity;
     }

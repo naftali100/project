@@ -2,12 +2,12 @@
 
 #include "Colors.h"
 
-Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos): m_bombBuffer(p.m_bombToScore){
+Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos) : m_bombBuffer(p.m_bombToScore) {
     setPosition(pos);
     setColor(color);
     setCollisionTag(CollisionTag::jail);
     float scale = .9f;
-    m_sprite.scale(sf::Vector2f(1,1) * scale);
+    m_sprite.scale(sf::Vector2f(1, 1) * scale);
     m_sprite.setTextureRect({0, 0, 500, 250});
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
@@ -16,13 +16,12 @@ Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos
     m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* i){
         m_bombBuffer = i->m_bombToScore;
     }));
-    m_subs.push_back(MessageBus::subscribe(MessageType::FreeTerroristsGift, [this](){
-        for(auto i: m_bombs){
+    m_subs.push_back(MessageBus::subscribe(MessageType::FreeTerroristsGift, [this]() {
+        for (auto i : m_bombs) {
             i->release();
         }
     }));
 }
-
 
 void Jail::update(const sf::Time& dt) {
     // MovingObjects::update(dt);
@@ -31,20 +30,20 @@ void Jail::update(const sf::Time& dt) {
     //     bomb->move(m_direction * m_speed * dt.asSeconds());
 };
 
-void Jail::freeAll()
-{
+void Jail::freeAll() {
     m_isJailBreak = true;
-    m_sprite.setTextureRect({ 0, 250, 500, 500 });
-    m_jailBreakTimer.set([this]() {
-        m_isJailBreak = false; 
-        m_sprite.setTextureRect({ 0, 0, 500, 250 });
-        }, 5.f);
-    for (auto& terrorist : m_bombs)
-        terrorist->release();
+    m_sprite.setTextureRect({0, 250, 500, 500});
+    m_jailBreakTimer.set(
+        [this]() {
+            // m_isJailBreak = false;
+            m_sprite.setTextureRect({0, 0, 500, 250});
+        },
+        3.f);
+    for (auto& terrorist : m_bombs) terrorist->release();
 }
 
 bool Jail::isBroken() const {
-    return m_isJailBreak;
+    return false;
 }
 
 void Jail::setColor(const sf::Color& c) {
@@ -70,14 +69,15 @@ sf::FloatRect Jail::getGlobalBounds() const {
 void Jail::addBomb(Bomb* b) {
     m_bombs.push_back(b);
     if (m_bombs.size() >= m_bombBuffer) {
-        for (auto i : m_bombs) { MessageBus::notify<Bomb*>(MessageType::BombRemoveFromVector, i); }
+        for (auto i : m_bombs) {
+            MessageBus::notify<Bomb*>(MessageType::BombRemoveFromVector, i);
+        }
         m_bombs.clear();
     }
 }
 
-
-Jail::~Jail(){
-    for(auto const& i: m_subs){
+Jail::~Jail() {
+    for (auto const& i : m_subs) {
         i();
-    }   
+    }
 }

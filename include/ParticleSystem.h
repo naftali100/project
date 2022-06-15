@@ -5,17 +5,16 @@
 #include "Particle.h"
 #include "Random.h"
 
-template<typename T>
-concept DerivedFromParticle = std::is_base_of<Particle, T>::value; 
+template <typename T>
+concept DerivedFromParticle = std::is_base_of<Particle, T>::value;
 
 namespace Shape {
-enum
-{
-    CIRCLE,
-    SQUARE
-};
+    enum
+    {
+        CIRCLE,
+        SQUARE
+    };
 }  // namespace Shape
-
 
 class ParticleSystem {
 public:
@@ -24,10 +23,10 @@ public:
         m_dissolutionRate = 0;
         m_shape = Shape::CIRCLE;
     }
-    
+
     ParticleSystem(const ParticleSystem& other);
 
-    ParticleSystem& operator=(const ParticleSystem& other){
+    ParticleSystem& operator=(const ParticleSystem& other) {
         if (this == &other)
             return *this;
 
@@ -36,17 +35,17 @@ public:
         m_gravity = other.m_gravity;
         m_particleSpeed = other.m_particleSpeed;
         m_dissolutionRate;
-        m_shape = other.m_shape;        
+        m_shape = other.m_shape;
 
         return *this;
     }
 
-// TODO: support screen resize (using view?)
-// TODO: switch to vertexArray for better performance
-    template<DerivedFromParticle P>
-    void fuel(int particles);  // Adds new particles to m_particles
-    void update(const sf::Time&);             // Updates position, velocity and opacity of all particles
-    void draw(sf::RenderTarget&) const;             // Renders all particles onto m_image
+    // TODO: support screen resize (using view?)
+    // TODO: switch to vertexArray for better performance
+    template <DerivedFromParticle P>
+    void fuel(int particles);            // Adds new particles to m_particles
+    void update(const sf::Time&);        // Updates position, velocity and opacity of all particles
+    void draw(sf::RenderTarget&) const;  // Renders all particles onto m_image
 
     void setPosition(float x, float y) {
         m_position.x = x;
@@ -74,14 +73,14 @@ public:
 private:
     sf::Vector2f m_position;  // Particle origin (pixel co-ordinates)
     sf::Vector2f m_gravity;   // Affects particle velocities
-    float m_particleSpeed;  // Pixels per second (at most)
+    float m_particleSpeed;    // Pixels per second (at most)
     float m_dissolutionRate;
     unsigned char m_shape;
 
     std::vector<ParticlePtr> m_particles;
 };
 
-template<DerivedFromParticle T>
+template <DerivedFromParticle T>
 void ParticleSystem::fuel(int particles) {
     LOGV;
     float angle;

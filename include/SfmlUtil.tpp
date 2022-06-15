@@ -123,7 +123,7 @@ sf::Vector2f getGlobalBottomRight(const T& object) {
 }
 
 template <hasGlobal T>
-sf::RectangleShape debugDraw(const T& object){
+sf::RectangleShape debugDraw(const T& object) {
     sf::RectangleShape bound;
     bound.setSize({object.getGlobalBounds().width, object.getGlobalBounds().height});
     bound.setPosition(object.getGlobalBounds().left, object.getGlobalBounds().top);

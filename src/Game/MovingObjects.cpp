@@ -11,8 +11,7 @@
 #include <format>
 #endif
 
-
-void MovingObjects::setDirection(const sf::Vector2f& v){
+void MovingObjects::setDirection(const sf::Vector2f& v) {
     m_direction = sf::util::normalize(v);
 }
 

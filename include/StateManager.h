@@ -43,7 +43,7 @@ private:
     std::stack<StatePtr> m_states;
     bool m_paused = false;
 
-    bool m_shouldPop = false; // for deferred pop
+    bool m_shouldPop = false;  // for deferred pop
     // std::map<States::ID, std::function<StatePtr()>> m_factories;
 };
 

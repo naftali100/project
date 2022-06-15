@@ -2,8 +2,8 @@
 #ifndef ASSETS_H
 #define ASSETS_H
 
-#include <string>
 #include <map>
+#include <string>
 
 // maybe add struct with info ablout assets pathes and more
 
@@ -71,14 +71,12 @@ enum ID
 namespace Music {
 enum ID
 {
-    Background1, // fun and suitable
-    Background2, // only dramatic, not fun
-    Background3, // fun, more music then drama
-    Background4, // funny :)
+    Background1,  // fun and suitable
+    Background2,  // only dramatic, not fun
+    Background3,  // fun, more music then drama
+    Background4,  // funny :)
     Count
 };
 }  // namespace Music
-
-
 
 #endif

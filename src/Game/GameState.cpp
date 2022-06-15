@@ -26,22 +26,23 @@ void GameState::initBackground() {
 }
 
 void GameState::initState() {
-    m_spawnTimer.set([this]() {
+    m_spawnTimer.set(
+        [this]() {
             m_spawnTimer.setTime(sf::seconds(Random::rnd(0.01f, m_params.m_spawnRate)));
             spawnBomb();
         },
         m_params.m_spawnRate);
-    for (int _ : rng::views::iota(0, m_params.m_maxBomb)){
+    for (int _ : rng::views::iota(0, m_params.m_maxBomb)) {
         spawnBomb();
     }
 }
 
 void GameState::initJail() {
     auto winSize = getWinSize();
-    auto jailSize = Jail(m_params, Colors::Red, {0,0}).getSize();
-    sf::Vector2f startPoint {jailSize.x / 2, winSize.y - (jailSize.y / 2.f)};
+    auto jailSize = Jail(m_params, Colors::Red, {0, 0}).getSize();
+    sf::Vector2f startPoint{jailSize.x / 2, winSize.y - (jailSize.y / 2.f)};
 
-    for(auto i: std::views::iota(0, m_params.m_colors+1)){
+    for (auto i : std::views::iota(0, m_params.m_colors + 1)) {
         addJail({(i * jailSize.x) + startPoint.x + 10, startPoint.y}, Colors::STD_COLORS[i]);
     }
 }
@@ -73,7 +74,7 @@ void GameState::initDoors() {
     addDoor({1000, 10});
 }
 
-void GameState::addDoor(const sf::Vector2f& pos){
+void GameState::addDoor(const sf::Vector2f& pos) {
     m_doors.push_back(std::make_unique<Door>(pos));
 }
 
@@ -88,9 +89,8 @@ void GameState::update(const sf::Time& dt) {
         // return;
     }
     m_sb.update(dt);
-    if (m_nonJailedBomb < m_params.m_maxBomb) 
-        m_spawnTimer.update(dt);
-    
+    if (m_nonJailedBomb < m_params.m_maxBomb) m_spawnTimer.update(dt);
+
     for (auto const& i : m_doors) { i->update(dt); }
     for (auto const& i : m_moving) { i->update(dt); }
     for (auto const& i : m_jails) { i->update(dt); }
@@ -137,7 +137,7 @@ void GameState::handleCollisions(const sf::Time&) {
         for (auto const& n : m_jails)
             if (!n->isBroken())
                 processCollision(m, n);
-        for(auto const& n: m_static)
+        for (auto const& n : m_static) 
             processCollision(m, n);
     }
 }
@@ -157,72 +157,53 @@ void GameState::processCollision(auto const& m, auto const& n) {
 void GameState::spawnBomb() {
     m_moving.push_back(std::make_unique<Bomb>(
         m_explosions, 
-        m_params, 
-        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(), // random door position
-        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}
-    ));
+        m_params,
+        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(),  // random door position
+        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}));
     m_nonJailedBomb++;
 }
 
 void GameState::spawnGift() {
     m_moving.push_back(std::make_unique<Gift>(
-        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(), // random door position
-        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)} // random direction
+        m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(),  // random door position
+        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}     // random direction
     ));
 }
 
 void GameState::registerMessageHandlers() {
-    m_subscription.push_back(
-        MessageBus::subscribe(MessageType::BombJailed, [this]() {
-            m_nonJailedBomb--;
-        })
-    );
-    m_subscription.push_back(
-        MessageBus::subscribe(MessageType::BombTimedout, [this]() {
-            m_lives--;
-            m_nonJailedBomb--;
+    m_subscription.push_back(MessageBus::subscribe(MessageType::BombJailed, [this]() { 
+        m_nonJailedBomb--; 
     }));
-    m_subscription.push_back(
-        MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
-            bomb->kill();
-            m_score++;
+    m_subscription.push_back(MessageBus::subscribe(MessageType::BombTimedout, [this]() {
+        m_lives--;
+        m_nonJailedBomb--;
     }));
-    m_subscription.push_back(
-        MessageBus::subscribe(MessageType::ScoreGift, [this](){
-            m_score+=5;
-        })
-    );
-    m_subscription.push_back(
-        MessageBus::subscribe(MessageType::LiveGift, [this](){
-            m_lives++;
-        })
-    );
-    m_subscription.push_back(
-        MessageBus::subscribe(MessageType::RemoveTerroristsGift, [this](){
-            m_nonJailedBomb = 0;
-            rng::for_each(m_moving, [](auto& i){
-                if(i->getCollisionTag() == CollisionTag::bomb)
-                    i->kill();
-            });
-        })
-    );
-    m_subscription.push_back(
-        MessageBus::subscribe(MessageType::FreeTerroristsGift, [this]() {
-            freeTerrorists();
-        })
-    );
+    m_subscription.push_back(MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
+        bomb->kill();
+        m_score++;
+    }));
+    m_subscription.push_back(MessageBus::subscribe(MessageType::ScoreGift, [this]() { m_score += 5; }));
+    m_subscription.push_back(MessageBus::subscribe(MessageType::LiveGift, [this]() { m_lives++; }));
+    m_subscription.push_back(MessageBus::subscribe(MessageType::RemoveTerroristsGift, [this]() {
+        m_nonJailedBomb = 0;
+        rng::for_each(m_moving, [](auto& i) {
+            if (i->getCollisionTag() == CollisionTag::bomb)
+                i->kill();
+        });
+    }));
+    m_subscription.push_back(MessageBus::subscribe(MessageType::FreeTerroristsGift, [this]() { freeTerrorists(); }));
 }
 
 void GameState::freeTerrorists() const {
     for (auto const& i : m_jails) i->freeAll();
 }
 
-sf::Vector2u GameState::getWinSize(){
+sf::Vector2u GameState::getWinSize() {
     return m_stateManager.getWin().getSize();
 }
 
 GameState::~GameState() {
-    for (auto const& i : m_subscription) { 
-        i(); 
+    for (auto const& i : m_subscription) {
+        i();
     }
 }

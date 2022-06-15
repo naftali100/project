@@ -1,8 +1,7 @@
 #include "Game/Gift.h"
 
-
-#include "Resources.h"
 #include "Random.h"
+#include "Resources.h"
 
 Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir) {
     setDirection(dir);
@@ -21,9 +20,10 @@ Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir) {
 
 void Gift::update(const sf::Time& dt) {
     m_timer.update(dt);
-    if(m_taken){
+    if (m_taken) {
         m_giftAnimation.update(dt);
-    }else{
+    }
+    else {
         MovingObjects::update(dt);
     }
 }
@@ -40,7 +40,7 @@ void Gift::handleEvent(const sf::Event& e) {
 }
 
 void Gift::takeGift() {
-    if(!m_taken){
+    if (!m_taken) {
         m_taken = true;
         // MessageBus::notify(MessageType::ReleaseAllBombs);
         MessageBus::notify(getRandGift());

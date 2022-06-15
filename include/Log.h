@@ -4,8 +4,9 @@
 
 // convenience file
 
-#include "SfmlUtil.h"
 #include <utility>
+
+#include "SfmlUtil.h"
 // #define PLOG_OMIT_LOG_DEFINES - disable LOG* prefix
 
 #ifdef has_concepts
@@ -24,25 +25,25 @@ concept PrintableShape = requires(T t) {
 };
 
 namespace plog {
-template <typename T>
-Record& operator<<(Record& record, const sf::Rect<T>& v) {
-    record << v.left << ", " << v.top << " : " << v.width << ", " << v.height
-           << " (low right corner: " << v.left + v.width << ", " << v.top + v.height << ")";
-    return record;
-}
+    template <typename T>
+    Record& operator<<(Record& record, const sf::Rect<T>& v) {
+        record << v.left << ", " << v.top << " : " << v.width << ", " << v.height
+               << " (low right corner: " << v.left + v.width << ", " << v.top + v.height << ")";
+        return record;
+    }
 
-template <PrintableShape S>
-Record& operator<<(Record& record, const S& s) {
-    record << s.getPosition().x << ", " << s.getPosition().y << " : " << s.getSize().x << ", " << s.getSize().y
-           << " (low r corner " << sf::util::getGlobalBottomRight(s) << ")";
-    return record;
-}
+    template <PrintableShape S>
+    Record& operator<<(Record& record, const S& s) {
+        record << s.getPosition().x << ", " << s.getPosition().y << " : " << s.getSize().x << ", " << s.getSize().y
+               << " (low r corner " << sf::util::getGlobalBottomRight(s) << ")";
+        return record;
+    }
 
-template <PrintableVec V>
-Record& operator<<(Record& record, const V& v) {
-    record << v.x << ", " << v.y;
-    return record;
-}
+    template <PrintableVec V>
+    Record& operator<<(Record& record, const V& v) {
+        record << v.x << ", " << v.y;
+        return record;
+    }
 }  // namespace plog
 
 #endif
@@ -50,7 +51,8 @@ Record& operator<<(Record& record, const V& v) {
 // HACK ... probably not thread safe (maybe replace with std::once)
 #define PLOG_ONCE(severity) \
     static int once = 2;    \
-    if (once > 0) once--;   \
+    if (once > 0)           \
+        once--;             \
     PLOG_IF(severity, once > 0)
 
 #define LOGV_ONCE PLOG_ONCE(plog::verbose)

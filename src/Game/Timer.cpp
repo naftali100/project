@@ -20,11 +20,13 @@ void Timer::set(const Func& function, const float seconds) {
     setTime(sf::seconds(seconds));
 }
 
-void Timer::setInterval(const Func& function, float interval){
-    set([this, function, interval](){
-        function();
-        setTime(sf::seconds(interval)); 
-    }, interval);
+void Timer::setInterval(const Func& function, float interval) {
+    set(
+        [this, function, interval]() {
+            function();
+            setTime(sf::seconds(interval));
+        },
+        interval);
 }
 
 void Timer::update(const sf::Time& dt) {

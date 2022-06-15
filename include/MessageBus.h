@@ -36,32 +36,22 @@ public:
 
     /// unsubscribe
 
-    static void unsubscribe(unsigned long int id){
-        std::erase_if(getInstance().m_subscribers, [id](auto i){
-            return i.first == id;
-        });
-        std::erase_if(getInstance().m_subscribersWithType, [id](auto i){
-            return i.first == id;
-        });
+    static void unsubscribe(unsigned long int id) {
+        std::erase_if(getInstance().m_subscribers, [id](auto i) { return i.first == id; });
+        std::erase_if(getInstance().m_subscribersWithType, [id](auto i) { return i.first == id; });
     }
 
-    template<typename T>
-    static void unsubscribe(unsigned long int id){
-        std::erase_if(m_subscribersWithArg<T>, [id](auto i){
-            return i.first == id;
-        });
-        std::erase_if(m_subscribersWithTypeAndArg<T>, [id](auto i){
-            return i.first == id;
-        });
+    template <typename T>
+    static void unsubscribe(unsigned long int id) {
+        std::erase_if(m_subscribersWithArg<T>, [id](auto i) { return i.first == id; });
+        std::erase_if(m_subscribersWithTypeAndArg<T>, [id](auto i) { return i.first == id; });
     }
 
     /// send events
 
     static void notify() {
         LOGV;
-        for (auto& i : getInstance().m_subscribers) {
-            i.second();
-        }
+        for (auto& i : getInstance().m_subscribers) { i.second(); }
         LOGV;
     }
 

@@ -2,8 +2,8 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
-#include "SfmlUtil.h"
 #include "Resources.h"
+#include "SfmlUtil.h"
 
 struct Particle {
     sf::Vector2f m_pos;  // Position
@@ -21,7 +21,7 @@ using ParticlePtr = std::unique_ptr<Particle>;
 typedef std::vector<ParticlePtr>::iterator ParticleIterator;
 
 struct spriteParticle : public Particle {
-    sf::Sprite sprite {TextureHolder::get(Textures::Smoke)};
+    sf::Sprite sprite{TextureHolder::get(Textures::Smoke)};
 
     void init() override {
         // float scale = 0.5;
@@ -40,7 +40,7 @@ struct spriteParticle : public Particle {
         r.draw(sprite);
     }
 
-    void rotate(float angle){
+    void rotate(float angle) {
         sprite.rotate(angle);
     }
 };

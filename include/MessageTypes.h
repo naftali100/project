@@ -4,7 +4,7 @@
 
 enum class MessageType
 {
-    //add here non-Gift enums
+    // add here non-Gift enums
     MessageId,
     BombJailed,
     BombTimedout,
@@ -15,8 +15,8 @@ enum class MessageType
     RemoveTerroristsGift,
     LiveGift,
     FreeTerroristsGift,
-    //don't add here non-gift enums!
+    // don't add here non-gift enums!
     Count
 };
 
-#endif // __MESSAGETYPES_H__
+#endif  // __MESSAGETYPES_H__
