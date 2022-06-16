@@ -89,6 +89,7 @@ void GameState::update(const sf::Time& dt) {
         // return;
     }
     m_sb.update(dt);
+    if(m_nonJailedBomb == 1) spawnBomb();
     if (m_nonJailedBomb < m_params.m_maxBomb) m_spawnTimer.update(dt);
 
     for (auto const& i : m_doors) { i->update(dt); }

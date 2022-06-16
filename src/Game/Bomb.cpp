@@ -13,7 +13,7 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
     configLevelParam(p);
     registerMessageHandler();
     // color here because it's should done only once
-    m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors)];
+    m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors + 1)];
 
     setCollisionTag(CollisionTag::bomb);
 

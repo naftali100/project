@@ -40,8 +40,8 @@ void WelcomeState::init() {
 }
 
 void WelcomeState::initBackground(){
-	m_background.setSize((sf::Vector2f)TextureHolder::get(Textures::Test).getSize());
-	m_background.setTexture(&TextureHolder::get(Textures::Test));
+	m_background.setSize((sf::Vector2f)TextureHolder::get(Textures::SoldierBackground).getSize());
+	m_background.setTexture(&TextureHolder::get(Textures::SoldierBackground));
 	// scale to window size
 	auto oldSize = m_background.getSize();
 	auto newSize = (sf::Vector2f)m_stateManager.getWin().getView().getSize();

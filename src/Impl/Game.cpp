@@ -27,10 +27,9 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Jail, "textures/jail.png");
     TextureHolder::load(Textures::SkyBackground, "textures/sky.jpg");
     TextureHolder::load(Textures::Smoke, "textures/smoke.png");
-    // TextureHolder::load(Textures::SoldierBackground, "textures/background.jpg");
+    TextureHolder::load(Textures::SoldierBackground, "textures/bg-1.jpg");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
     TextureHolder::load(Textures::Terrorist, "textures/trrorist-final-1.png");
-    TextureHolder::load(Textures::Test, "textures/test1.jpg");
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
     loadMusic(Music::Background1, "music/b1.ogg");

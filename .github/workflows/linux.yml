@@ -34,7 +34,6 @@ jobs:
         sudo apt update
         sudo apt install \
         libsfml-dev \
-        build-essential \
         g++-11 gcc-11 \
         lld
 
