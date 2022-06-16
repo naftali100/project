@@ -23,7 +23,7 @@ public:
     void initState();
     void initBackground();
     void initWalls();
-    void addWall(const sf::Vector2f& pos, const sf::Vector2f& size, const float rotation = 0);
+    void addWall(const sf::Vector2f& pos, const sf::Vector2f& size);
 
     void initJail();
     void addJail(const sf::Vector2f& pos, const sf::Color& color);

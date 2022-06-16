@@ -19,7 +19,7 @@ void loadMusic(Music::ID i, const std::string& path){
 
 void Game::loadResources() const {
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
-    TextureHolder::load(Textures::Wall, "textures/Wall2.jpg");
+    TextureHolder::load(Textures::Wall, "textures/wall-final.png");
     TextureHolder::load(Textures::Door, "textures/door.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::Gift, "textures/gift.png");
@@ -37,6 +37,8 @@ void Game::loadResources() const {
 	loadMusic(Music::Background2, "music/b2.ogg");
 	loadMusic(Music::Background3, "music/b3.ogg");
 	loadMusic(Music::Background4, "music/b4.ogg");
+
+    TextureHolder::get(Textures::Wall).setRepeated(true);
 }
 
 void Game::initImGui() {
