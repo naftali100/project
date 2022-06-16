@@ -109,6 +109,12 @@ void Game::processEvents() {
                 m_win.close();
                 m_stateManager.stop();
                 break;
+            case sf::Event::KeyReleased:
+                if(event.key.code == sf::Keyboard::Escape){
+                    m_win.close();
+                    m_stateManager.stop();
+                }
+                break;
                 // case sf::Event::LostFocus:
                 //     m_stateManager.pause();
                 //     break;
