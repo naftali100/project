@@ -2,6 +2,7 @@
 
 #include "Random.h"
 #include "Resources.h"
+#include "EnumPrint.h"
 
 Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir) {
     setDirection(dir);
@@ -41,9 +42,11 @@ void Gift::handleEvent(const sf::Event& e) {
 
 void Gift::takeGift() {
     if (!m_taken) {
+        m_giftSound.play();
         m_taken = true;
-        // MessageBus::notify(MessageType::ReleaseAllBombs);
-        MessageBus::notify(getRandGift());
+        auto gift = getRandGift();
+        LOGI << magic_enum::enum_name(gift);
+        MessageBus::notify(gift);
         // wait for animation
         m_timer.set([this]() { kill(); }, m_giftAnimation.getLength());
     }

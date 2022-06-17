@@ -3,6 +3,7 @@
 #include "Animation.h"
 #include "Game/MovingObjects.h"
 #include "MessageBus.h"
+#include "Resources.h"
 
 class Gift : public MovingObjects {
 public:
@@ -18,4 +19,6 @@ private:
 
     Animation m_giftAnimation{m_sprite};
     bool m_taken = false;
+
+    sf::Sound m_giftSound{SoundBufferHolder::get(SoundEffect::Gift)};
 };

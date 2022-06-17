@@ -19,7 +19,6 @@ void loadMusic(Music::ID i, const std::string& path){
 
 void Game::loadResources() const {
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
-    TextureHolder::load(Textures::Wall, "textures/wall-final.png");
     TextureHolder::load(Textures::Door, "textures/door.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::Gift, "textures/gift.png");
@@ -30,14 +29,18 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::SoldierBackground, "textures/bg-1.jpg");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
     TextureHolder::load(Textures::Terrorist, "textures/trrorist-final-1.png");
+    TextureHolder::load(Textures::Wall, "textures/wall-final.png");
+    TextureHolder::get(Textures::Wall).setRepeated(true);
+
     FontHolder::load(Fonts::Main, FONT_PATH);
     FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
+
     loadMusic(Music::Background1, "music/b1.ogg");
 	loadMusic(Music::Background2, "music/b2.ogg");
 	loadMusic(Music::Background3, "music/b3.ogg");
 	loadMusic(Music::Background4, "music/b4.ogg");
 
-    TextureHolder::get(Textures::Wall).setRepeated(true);
+    SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
 }
 
 void Game::initImGui() {

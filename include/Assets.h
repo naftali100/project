@@ -64,7 +64,9 @@ enum ID
 namespace SoundEffect {
 enum ID
 {
-    Main
+    Main,
+    Gift,
+    Count
 };
 }  // namespace SoundEffect
 
