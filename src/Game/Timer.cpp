@@ -1,5 +1,7 @@
 #include "Game/Timer.h"
 
+#include "Random.h"
+
 Timer::Timer(const Func& function, const float delay) : m_function(function) {
     setTime(sf::seconds(delay));
 }
@@ -27,6 +29,15 @@ void Timer::setInterval(const Func& function, float interval) {
             setTime(sf::seconds(interval));
         },
         interval);
+}
+
+void Timer::setRandomInterval(const Func& function, float intervalMin, float intervalMax){
+    set(
+        [this, function, intervalMin, intervalMax]() {
+            function();
+            setTime(sf::seconds(Random::rnd(intervalMin, intervalMax)));
+        },
+        Random::rnd(intervalMin, intervalMax));
 }
 
 void Timer::update(const sf::Time& dt) {
