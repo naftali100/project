@@ -59,7 +59,7 @@ void SettingsState::imGui() {
         // option B
         ImGui::Text("spawn rate:");
         ImGui::SameLine();
-        ImGui::SliderInt("##spawn rate", &m_params.m_spawnRate, 1, 10);
+        ImGui::SliderInt("##spawn rate", &m_params.m_bombSpawnRate, 1, 10);
         if (ImGui::IsItemHovered()) {  // cloud be after text too
             ImGui::SetTooltip("the maximum possible amount of time to pass before new bomb is spawned");
         }

@@ -26,12 +26,16 @@ void GameState::initBackground() {
 }
 
 void GameState::initState() {
-    m_spawnTimer.set(
+    m_bombSpawnTimer.setRandomInterval(
         [this]() {
-            m_spawnTimer.setTime(sf::seconds(Random::rnd(0.01f, m_params.m_spawnRate)));
             spawnBomb();
         },
-        m_params.m_spawnRate);
+        0, m_params.m_bombSpawnRate);
+    m_giftSpawnTimer.setRandomInterval(
+        [this]() {
+            spawnGift();
+        },
+        m_params.m_giftSpawnRate / 2, m_params.m_giftSpawnRate);
     for (int _ : rng::views::iota(0, m_params.m_maxBomb)) {
         spawnBomb();
     }
@@ -90,7 +94,8 @@ void GameState::update(const sf::Time& dt) {
     }
     m_sb.update(dt);
     if(m_nonJailedBomb == 1) spawnBomb();
-    if (m_nonJailedBomb < m_params.m_maxBomb) m_spawnTimer.update(dt);
+    if (m_nonJailedBomb < m_params.m_maxBomb) m_bombSpawnTimer.update(dt);
+    m_giftSpawnTimer.update(dt);
 
     for (auto const& i : m_doors) { i->update(dt); }
     for (auto const& i : m_moving) { i->update(dt); }
@@ -106,13 +111,13 @@ void GameState::update(const sf::Time& dt) {
 void GameState::draw(sf::RenderTarget& win) const {
     LOGV;
     win.draw(m_background);
-    m_sb.draw(win);
 
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_jails | std::views::take(m_params.m_colors + 1)) { m->draw(win); }
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
+    m_sb.draw(win);
     LOGV;
 };
 

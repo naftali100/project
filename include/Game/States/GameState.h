@@ -74,7 +74,8 @@ private:
     int m_nonJailedBomb = 0;
     LevelParams m_params;
 
-    Timer m_spawnTimer;
+    Timer m_bombSpawnTimer;
+    Timer m_giftSpawnTimer;
     StatusBar m_sb{m_lives, m_score};
     sf::RectangleShape m_background;
 };
