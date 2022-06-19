@@ -80,8 +80,12 @@ void Bomb::update(const sf::Time& dt) {
 	}
     m_footStep.update(dt);
 
-    // if (!sf::FloatRect(-100.0, -100.0, m_winSize.x, m_winSize.y).contains(getPosition()))
-    //     kill();
+    if (!sf::FloatRect(-10.0, -10.0, m_winSize.x, m_winSize.y).contains(getPosition())){
+        kill();
+        // this cause the game state to update the amount of non jailed bomb which is wrong if just calling kill because game state not updated about it
+        MessageBus::notify(MessageType::BombJailed); 
+        LOGE << "bomb out";
+    }
 };
 
 void Bomb::handleEvent(const sf::Event& e) {

@@ -94,7 +94,7 @@ void GameState::update(const sf::Time& dt) {
         return;
     }
     m_sb.update(dt);
-    if(m_nonJailedBomb == 1) spawnBomb();
+    if(m_nonJailedBomb <= 1) spawnBomb();
     if (m_nonJailedBomb < m_params.m_maxBomb) m_bombSpawnTimer.update(dt);
     m_giftSpawnTimer.update(dt);
 
