@@ -10,18 +10,14 @@
 
 class MovingObjects : public Entity {
 public:
+    MovingObjects(const sf::Vector2f& dir, sf::Vector2u winSize);
     void setDirection(const sf::Vector2f& v);
 
     virtual void setSpeed(float s) {
         m_speed = s;
     }
 
-    void flicker() {
-        // flickering obj
-        m_sprite.setColor(Colors::STD_COLORS[m_flicker]);
-        m_flicker++;
-        m_flicker %= Colors::STD_COLORS.size();
-    }
+    void flicker();
 
     // TODO: rename this to "isDead" or something
     bool isTimeout() const {
@@ -47,6 +43,7 @@ protected:
     sf::Sprite m_sprite;
     Animation m_animation{m_sprite};
     float m_speed;
+    sf::Vector2u m_winSize;
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);

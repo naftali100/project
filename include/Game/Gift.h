@@ -7,7 +7,7 @@
 
 class Gift : public MovingObjects {
 public:
-    Gift(const sf::Vector2f& pos, const sf::Vector2f& dir);
+    Gift(const sf::Vector2f& pos, const sf::Vector2f& dir, sf::Vector2u winSize);
 
     void handleEvent(const sf::Event& e) override;
     void update(const sf::Time& dt) override;

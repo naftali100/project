@@ -166,15 +166,16 @@ void GameState::spawnBomb() {
         m_explosions, 
         m_params,
         m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(),  // random door position
-        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}));
+        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)},
+        getWinSize()));
     m_nonJailedBomb++;
 }
 
 void GameState::spawnGift() {
     m_moving.push_back(std::make_unique<Gift>(
         m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(),  // random door position
-        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}     // random direction
-    ));
+        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)},     // random direction
+    getWinSize()));
 }
 
 void GameState::registerMessageHandlers() {

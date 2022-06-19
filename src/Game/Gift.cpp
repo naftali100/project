@@ -4,9 +4,9 @@
 #include "Resources.h"
 #include "EnumPrint.h"
 
-Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir) {
-    setDirection(dir);
-    setPosition(pos);
+Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir, sf::Vector2u winSize)
+    : MovingObjects::MovingObjects(dir, winSize) {
+    setPosition(pos);   
     MovingObjects::setSpeed(200);
     m_sprite.setTexture(TextureHolder::get(Textures::Gift2));
 

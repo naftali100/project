@@ -11,7 +11,12 @@
 
 class Bomb : public MovingObjects {
 public:
-    explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions, const LevelParams& p, const sf::Vector2f& pos, const sf::Vector2f& dir);
+    explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions,
+        const LevelParams& p,
+        const sf::Vector2f& pos,
+        const sf::Vector2f& dir,
+        sf::Vector2u winSize);
+
     void configLevelParam(const LevelParams& p);
     void registerMessageHandler();
     void initSprite();
