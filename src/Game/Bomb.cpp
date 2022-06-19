@@ -115,7 +115,7 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
         // if intersects, and the whole entity is inside the jail
         if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect) && tempRect.width == getGlobalBounds().width &&
             tempRect.height == getGlobalBounds().height) {
-            auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color. TODO: can we avoid this?
+            auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color.
             if (m_color != jail->getColor()) {
                 m_timer.reset();  // calls kill and add explosion
             }
