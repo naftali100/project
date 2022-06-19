@@ -183,6 +183,7 @@ void GameState::registerMessageHandlers() {
     m_subscription.push_back(MessageBus::subscribe(MessageType::BombTimedout, [this]() {
         m_lives--;
         m_nonJailedBomb--;
+        if(m_lives > 0) m_explosionSound.play();
     }));
     m_subscription.push_back(MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
         bomb->kill();

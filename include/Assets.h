@@ -67,6 +67,8 @@ enum ID
 {
     Main,
     Gift,
+    Explosion,
+    Lose,
     Count
 };
 }  // namespace SoundEffect

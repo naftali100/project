@@ -42,6 +42,8 @@ void Game::loadResources() const {
 	loadMusic(Music::Background4, "music/b4.ogg");
 
     SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
+    SoundBufferHolder::load(SoundEffect::Explosion, "soundEffects/explosion-1.ogg");
+    SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose.ogg");
 }
 
 void Game::initImGui() {

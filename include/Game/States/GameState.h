@@ -78,6 +78,7 @@ private:
     Timer m_giftSpawnTimer;
     StatusBar m_sb{m_lives, m_score};
     sf::RectangleShape m_background;
+    sf::Sound m_explosionSound{SoundBufferHolder::get(SoundEffect::Explosion)};
 };
 
 #endif  // __GAMESTATE_H__
