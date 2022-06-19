@@ -8,6 +8,7 @@
 #include "Log.h"
 #include "MessageBus.h"
 #include "Resources.h"
+#include "ParticleSystem.h"
 
 class Bomb : public MovingObjects {
 public:
@@ -46,5 +47,9 @@ private:
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
     Func m_sub;
+    ParticleSystem m_footStep;
+    int deffer = 5;
+    sf::Vector2u m_winSize;
 };
+
 #endif  // __BOMB_H__
