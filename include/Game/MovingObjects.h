@@ -38,10 +38,6 @@ public:
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
 
-    sf::FloatRect getGlobalBounds() const override {
-        return getTransform().transformRect(m_sprite.getGlobalBounds());
-    }
-
     virtual ~MovingObjects() = default;
 
 protected:

@@ -27,7 +27,7 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
 }
 
 void Bomb::initSprite() {
-    m_sprite.setTexture(TextureHolder::get(Textures::Terrorist));
+    setSpriteByDirection();
     m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08f);
     m_animation.setFrame(0);
 
@@ -35,6 +35,14 @@ void Bomb::initSprite() {
     m_sprite.scale(sf::Vector2f(1, 1) / scale);
     MovingObjects::setSize(m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height);
     setOrigin(MovingObjects::getSize() / 2.f);
+}
+
+void Bomb::setSpriteByDirection(){
+    if(m_direction.x < 0){
+        m_sprite.setTexture(TextureHolder::get(Textures::TerroristRunLeft));
+    }else{
+        m_sprite.setTexture(TextureHolder::get(Textures::TerroristRunRight));
+    }
 }
 
 void Bomb::configLevelParam(const LevelParams& p) {
@@ -99,8 +107,13 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
         }
     }
 
-    if (!m_isDragged)
+    if (!m_isDragged){
+        auto tmp = m_direction;
         MovingObjects::handleCollision(e, manifold);
+        if(m_direction.x != tmp.x){
+            setSpriteByDirection();
+        }
+    }
 }
 
 void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {

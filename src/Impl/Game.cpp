@@ -28,7 +28,8 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Smoke, "textures/smoke.png");
     TextureHolder::load(Textures::SoldierBackground, "textures/bg-1.jpg");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
-    TextureHolder::load(Textures::Terrorist, "textures/trrorist-final-1.png");
+    TextureHolder::load(Textures::TerroristRunRight, "textures/trrorist-final-1.png");
+    TextureHolder::load(Textures::TerroristRunLeft, "textures/trrorist-final-left-run.png");
     TextureHolder::load(Textures::Wall, "textures/wall-final.png");
     TextureHolder::get(Textures::Wall).setRepeated(true);
 

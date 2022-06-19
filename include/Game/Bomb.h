@@ -15,6 +15,7 @@ public:
     void configLevelParam(const LevelParams& p);
     void registerMessageHandler();
     void initSprite();
+    void setSpriteByDirection();
 
     void update(const sf::Time& dt) override;
     void handleEvent(const sf::Event& e) override;

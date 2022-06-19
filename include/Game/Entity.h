@@ -61,8 +61,7 @@ public:
     }
 
     virtual sf::FloatRect getGlobalBounds() const {
-        // getTransform().transformRect()
-        return sf::FloatRect(getPosition(), m_size);
+        return sf::FloatRect(getPosition() - getOrigin(), m_size);
     }
 
     virtual std::string getType() const {
