@@ -6,13 +6,9 @@
 #include "Random.h"
 #include "SfmlUtil.h"
 
-
-
-Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions,
-    const LevelParams& p,
-    const sf::Vector2f& pos,
-    const sf::Vector2f& dir,
-    sf::Vector2u winSize) : MovingObjects::MovingObjects(dir, winSize), m_explosions(explosions) {
+Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p, const sf::Vector2f& pos,
+           const sf::Vector2f& dir, sf::Vector2u winSize) :
+    MovingObjects::MovingObjects(dir), m_explosions(explosions), m_winSize(winSize) {
     setPosition(pos);
     initSprite();
     configLevelParam(p);
@@ -29,6 +25,10 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions,
             m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
         },
         p.m_bombTime);
+
+    m_footStep.setGravity(-m_direction.x, -m_direction.y);
+    m_footStep.setDissolutionRate(5);
+	m_footStep.setParticleSpeed(50.0f);
 }
 
 void Bomb::initSprite() {
@@ -64,8 +64,6 @@ void Bomb::update(const sf::Time& dt) {
     if (m_isJailed)
         return;
 
-    
-
     // need to update timer even if dragged
     m_timer.update(dt);
     m_animation.update(dt);
@@ -73,6 +71,21 @@ void Bomb::update(const sf::Time& dt) {
     // update movement
     if (!m_isDragged)
         MovingObjects::update(dt);
+
+    m_footStep.setPosition(sf::util::getGlobalBottomLeft(*this));
+	deffer--;
+	if(deffer < 0){
+        m_footStep.fuel<TrailParticle>(1);
+		deffer = 3;
+	}
+    m_footStep.update(dt);
+
+    if (!sf::FloatRect(-10.0, -10.0, m_winSize.x, m_winSize.y).contains(getPosition())){
+        kill();
+        // this cause the game state to update the amount of non jailed bomb which is wrong if just calling kill because game state not updated about it
+        MessageBus::notify(MessageType::BombJailed); 
+        LOGE << "bomb out";
+    }
 };
 
 void Bomb::handleEvent(const sf::Event& e) {
@@ -102,7 +115,7 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
         // if intersects, and the whole entity is inside the jail
         if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect) && tempRect.width == getGlobalBounds().width &&
             tempRect.height == getGlobalBounds().height) {
-            auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color. TODO: can we avoid this?
+            auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color.
             if (m_color != jail->getColor()) {
                 m_timer.reset();  // calls kill and add explosion
             }
@@ -129,6 +142,7 @@ void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     rec.setRadius(20);
     rec.setFillColor(m_color);
     win.draw(rec, getTransform());
+    m_footStep.draw(win);
 }
 
 Bomb::~Bomb() {

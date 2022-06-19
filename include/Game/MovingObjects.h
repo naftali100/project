@@ -10,7 +10,7 @@
 
 class MovingObjects : public Entity {
 public:
-    MovingObjects(const sf::Vector2f& dir, sf::Vector2u winSize);
+    MovingObjects(const sf::Vector2f& dir);
     void setDirection(const sf::Vector2f& v);
 
     virtual void setSpeed(float s) {
@@ -43,7 +43,6 @@ protected:
     sf::Sprite m_sprite;
     Animation m_animation{m_sprite};
     float m_speed;
-    sf::Vector2u m_winSize;
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);

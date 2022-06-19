@@ -48,8 +48,10 @@ public:
     void draw(sf::RenderTarget&) const;  // Renders all particles onto m_image
 
     void setPosition(float x, float y) {
-        m_position.x = x;
-        m_position.y = y;
+        setPosition({x, y});
+    }
+    void setPosition(const sf::Vector2f& pos){
+        m_position = pos;
     }
     void setGravity(float x, float y) {
         m_gravity.x = x;

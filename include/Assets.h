@@ -69,6 +69,7 @@ enum ID
     Gift,
     Explosion,
     Lose,
+    Jailed,
     Count
 };
 }  // namespace SoundEffect
