@@ -174,8 +174,8 @@ void GameState::spawnBomb() {
 void GameState::spawnGift() {
     m_moving.push_back(std::make_unique<Gift>(
         m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(),  // random door position
-        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)},     // random direction
-    getWinSize()));
+        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}     // random direction
+    ));
 }
 
 void GameState::registerMessageHandlers() {

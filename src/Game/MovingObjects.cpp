@@ -11,9 +11,8 @@
 #include <format>
 #endif
 
-MovingObjects::MovingObjects(const sf::Vector2f& dir, sf::Vector2u winSize)
-    :m_direction(dir), m_winSize(winSize)
-{
+MovingObjects::MovingObjects(const sf::Vector2f& dir) {
+    m_direction = sf::util::normalize(dir);
 }
 
 void MovingObjects::flicker() {
@@ -80,11 +79,6 @@ void MovingObjects::update(const sf::Time& dt) {
 
     if (m_timer.asSeconds() < 3)
         flicker();
-   /* std::cout << "x: " << getPosition().x << " y: " << getPosition().y << " is " <<
-        (!sf::FloatRect(-100.0, -100.0, m_winSize.x, m_winSize.y).contains(getPosition()) ? "inside " : "outside ") <<
-        " the screen; winSize.x is :" << m_winSize.x << "winSize.y is: " << m_winSize.y << std::endl;*/
-    if (!sf::FloatRect(-100.0, -100.0, m_winSize.x, m_winSize.y).contains(getPosition()))
-        kill();
-
+    
     move(m_direction * m_speed * dt.asSeconds());
 }
