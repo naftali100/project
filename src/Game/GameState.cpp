@@ -10,6 +10,7 @@
 #include "Resources.h"
 #include "SfmlUtil.h"
 #include "StateManager.h"
+#include "Game/States/LoseState.h"
 
 void GameState::init() {
     initBackground();
@@ -89,8 +90,8 @@ void GameState::handleEvent(const sf::Event& e) {
 void GameState::update(const sf::Time& dt) {
     LOGV;
     if (m_lives <= 0) {
-        // m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
-        // return;
+        m_stateManager.replaceState(std::make_unique<LoseState>(m_stateManager));
+        return;
     }
     m_sb.update(dt);
     if(m_nonJailedBomb == 1) spawnBomb();
