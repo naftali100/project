@@ -64,6 +64,8 @@ void Bomb::update(const sf::Time& dt) {
     if (m_isJailed)
         return;
 
+    
+
     // need to update timer even if dragged
     m_timer.update(dt);
     m_animation.update(dt);
