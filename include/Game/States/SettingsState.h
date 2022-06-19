@@ -23,6 +23,7 @@ public:
 
 private:
     void imGui();
+    void setting(const std::string& title, const std::string& explanation, int* p, float min, float max);
 
 private:
     sf::RectangleShape m_background;

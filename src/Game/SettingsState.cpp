@@ -2,7 +2,6 @@
 
 #include "Game/States/GameState.h"
 #include "Game/States/WelcomeState.h"
-#include "imgui/imgui_internal.h"
 
 void SettingsState::init() {
     LOGV;
@@ -33,6 +32,17 @@ void SettingsState::update(const sf::Time& dt) {
     LOGV;
 }
 
+void SettingsState::setting(const std::string& title, const std::string& explanation, int* p, float min, float max){
+    ImGui::BeginGroup();
+    ImGui::Text(title.c_str());
+    auto id = "##" + title;
+    ImGui::SliderInt(id.c_str(), p, min, max);
+    ImGui::EndGroup();
+    if (ImGui::IsItemHovered()) {
+        ImGui::SetTooltip(explanation.c_str());
+    }
+}
+
 void SettingsState::imGui() {
     ImGui::ShowDemoWindow();
     // if (ImGui::Button("close state")) {
@@ -47,35 +57,12 @@ void SettingsState::imGui() {
                                               ImGuiWindowFlags_NoTitleBar       |
                                               ImGuiWindowFlags_NoResize))
     {
-        // option A
-        ImGui::BeginGroup();
-        ImGui::Text("bomb speed");
-        ImGui::SliderInt("##", &m_params.m_speed, 100, 1000);
-        ImGui::EndGroup();
-        if (ImGui::IsItemHovered()) {
-            ImGui::SetTooltip("this is the speed in which the bomb will move");
-        }
-
-        // option B
-        ImGui::Text("spawn rate:");
-        ImGui::SameLine();
-        ImGui::SliderInt("##spawn rate", &m_params.m_bombSpawnRate, 1, 10);
-        if (ImGui::IsItemHovered()) {  // cloud be after text too
-            ImGui::SetTooltip("the maximum possible amount of time to pass before new bomb is spawned");
-        }
-
-        // option C
-        ImGui::SliderInt("bomb timeout", &m_params.m_bombTime, 1, 10);
-
-        ImGui::Text("color amount");
-        ImGui::SameLine();
-        ImGui::SliderInt("##color amount", &m_params.m_colors, 1, 3);
-        ImGui::Text("non jailed at same time");
-        ImGui::SameLine();
-        ImGui::SliderInt("##non jailed at same time", &m_params.m_maxBomb, 5, 10);
-        ImGui::Text("bomb to score");
-        ImGui::SameLine();
-        ImGui::SliderInt("##bomb to score", &m_params.m_bombToScore, 3, 10);
+        setting("bomb speed", "this is the speed in which the bomb will move", &m_params.m_speed, 100, 1000);
+        setting("spawn rate", "the maximum possible amount of time to pass before new bomb is spawned", &m_params.m_bombSpawnRate, 1, 10);
+        setting("bomb timeout", "bomb inital timeout timer", &m_params.m_bombTime, 1, 10);
+        setting("color amount", "amount of different bomb and jail colors", &m_params.m_colors, 1, 3);
+        setting("non jailed at same time", "max amount of non jailed bomb on the board at the same time", &m_params.m_maxBomb, 5, 10);
+        setting("bomb to score", "how much bomb you need to jail before they clean and you get the score", &m_params.m_bombToScore, 3, 10);
 
         auto size = ImGui::GetWindowSize();
         ImGui::SetWindowPos({m_stateManager.getWin().getView().getSize().x / 2 - size.x / 2, 300});
