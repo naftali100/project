@@ -10,11 +10,11 @@ Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::Vi
 // Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World"), m_stateManager(m_win) {}
 //  Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
 
-void loadMusic(Music::ID i, const std::string& path){
+void loadMusic(Music::ID id, const std::string& path){
 	std::unique_ptr<sf::Music> music = std::make_unique<sf::Music>();
 	music->openFromFile(path);
     music->setLoop(true);
-	MusicHolder::set(i, std::move(music));
+	MusicHolder::set(id, std::move(music));
 }
 
 void Game::loadResources() const {
@@ -44,6 +44,7 @@ void Game::loadResources() const {
     SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
     SoundBufferHolder::load(SoundEffect::Explosion, "soundEffects/explosion-1.ogg");
     SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose.ogg");
+    SoundBufferHolder::load(SoundEffect::Jailed, "soundEffects/jail-sound.ogg");
 }
 
 void Game::initImGui() {
@@ -74,6 +75,7 @@ void Game::run() {
     initImGui();
 
     m_win.setFramerateLimit(FPS);
+    m_win.setVerticalSyncEnabled(true);
     m_win.setKeyRepeatEnabled(false);
 
     // initial state

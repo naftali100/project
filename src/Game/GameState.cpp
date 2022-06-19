@@ -181,6 +181,7 @@ void GameState::spawnGift() {
 void GameState::registerMessageHandlers() {
     m_subscription.push_back(MessageBus::subscribe(MessageType::BombJailed, [this]() { 
         m_nonJailedBomb--; 
+        m_jailedSound.play();
     }));
     m_subscription.push_back(MessageBus::subscribe(MessageType::BombTimedout, [this]() {
         m_lives--;
