@@ -21,7 +21,8 @@ public:
         // check event map
     };
 
-    virtual void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {
+    virtual void draw(sf::RenderTarget& target,
+        sf::RenderStates states = sf::RenderStates::Default) const override {
         // debug draw
         // rectangle of global bound
         target.draw(sf::util::debugDraw(*this));

@@ -14,6 +14,10 @@
 #include "StateComponents/Camera.h"
 #include "Game/Jail.h"
 
+//constants:
+const int DEFAULT_LIVES = 3;
+
+
 class GameState : public State {
 public:
     using State::State;
@@ -69,7 +73,7 @@ private:
     std::vector<Func> m_subscription;
 
     // game data
-    int m_lives = 3;
+    int m_lives = DEFAULT_LIVES;
     int m_score = 0;
     int m_nonJailedBomb = 0;
     LevelParams m_params;
