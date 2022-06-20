@@ -73,8 +73,8 @@ void Game::initImGui() {
 
     ImGui::StyleColorsLight();
     style.WindowBorderSize = 0;
-    style.FramePadding = { 20, 20 };
-    style.ItemSpacing = { 20, 20 };
+    style.FramePadding = { 15, 15 };
+    style.ItemSpacing = { 10, 10 };
     style.ScrollbarSize = 20;
 }
 
