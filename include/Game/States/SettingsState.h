@@ -16,12 +16,12 @@ public:
     using State::State;
 
     void init() override;
-    void initBackground();
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
 
 private:
+    void initBackground();
     void imGui();
     void setting(const std::string& title, const std::string& explanation, int* p, float min, float max);
 

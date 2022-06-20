@@ -15,13 +15,14 @@ public:
     using State::State;
 
     void init() override;
-    void initBackground();
 
     void handleEvent(const sf::Event& e) override;
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
 
 private:
+    void initBackground();
+
     gui::Button m_btn{"start the game!!"};
     gui::Button m_setBtn{"settings"};
     ParticleSystem m_ps;
