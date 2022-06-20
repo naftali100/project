@@ -9,7 +9,7 @@ Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir)
 {
     setPosition(pos);
     MovingObjects::setSpeed(200);
-    m_sprite.setTexture(TextureHolder::get(Textures::Gift2));
+    m_sprite.setTexture(TextureHolder::get(Textures::Gift));
 
     m_timer.set([this]() { kill(); }, 10);
 
