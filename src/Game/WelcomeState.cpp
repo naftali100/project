@@ -85,6 +85,9 @@ void WelcomeState::update(const sf::Time& dt) {
 	static int musicVolume = 50;
 	ImGui::SliderInt("music volume", &musicVolume, 1, 100);
 	MusicHolder::get((Music::ID)selected).setVolume(musicVolume);
+	if(ImGui::Button("exit")){
+		m_stateManager.stop();
+	}
 
 	LOGV;
 }

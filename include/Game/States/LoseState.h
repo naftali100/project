@@ -26,7 +26,18 @@ public:
     }
     virtual void draw(sf::RenderTarget& win) const override {
         win.draw(m_background);
-        m_btn.draw(win);
+        if(ImGui::BeginOnlyWidget()){
+            if(ImGui::Button("main menu")){
+                m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager)); 
+                ImGui::End();
+                return;
+            }
+            ImGui::SetWindowPos({
+                (m_stateManager.getWin().getSize().x / 2) - (ImGui::GetItemRectSize().x / 2),
+                m_stateManager.getWin().getSize().y - 200.f
+            });
+        }
+        ImGui::End();
     }
 
     void initBackground() {
