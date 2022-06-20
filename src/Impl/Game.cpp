@@ -23,7 +23,6 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::GameOver, "textures/gameover.jpg");
     TextureHolder::load(Textures::Gift, "textures/gift.png");
-    TextureHolder::load(Textures::Gift2, "textures/gift4.png");
     TextureHolder::load(Textures::Jail, "textures/jail.png");
     TextureHolder::load(Textures::SkyBackground, "textures/sky.jpg");
     TextureHolder::load(Textures::level1, "textures/level1.png");
