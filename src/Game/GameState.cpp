@@ -74,9 +74,9 @@ void GameState::addWall(const sf::Vector2f& pos, const sf::Vector2f& size){
 }
 
 void GameState::initDoors() {
-    addDoor({110, 310});
-    addDoor({500, 310});
-    addDoor({1000, 310});
+    addDoor({110, 110});
+    addDoor({500, 110});
+    addDoor({1000, 110});
 }
 
 void GameState::addDoor(const sf::Vector2f& pos) {
@@ -94,7 +94,7 @@ void GameState::update(const sf::Time& dt) {
         return;
     }
     m_sb.update(dt);
-    if(m_nonJailedBomb <= 1) spawnBomb();
+    if(m_nonJailedBomb == 1) spawnBomb();
     if (m_nonJailedBomb < m_params.m_maxBomb) m_bombSpawnTimer.update(dt);
     m_giftSpawnTimer.update(dt);
 
@@ -106,7 +106,7 @@ void GameState::update(const sf::Time& dt) {
 
     handleCollisions(dt);
 
-    std::erase_if(m_moving, [](const auto& item) { return item->isTimeout(); });
+    std::erase_if(m_moving, [](const auto& item) { return item->isDead(); });
 };
 
 void GameState::draw(sf::RenderTarget& win) const {
@@ -174,8 +174,8 @@ void GameState::spawnBomb() {
 void GameState::spawnGift() {
     m_moving.push_back(std::make_unique<Gift>(
         m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(),  // random door position
-        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)}     // random direction
-    ));
+        sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)},     // random direction
+    getWinSize()));
 }
 
 void GameState::registerMessageHandlers() {

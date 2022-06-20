@@ -20,7 +20,8 @@ public:
     void addBomb(Bomb* b);
 
     void update(const sf::Time& dt) override;
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
+    void draw(sf::RenderTarget& target,
+        sf::RenderStates states = sf::RenderStates::Default) const override;
 
     sf::FloatRect getGlobalBounds() const override;
 
@@ -36,7 +37,6 @@ private:
     int m_bombBuffer;
     std::vector<Func> m_subs;
     bool m_isJailBreak = false;
-    // bool m_isActive = false;
     Timer m_jailBreakTimer;
     Explosion m_explosion;
 };

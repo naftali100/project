@@ -18,7 +18,8 @@ public:
     };
 
     static Func subscribe(MessageType type, const Func& func) {
-        getInstance().m_subscribersWithType.push_back(std::pair(++getInstance().m_id, std::pair(type, func)));
+        getInstance().m_subscribersWithType.push_back(std::pair(++getInstance().m_id,
+            std::pair(type, func)));
         return [id = getInstance().m_id]() { unsubscribe(id); };
     };
 
@@ -30,21 +31,25 @@ public:
 
     template <typename T>
     static Func subscribe(MessageType type, const FuncT<T>& func) {
-        m_subscribersWithTypeAndArg<T>.push_back(std::pair(++getInstance().m_id, std::pair(type, func)));
+        m_subscribersWithTypeAndArg<T>.push_back(std::pair(++getInstance().m_id,
+            std::pair(type, func)));
         return [id = getInstance().m_id]() { unsubscribe<T>(id); };
     };
 
     /// unsubscribe
 
     static void unsubscribe(unsigned long int id) {
-        std::erase_if(getInstance().m_subscribers, [id](auto i) { return i.first == id; });
-        std::erase_if(getInstance().m_subscribersWithType, [id](auto i) { return i.first == id; });
+        std::erase_if(getInstance().m_subscribers, [id](auto i)
+            { return i.first == id; });
+        std::erase_if(getInstance().m_subscribersWithType,
+            [id](auto i) { return i.first == id; });
     }
 
     template <typename T>
     static void unsubscribe(unsigned long int id) {
         std::erase_if(m_subscribersWithArg<T>, [id](auto i) { return i.first == id; });
-        std::erase_if(m_subscribersWithTypeAndArg<T>, [id](auto i) { return i.first == id; });
+        std::erase_if(m_subscribersWithTypeAndArg<T>, [id](auto i)
+            { return i.first == id; });
     }
 
     /// send events
@@ -101,7 +106,8 @@ private:
     inline static std::vector<std::pair<int, std::function<void(const T&)>>> m_subscribersWithArg;
 
     template <typename T>
-    inline static std::vector<std::pair<int, std::pair<MessageType, std::function<void(const T&)>>>> m_subscribersWithTypeAndArg;
+    inline static std::vector<std::pair<int, std::pair<MessageType,
+        std::function<void(const T&)>>>> m_subscribersWithTypeAndArg;
 
     unsigned long int m_id = 0;
 };

@@ -48,7 +48,8 @@ private:
     void loadResource(Identifier id, const std::string& filename);
 
     template <typename Parameter>
-    void loadResource(Identifier id, const std::string& filename, const Parameter& secondParam);
+    void loadResource(Identifier id, const std::string& filename,
+        const Parameter& secondParam);
 
 private:
     ResourceHolder() = default;

@@ -5,10 +5,15 @@
 #include "Animation.h"
 #include "Resources.h"
 
+const float SB_TIME = 0.1;
+const int SB_ROWS = 1;
+const int SB_COLS = 9;
+
 class StatusBar {
 public:
     StatusBar(int& lives, int& score) : m_lives(lives), m_score(score) {
-        m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), 1, 9, 0.1f);
+        m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(),
+            SB_ROWS, SB_COLS, SB_TIME;
     };
     int getLive();
     void addLive();

@@ -2,8 +2,8 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
-#include "Log.h"
 #include "Resources.h"
+#include "SfmlUtil.h"
 
 struct Particle {
     sf::Vector2f m_pos;  // Position
@@ -18,9 +18,9 @@ struct Particle {
     virtual ~Particle() = default;
 };
 using ParticlePtr = std::unique_ptr<Particle>;
-using ParticleIterator = std::vector<ParticlePtr>::iterator;
+typedef std::vector<ParticlePtr>::iterator ParticleIterator;
 
-struct BaseSpriteParticle : public Particle {
+struct spriteParticle : public Particle {
     sf::Sprite sprite{TextureHolder::get(Textures::Smoke)};
 
     void init() override {
@@ -30,10 +30,10 @@ struct BaseSpriteParticle : public Particle {
         sprite.setOrigin(sprite.getGlobalBounds().width / 2, sprite.getGlobalBounds().height / 2);
     }
 
-    virtual void update(const sf::Time& dt) override {
+    void update(const sf::Time& dt) override {
         // update position and opacity
         sprite.setPosition(m_pos);
-        sprite.setColor(sf::Color(255, 255, 255, opacity));
+        sprite.setColor(Colors::White);
     }
 
     void draw(sf::RenderTarget& r) const override {
@@ -42,17 +42,6 @@ struct BaseSpriteParticle : public Particle {
 
     void rotate(float angle) {
         sprite.rotate(angle);
-    }
-};
-
-struct spriteParticle : public BaseSpriteParticle {
-
-};
-
-struct TrailParticle : public BaseSpriteParticle {
-    virtual void update(const sf::Time& dt) override {
-        BaseSpriteParticle::update(dt);
-        sprite.setScale(sf::Vector2f(1,1) * 1.5f * dt.asSeconds());
     }
 };
 

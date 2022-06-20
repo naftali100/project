@@ -10,7 +10,7 @@
 
 class MovingObjects : public Entity {
 public:
-    MovingObjects(const sf::Vector2f& dir);
+    MovingObjects(const sf::Vector2f& dir, sf::Vector2u winSize);
     void setDirection(const sf::Vector2f& v);
 
     virtual void setSpeed(float s) {
@@ -20,7 +20,7 @@ public:
     void flicker();
 
     // TODO: rename this to "isDead" or something
-    bool isTimeout() const {
+    bool isDead() const {
         return m_shouldDie;
     };
 
@@ -32,7 +32,8 @@ public:
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
     void update(const sf::Time& dt) override;
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override;
+    void draw(sf::RenderTarget& target,
+        sf::RenderStates states = sf::RenderStates::Default) const override;
 
     virtual ~MovingObjects() = default;
 
@@ -43,6 +44,7 @@ protected:
     sf::Sprite m_sprite;
     Animation m_animation{m_sprite};
     float m_speed;
+    sf::Vector2u m_winSize;
 
 private:
     void resolveCollision(const sf::Vector3f& manifold);

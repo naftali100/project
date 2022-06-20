@@ -2,6 +2,8 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+// CONSTANTS:
+const int CAMERA_SPEED;
 enum winResizeStrategy
 {
     LatterBox,  // change the viewport to math new window size
@@ -96,7 +98,7 @@ public:
     }
 
     void update(const sf::Time& dt) {
-        float cameraSpeed = 100 * dt.asSeconds();
+        float cameraSpeed = CAMERA_SPEED * dt.asSeconds();
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
             m_view.move(0, cameraSpeed);
         }

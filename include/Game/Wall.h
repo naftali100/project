@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "Resources.h"
 
+// TODO: set texture
 //  basically a rectangle with collision tag set to wall
 class Wall : public Entity {
 public:
@@ -14,8 +15,10 @@ public:
         setSize(size);
     }
     void update(const sf::Time& dt) override{};
-    void draw(sf::RenderTarget& target, sf::RenderStates states = sf::RenderStates::Default) const override {
-        sf::Sprite r{TextureHolder::get(Textures::Wall), sf::IntRect((sf::Vector2i)getPosition(), (sf::Vector2i)getSize())};
+    void draw(sf::RenderTarget& target,
+        sf::RenderStates states = sf::RenderStates::Default) const override {
+        sf::Sprite r{TextureHolder::get(Textures::Wall),
+            sf::IntRect((sf::Vector2i)getPosition(), (sf::Vector2i)getSize())};
         r.setPosition(getPosition());
         target.draw(r);
     }

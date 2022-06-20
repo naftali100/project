@@ -5,6 +5,13 @@
 #include "Particle.h"
 #include "Random.h"
 
+//constants:
+const float PARTICLE_SPEED = 20.f;
+const float MAX_ROTATE = 90.f;
+const float PI = 3.1416f;
+const float VEL = 0.5f;
+const int OPACITY = 255;
+
 template <typename T>
 concept DerivedFromParticle = std::is_base_of<Particle, T>::value;
 
@@ -19,7 +26,7 @@ namespace Shape {
 class ParticleSystem {
 public:
     ParticleSystem() {
-        m_particleSpeed = 20.0f;
+        m_particleSpeed = PARTICLE_SPEED;
         m_dissolutionRate = 0;
         m_shape = Shape::CIRCLE;
     }
@@ -48,10 +55,8 @@ public:
     void draw(sf::RenderTarget&) const;  // Renders all particles onto m_image
 
     void setPosition(float x, float y) {
-        setPosition({x, y});
-    }
-    void setPosition(const sf::Vector2f& pos){
-        m_position = pos;
+        m_position.x = x;
+        m_position.y = y;
     }
     void setGravity(float x, float y) {
         m_gravity.x = x;
@@ -92,12 +97,12 @@ void ParticleSystem::fuel(int particles) {
         particle->m_pos.x = m_position.x;
         particle->m_pos.y = m_position.y;
 
-        particle->rotate(Random::rnd<float>(0.0f, 90.f));
+        particle->rotate(Random::rnd<float>(0.0f, MAX_ROTATE));
 
         switch (m_shape) {
             case Shape::CIRCLE:
 
-                angle = Random::rnd<float>(0.0f, 6.2832f);
+                angle = Random::rnd<float>(0.0f, 2*PI);
                 particle->m_vel.x = Random::rnd<float>(std::min(0.0f, std::cos(angle)), std::max(0.0f, std::cos(angle)));
                 particle->m_vel.y = Random::rnd<float>(std::min(0.0f, std::sin(angle)), std::max(0.0f, std::sin(angle)));
                 particle->m_gravity = m_gravity;
@@ -108,14 +113,14 @@ void ParticleSystem::fuel(int particles) {
                 particle->m_gravity = m_gravity;
                 break;
             default:
-                particle->m_vel.x = 0.5f;  // Easily detected
-                particle->m_vel.y = 0.5f;  // Easily detected
+                particle->m_vel.x = VEL;  // Easily detected
+                particle->m_vel.y = VEL;  // Easily detected
         }
 
         if (particle->m_vel.x == 0.0f && particle->m_vel.y == 0.0f) {
             continue;
         }
-        particle->opacity = 255;
+        particle->opacity = OPACITY;
 
         particle->init();
         m_particles.push_back(std::move(particle));
