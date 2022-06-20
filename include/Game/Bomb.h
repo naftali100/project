@@ -41,6 +41,8 @@ public:
     ~Bomb() override;
 
 private:
+    void playSound();
+
     bool m_isDragged = false;
     bool m_isJailed = false;
     sf::Color m_color;

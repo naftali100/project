@@ -79,7 +79,6 @@ private:
     StatusBar m_sb{m_lives, m_score};
     sf::RectangleShape m_background;
     sf::Sound m_explosionSound{SoundBufferHolder::get(SoundEffect::Explosion)};
-    sf::Sound m_jailedSound{SoundBufferHolder::get(SoundEffect::Jailed)};
 };
 
 #endif  // __GAMESTATE_H__
