@@ -60,13 +60,10 @@ void WelcomeState::update(const sf::Time& dt) {
 	m_btn.update();
 	m_setBtn.update();
 
-	int defferAmount = 10;
-	static int deffer = defferAmount;
-	deffer--;
-	if(deffer < 0){
+	static int deffer = 0;
+	if(deffer++ % 10 == 0){
 		m_ps.addParticles<spriteParticle>(Random::rnd(3,8));
 		m_ps1.addParticles<spriteParticle>(Random::rnd(3,8));
-		deffer = defferAmount;
 	}
 	m_ps.update(dt);
 	m_ps1.update(dt);

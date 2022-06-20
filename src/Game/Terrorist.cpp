@@ -59,11 +59,15 @@ void Terrorist::update(const sf::Time& dt) {
     if (!m_isDragged)
         MovingObjects::update(dt);
 
-    m_footStep.setPosition(sf::util::getGlobalBottomLeft(*this));
-	deffer--;
-	if(deffer < 0){
-        m_footStep.addParticles<TrailParticle>(1);
-		deffer = 3;
+    if(m_direction.x < 0)
+        m_footStep.setPosition(sf::util::getGlobalBottomRight(*this) - sf::Vector2f(10, 25));
+    else
+        m_footStep.setPosition(sf::util::getGlobalBottomLeft(*this) - sf::Vector2f(10, 25));
+
+	if(deffer++ % 3 == 0){
+        TrailParticle p;
+        p.m_color = m_color;
+        m_footStep.addParticles(p, 1);
 	}
     m_footStep.update(dt);
 

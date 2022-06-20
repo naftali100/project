@@ -47,7 +47,7 @@ private:
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
     ParticleSystem m_footStep;
-    int deffer = 5;
+    int deffer = 1;
     sf::Vector2u m_winSize;
 };
 

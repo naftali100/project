@@ -12,10 +12,6 @@ ParticleSystem::ParticleSystem(const ParticleSystem& other){
     m_shape = other.m_shape;
 }
 
-void ParticleSystem::addParticles(const DerivedFromParticle auto& particle, int particlesAmount) {
-    addParticles(std::make_unique<Particle>(particle), particlesAmount);
-}
-
 void ParticleSystem::addParticles(std::unique_ptr<Particle> particle, int particlesAmount){
     particle->m_pos.x = m_position.x;
     particle->m_pos.y = m_position.y;

@@ -50,7 +50,7 @@ public:
 
     template <DerivedFromParticle P>
     void addParticles(int particles);            // Adds new particles to m_particles
-    void addParticles(const DerivedFromParticle auto& particle, int particlesAmount);
+    void addParticles(DerivedFromParticle auto particle, int particlesAmount);
     void addParticles(std::unique_ptr<Particle> particle, int particlesAmount);
     void update(const sf::Time&);        // Updates position, velocity and opacity of all particles
     void draw(sf::RenderTarget&) const;  // Renders all particles onto m_image
@@ -89,6 +89,10 @@ private:
 
     std::vector<ParticlePtr> m_particles;
 };
+
+void ParticleSystem::addParticles(DerivedFromParticle auto particle, int particlesAmount) {
+    addParticles(std::make_unique<decltype(particle)>(particle), particlesAmount);
+}
 
 template <DerivedFromParticle T>
 void ParticleSystem::addParticles(int particlesAmount) {

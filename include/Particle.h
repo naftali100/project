@@ -50,8 +50,11 @@ struct spriteParticle : public BaseSpriteParticle {
 };
 
 struct TrailParticle : public BaseSpriteParticle {
+    sf::Color m_color;
     virtual void update(const sf::Time& dt) override {
-        BaseSpriteParticle::update(dt);
+        m_color.a = opacity;
+        sprite.setPosition(m_pos);
+        sprite.setColor(m_color);
         sprite.setScale(sf::Vector2f(1,1) * 1.5f * dt.asSeconds());
     }
 };
