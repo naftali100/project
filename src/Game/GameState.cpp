@@ -74,9 +74,9 @@ void GameState::addWall(const sf::Vector2f& pos, const sf::Vector2f& size){
 }
 
 void GameState::initDoors() {
-    addDoor({110, 110});
-    addDoor({500, 110});
-    addDoor({1000, 110});
+    addDoor({200, 250});
+    addDoor({500, 250});
+    addDoor({1000, 250});
 }
 
 void GameState::addDoor(const sf::Vector2f& pos) {
@@ -98,7 +98,6 @@ void GameState::update(const sf::Time& dt) {
     if (m_nonJailedBomb < m_params.m_maxBomb) m_bombSpawnTimer.update(dt);
     m_giftSpawnTimer.update(dt);
 
-    for (auto const& i : m_doors) { i->update(dt); }
     for (auto const& i : m_moving) { i->update(dt); }
     for (auto const& i : m_jails) { i->update(dt); }
     for (auto const& i : m_static) { i->update(dt); }
@@ -113,10 +112,10 @@ void GameState::draw(sf::RenderTarget& win) const {
     LOGV;
     win.draw(m_background);
 
+    for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
     for (auto& m : m_jails | std::views::take(m_params.m_colors + 1)) { m->draw(win); }
-    for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
     m_sb.draw(win);
     LOGV;
