@@ -19,8 +19,9 @@ void loadMusic(Music::ID id, const std::string& path){
 
 void Game::loadResources() const {
     TextureHolder::load(Textures::Bomb, "textures/bomb.png");
-    TextureHolder::load(Textures::Door, "textures/door.png");
+    TextureHolder::load(Textures::Door, "textures/door-open.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
+    TextureHolder::load(Textures::GameOver, "textures/gameover.jpg");
     TextureHolder::load(Textures::Gift, "textures/gift.png");
     TextureHolder::load(Textures::Gift2, "textures/gift4.png");
     TextureHolder::load(Textures::Jail, "textures/jail.png");
@@ -38,8 +39,8 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::Smoke, "textures/smoke.png");
     TextureHolder::load(Textures::SoldierBackground, "textures/bg-1.jpg");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
-    TextureHolder::load(Textures::TerroristRunRight, "textures/trrorist-final-1.png");
     TextureHolder::load(Textures::TerroristRunLeft, "textures/trrorist-final-left-run.png");
+    TextureHolder::load(Textures::TerroristRunRight, "textures/trrorist-final-1.png");
     TextureHolder::load(Textures::Wall, "textures/wall-final.png");
     TextureHolder::get(Textures::Wall).setRepeated(true);
 
@@ -51,10 +52,10 @@ void Game::loadResources() const {
 	loadMusic(Music::Background3, "music/b3.ogg");
 	loadMusic(Music::Background4, "music/b4.ogg");
 
-    SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
     SoundBufferHolder::load(SoundEffect::Explosion, "soundEffects/explosion-1.ogg");
-    SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose1.ogg");
+    SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
     SoundBufferHolder::load(SoundEffect::Jailed, "soundEffects/jail-sound.ogg");
+    SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose1.ogg");
 }
 
 void Game::initImGui() {
