@@ -1074,6 +1074,7 @@ bool BeginOnlyWidget(){
     window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
     window_flags |= ImGuiWindowFlags_NoCollapse;
     window_flags |= ImGuiWindowFlags_NoTitleBar;
+    window_flags |= ImGuiWindowFlags_NoDecoration;
 
     return ImGui::Begin("##", nullptr, window_flags);
 }
