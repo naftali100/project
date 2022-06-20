@@ -11,7 +11,7 @@ public:
     using State::State;
 
     void init() override {
-        m_btn.setPosition({m_stateManager.getWin().getSize().x / 2 - m_btn.getGlobalBounds().width, 500});
+        m_btn.setPosition({(m_stateManager.getWin().getSize().x / 2) - m_btn.getGlobalBounds().width, m_stateManager.getWin().getSize().y - 200.f});
         m_btn.setFunction([this]() { m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager)); });
         m_loseSound.setVolume(70);
         m_loseSound.play();
@@ -39,7 +39,7 @@ public:
     }
 
 private:
-    gui::Button m_btn;
+    gui::Button m_btn{ "main menu" };
     sf::Sound m_loseSound{SoundBufferHolder::get(SoundEffect::Lose)};
     sf::RectangleShape m_background;
 };
