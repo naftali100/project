@@ -50,6 +50,8 @@ public:
 
     template <DerivedFromParticle P>
     void addParticles(int particles);            // Adds new particles to m_particles
+    void addParticles(const DerivedFromParticle auto& particle, int particlesAmount);
+    void addParticles(std::unique_ptr<Particle> particle, int particlesAmount);
     void update(const sf::Time&);        // Updates position, velocity and opacity of all particles
     void draw(sf::RenderTarget&) const;  // Renders all particles onto m_image
 
@@ -90,43 +92,9 @@ private:
 
 template <DerivedFromParticle T>
 void ParticleSystem::addParticles(int particlesAmount) {
-    LOGV;
-    float angle;
     for (int i = 0; i < particlesAmount; i++) {
-        LOGV;
-        ParticlePtr particle = std::make_unique<T>();
-        particle->m_pos.x = m_position.x;
-        particle->m_pos.y = m_position.y;
-
-        particle->rotate(Random::rnd<float>(0.0f, MAX_ROTATE));
-
-        switch (m_shape) {
-            case Shape::CIRCLE:
-
-                angle = Random::rnd<float>(0.0f, 2*PI);
-                particle->m_vel.x = Random::rnd<float>(std::min(0.0f, std::cos(angle)), std::max(0.0f, std::cos(angle)));
-                particle->m_vel.y = Random::rnd<float>(std::min(0.0f, std::sin(angle)), std::max(0.0f, std::sin(angle)));
-                particle->m_gravity = m_gravity;
-                break;
-            case Shape::SQUARE:
-                particle->m_vel.x = Random::rnd<float>(-1.0f, 1.0f);
-                particle->m_vel.y = Random::rnd<float>(-1.0f, 1.0f);
-                particle->m_gravity = m_gravity;
-                break;
-            default:
-                particle->m_vel.x = VEL;  // Easily detected
-                particle->m_vel.y = VEL;  // Easily detected
-        }
-
-        if (particle->m_vel.x == 0.0f && particle->m_vel.y == 0.0f) {
-            continue;
-        }
-        particle->opacity = OPACITY;
-
-        particle->init();
-        m_particles.push_back(std::move(particle));
+        addParticles(std::make_unique<T>(), particlesAmount);
     }
-    LOGV;
 }
 
 #endif
