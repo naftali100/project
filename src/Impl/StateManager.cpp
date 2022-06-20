@@ -104,13 +104,15 @@ void StateManager::setupImGuiWindow() {
         ImGuiWindowFlags window_flags = 0;
         window_flags |= ImGuiWindowFlags_NoResize;
         window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
-        // ImGui::SetNextWindowPos(sf::Vector2f(10, 10));
+        window_flags |= ImGuiWindowFlags_NoCollapse;
+        window_flags |= ImGuiWindowFlags_NoTitleBar;
+        ImGui::SetNextWindowPos(sf::Vector2f(10, 10));
         if (ImGui::Begin("game window", &m_showImGuiGameWindow, window_flags)) {
-            ImGui::TextDisabled("what is this?");
-            if(ImGui::IsItemHovered())
-                ImGui::SetTooltip(
-                    "my game state manager's default window\nyou can close this by setting show to false\nyou can add "
-                    "stuff to the window for consistant\nif you close this and add stuff they go to debug window");
+            // ImGui::TextDisabled("what is this?");
+            // if(ImGui::IsItemHovered())
+            //     ImGui::SetTooltip(
+            //         "my game state manager's default window\nyou can close this by setting show to false\nyou can add "
+            //         "stuff to the window for consistant\nif you close this and add stuff they go to debug window");
         }
     }
 }
