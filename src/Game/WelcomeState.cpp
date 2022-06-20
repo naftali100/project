@@ -64,8 +64,8 @@ void WelcomeState::update(const sf::Time& dt) {
 	static int deffer = defferAmount;
 	deffer--;
 	if(deffer < 0){
-		m_ps.fuel<spriteParticle>(Random::rnd(3,8));
-		m_ps1.fuel<spriteParticle>(Random::rnd(3,8));
+		m_ps.addParticles<spriteParticle>(Random::rnd(3,8));
+		m_ps1.addParticles<spriteParticle>(Random::rnd(3,8));
 		deffer = defferAmount;
 	}
 	m_ps.update(dt);

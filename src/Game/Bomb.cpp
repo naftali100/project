@@ -64,7 +64,7 @@ void Bomb::update(const sf::Time& dt) {
     m_footStep.setPosition(sf::util::getGlobalBottomLeft(*this));
 	deffer--;
 	if(deffer < 0){
-        m_footStep.fuel<TrailParticle>(1);
+        m_footStep.addParticles<TrailParticle>(1);
 		deffer = 3;
 	}
     m_footStep.update(dt);

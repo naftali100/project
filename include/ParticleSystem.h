@@ -49,7 +49,7 @@ public:
     }
 
     template <DerivedFromParticle P>
-    void fuel(int particles);            // Adds new particles to m_particles
+    void addParticles(int particles);            // Adds new particles to m_particles
     void update(const sf::Time&);        // Updates position, velocity and opacity of all particles
     void draw(sf::RenderTarget&) const;  // Renders all particles onto m_image
 
@@ -89,10 +89,10 @@ private:
 };
 
 template <DerivedFromParticle T>
-void ParticleSystem::fuel(int particles) {
+void ParticleSystem::addParticles(int particlesAmount) {
     LOGV;
     float angle;
-    for (int i = 0; i < particles; i++) {
+    for (int i = 0; i < particlesAmount; i++) {
         LOGV;
         ParticlePtr particle = std::make_unique<T>();
         particle->m_pos.x = m_position.x;
