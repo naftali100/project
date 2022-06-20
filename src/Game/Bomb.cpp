@@ -13,7 +13,7 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
     initSprite();
     
     MovingObjects::setSpeed(p.m_speed);
-    m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors + 1)];
+    m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors)];
 
     setCollisionTag(CollisionTag::bomb);
 

@@ -47,7 +47,7 @@ void GameState::initJail() {
     auto jailSize = Jail(m_params, Colors::Red, {0, 0}).getSize();
     sf::Vector2f startPoint{(jailSize.x / 2) + 100, winSize.y - (jailSize.y / 2.f) - 100};
 
-    for (auto i : std::views::iota(0, m_params.m_colors + 1)) {
+    for (auto i : std::views::iota(0, m_params.m_colors)) {
         addJail({(i * jailSize.x) + startPoint.x + 10, startPoint.y}, Colors::STD_COLORS[i]);
     }
 }
@@ -115,7 +115,7 @@ void GameState::draw(sf::RenderTarget& win) const {
     for (auto& m : m_doors) { m->draw(win); }
     for (auto& m : m_moving) { m->draw(win); }
     for (auto& m : m_static) { m->draw(win); }
-    for (auto& m : m_jails | std::views::take(m_params.m_colors + 1)) { m->draw(win); }
+    for (auto& m : m_jails | std::views::take(m_params.m_colors)) { m->draw(win); }
     for (auto& m : m_explosions) { m->draw(win); }
     m_sb.draw(win);
     LOGV;
