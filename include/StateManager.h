@@ -9,11 +9,6 @@ class StateManager {
 public:
     explicit StateManager(sf::RenderWindow& win);
 
-    // TODO
-    // template <typename T, typename... Args>
-    // inline void pushState(Args&&... args) {
-    //     pushState(std::make_unique<T>(std::forward<Args>(args)...));
-    // }
     void pushState(StatePtr);
     void replaceState(StatePtr);
     void popState();
@@ -27,11 +22,6 @@ public:
 
     void setupImGuiWindow();
 
-    // template <typename S>
-    // void registerState(States::ID state);
-
-    // StatePtr createState(States::ID);
-
     sf::RenderWindow& getWin();
 
     void pause();
@@ -44,12 +34,6 @@ private:
     bool m_paused = false;
 
     bool m_shouldPop = false;  // for deferred pop
-    // std::map<States::ID, std::function<StatePtr()>> m_factories;
 };
-
-// template <typename S>
-// void StateManager::registerState(States::ID state) {
-//     m_factories[state] = [this]() { return std::make_unique<S>(*this); };
-// }
 
 #endif

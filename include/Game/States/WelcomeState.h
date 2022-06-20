@@ -29,6 +29,4 @@ private:
     ParticleSystem m_ps1;
     Timer m_gravityChangeTimer;
     sf::RectangleShape m_background;
-
-    Camera m_cam;
 };

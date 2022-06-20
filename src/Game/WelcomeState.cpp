@@ -12,7 +12,6 @@ void WelcomeState::init() {
 		}
 	}
 
-	m_cam.setView(m_stateManager.getWin().getDefaultView());
 	initBackground();
 
 	auto btnXPos = (((float)m_stateManager.getWin().getSize().x / 3) * 2.5f) - sf::util::getGlobalCenter(m_btn).x;
@@ -57,15 +56,9 @@ void WelcomeState::handleEvent(const sf::Event& e) {
 
 void WelcomeState::update(const sf::Time& dt) {
 	LOGV;
-	m_cam.update(dt);
 	m_gravityChangeTimer.update(dt);
 	m_btn.update();
 	m_setBtn.update();
-	ImGui::ShowDemoWindow();
-	if (ImGui::Button("close state")) {
-		m_stateManager.popState();
-		return;
-	}
 
 	int defferAmount = 10;
 	static int deffer = defferAmount;
@@ -81,7 +74,7 @@ void WelcomeState::update(const sf::Time& dt) {
 	// change music
 	static int selected = 0;
 	for(int i = 0; i < Music::Count; i++){
-		std::string label = "music no: " + std::string(magic_enum::enum_name((Music::ID)i));
+		std::string label = std::string(magic_enum::enum_name((Music::ID)i));
 		int oldSelected = selected;
 		if(ImGui::Selectable(label.c_str(), selected == i)){
 			selected = i;
@@ -97,7 +90,6 @@ void WelcomeState::update(const sf::Time& dt) {
 }
 
 void WelcomeState::draw(sf::RenderTarget& win) const {
-	// m_cam.draw(win);
 	win.draw(m_background);
 	m_btn.draw(win);
 	m_setBtn.draw(win);
