@@ -135,6 +135,8 @@ IMGUI_SFML_API void DrawRect(const sf::FloatRect& rect, const sf::Color& color,
                              float thickness = 1.0f);
 IMGUI_SFML_API void DrawRectFilled(const sf::FloatRect& rect, const sf::Color& color,
                                    float rounding = 0.0f, int rounding_corners = 0x0F);
+
+IMGUI_SFML_API bool BeginOnlyWidget();
 } // end of namespace ImGui
 
 #endif //# IMGUI_SFML_H

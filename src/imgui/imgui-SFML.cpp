@@ -1067,6 +1067,16 @@ void DrawRectFilled(const sf::FloatRect& rect, const sf::Color& color, float rou
                              ColorConvertFloat4ToU32(toImColor(color)), rounding, rounding_corners);
 }
 
+
+bool BeginOnlyWidget(){
+    ImGuiWindowFlags window_flags = 0;
+    window_flags |= ImGuiWindowFlags_NoResize;
+    window_flags |= ImGuiWindowFlags_AlwaysAutoResize;
+    window_flags |= ImGuiWindowFlags_NoCollapse;
+    window_flags |= ImGuiWindowFlags_NoTitleBar;
+
+    return ImGui::Begin("##", nullptr, window_flags);
+}
 } // end of namespace ImGui
 
 namespace {
