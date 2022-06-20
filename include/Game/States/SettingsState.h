@@ -24,6 +24,7 @@ private:
     void initBackground();
     void imGui();
     void setting(const std::string& title, const std::string& explanation, int* p, float min, float max);
+    void level(const sf::Sprite& s, LevelParams p, const Textures::ID& texture);
 
 private:
     sf::RectangleShape m_background;
