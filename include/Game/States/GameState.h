@@ -52,9 +52,7 @@ private:
     void addDoor(const sf::Vector2f& pos);
 
     void freeTerrorists() const;
-    void initCamera(); // TODO: delete
 
-    void imGui(); // TODO: delete
     void registerMessageHandlers();
 
     void handleCollisions(const sf::Time&);
@@ -70,8 +68,6 @@ private:
     std::vector<std::unique_ptr<Door>> m_doors;
 
     // components
-    CollisionHandler m_col; // currently not in use
-    Camera m_cam; // TODO: remove
     std::vector<Func> m_subscription;
 
     // game data

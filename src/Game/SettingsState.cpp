@@ -52,12 +52,6 @@ void SettingsState::level(const sf::Sprite& s, LevelParams p, const Textures::ID
 }
 
 void SettingsState::imGui() {
-    ImGui::ShowDemoWindow();
-    // if (ImGui::Button("close state")) {
-    //     m_stateManager.popState();
-    //     return;
-    // }
-    //  ImGui::SetNextWindowPos({500, 500});
     if (ImGui::Begin("level params##settingsState", nullptr, ImGuiWindowFlags_AlwaysAutoResize |
                                               ImGuiWindowFlags_NoBackground     |
                                               ImGuiWindowFlags_NoCollapse       |

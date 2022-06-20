@@ -33,6 +33,7 @@ public:
 
     ParticleSystem(const ParticleSystem& other);
 
+    // for coping all properties without the particles
     ParticleSystem& operator=(const ParticleSystem& other) {
         if (this == &other)
             return *this;
@@ -47,8 +48,6 @@ public:
         return *this;
     }
 
-    // TODO: support screen resize (using view?)
-    // TODO: switch to vertexArray for better performance
     template <DerivedFromParticle P>
     void fuel(int particles);            // Adds new particles to m_particles
     void update(const sf::Time&);        // Updates position, velocity and opacity of all particles

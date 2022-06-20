@@ -19,7 +19,6 @@ public:
 
     void flicker();
 
-    // TODO: rename this to "isDead" or something
     bool isDead() const {
         return m_shouldDie;
     };

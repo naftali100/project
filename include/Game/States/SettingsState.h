@@ -1,15 +1,9 @@
 #pragma once
 
-
-#include "Game/LevelParams.h"
 #include "State.h"
-#include "StateManager.h"
 #include "Gui/button.h"
+#include "Game/LevelParams.h"
 #include "Resources.h"
-#include "SfmlUtil.h"
-#include "StateComponents/Camera.h"
-#include "SfmlUtil.h"
-
 
 class SettingsState : public State {
 public:

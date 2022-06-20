@@ -3,9 +3,8 @@
 // collide - see collision section
 // draw  - see sfml section
 // handle events - "
-// be graph - TODO
 // receive handlers to certain events
-// some sort of id that can use to identify derived entities
+// id that can use to identify derived entities
 #pragma once
 
 #include <typeinfo>
@@ -25,7 +24,7 @@ public:
         sf::RenderStates states = sf::RenderStates::Default) const override {
         // debug draw
         // rectangle of global bound
-        target.draw(sf::util::debugDraw(*this));
+        // target.draw(sf::util::debugDraw(*this));
     }
 
     virtual void onEvent(const sf::Event::EventType& e, Func func) {

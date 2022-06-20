@@ -46,7 +46,6 @@ void Gift::takeGift() {
         m_giftSound.play();
         m_taken = true;
         auto gift = getRandGift();
-        LOGI << magic_enum::enum_name(gift);
         MessageBus::notify(gift);
         // wait for animation
         m_timer.set([this]() { kill(); }, m_giftAnimation.getLength());

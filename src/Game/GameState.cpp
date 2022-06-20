@@ -151,12 +151,9 @@ void GameState::handleCollisions(const sf::Time&) {
 void GameState::processCollision(auto const& m, auto const& n) {
     sf::FloatRect overlap;
     if (m->getGlobalBounds().intersects(n->getGlobalBounds(), overlap)) {
-        // method A.
         auto collisionNormal = n->getPosition() - m->getPosition();
         auto manifold = getManifold(overlap, collisionNormal);
         m->handleCollision(n.get(), manifold);
-        // method B.
-        m_col.runCollisionHandler(*m, *n);
     }
 };
 
