@@ -12,9 +12,8 @@ public:
     void handleEvent(const sf::Event& e) override;
     void update(const sf::Time& dt) override;
 
-    void takeGift();
-
 private:
+    void takeGift();
     const MessageType getRandGift() const;
 
     Animation m_giftAnimation{m_sprite};

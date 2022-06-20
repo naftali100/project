@@ -18,11 +18,6 @@ public:
         const sf::Vector2f& dir,
         sf::Vector2u winSize);
 
-    void configLevelParam(const LevelParams& p);
-    void registerMessageHandler();
-    void initSprite();
-    void setSpriteByDirection();
-
     void update(const sf::Time& dt) override;
     void handleEvent(const sf::Event& e) override;
     void draw(sf::RenderTarget& win, sf::RenderStates states) const override;
@@ -41,6 +36,13 @@ public:
     ~Bomb() override;
 
 private:
+    void configLevelParam(const LevelParams& p);
+    void registerMessageHandler();
+    void initSprite();
+    void setSpriteByDirection();
+
+    void playSound();
+
     bool m_isDragged = false;
     bool m_isJailed = false;
     sf::Color m_color;

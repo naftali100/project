@@ -123,6 +123,7 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
                 MessageBus::notify(MessageType::BombJailed);
                 jail->addBomb(this);
                 arrest();
+                playSound();
             }
         }
     }
@@ -147,4 +148,9 @@ void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
 
 Bomb::~Bomb() {
     m_sub();
+}
+
+void Bomb::playSound(){
+    static sf::Sound m_sound{SoundBufferHolder::get(SoundEffect::Jailed)};
+    m_sound.play();
 }

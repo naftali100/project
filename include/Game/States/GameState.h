@@ -24,20 +24,7 @@ public:
     GameState(StateManager& sm, LevelParams LP) : State(sm), m_params(LP) {};
 
     void init() override;
-    void initState();
-    void initBackground();
-    void initWalls();
-    void addWall(const sf::Vector2f& pos, const sf::Vector2f& size);
-
-    void initJail();
-    void addJail(const sf::Vector2f& pos, const sf::Color& color);
-
-    void initDoors();
-    void addDoor(const sf::Vector2f& pos);
-
-    void freeTerrorists() const;
-    void initCamera(); // TODO: delete
-
+    
     void handleEvent(const sf::Event&) override;
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
@@ -52,6 +39,20 @@ public:
     ~GameState();
 
 private:
+    void initState();
+    void initBackground();
+    void initWalls();
+    void addWall(const sf::Vector2f& pos, const sf::Vector2f& size);
+
+    void initJail();
+    void addJail(const sf::Vector2f& pos, const sf::Color& color);
+
+    void initDoors();
+    void addDoor(const sf::Vector2f& pos);
+
+    void freeTerrorists() const;
+    void initCamera(); // TODO: delete
+
     void imGui(); // TODO: delete
     void registerMessageHandlers();
 
@@ -83,7 +84,6 @@ private:
     StatusBar m_sb{m_lives, m_score};
     sf::RectangleShape m_background;
     sf::Sound m_explosionSound{SoundBufferHolder::get(SoundEffect::Explosion)};
-    sf::Sound m_jailedSound{SoundBufferHolder::get(SoundEffect::Jailed)};
 };
 
 #endif  // __GAMESTATE_H__

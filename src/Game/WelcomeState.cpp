@@ -89,7 +89,7 @@ void WelcomeState::update(const sf::Time& dt) {
 			MusicHolder::get((Music::ID)selected).play();
 		}
 	}
-	static int musicVolume = 100;
+	static int musicVolume = 50;
 	ImGui::SliderInt("music volume", &musicVolume, 1, 100);
 	MusicHolder::get((Music::ID)selected).setVolume(musicVolume);
 
