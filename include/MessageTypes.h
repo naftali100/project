@@ -9,7 +9,6 @@ enum class MessageType
     BombJailed,
     BombTimedout,
     BombRemoveFromVector,
-    LevelParamsUpdated,
     // add here gift enums only
     ScoreGift,
     RemoveTerroristsGift,

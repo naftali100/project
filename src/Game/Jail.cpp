@@ -12,10 +12,7 @@ Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos
 
     Entity::setSize({m_sprite.getGlobalBounds().width, m_sprite.getGlobalBounds().height});
     setOrigin(getSize() / 2.f);
-    
-    m_subs.push_back(MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* i){
-        m_bombBuffer = i->m_bombToScore;
-    }));
+
     m_subs.push_back(MessageBus::subscribe(MessageType::FreeTerroristsGift, [this]() {
         for (auto i : m_bombs) {
             i->release();

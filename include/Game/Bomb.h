@@ -33,11 +33,9 @@ public:
 
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
-    ~Bomb() override;
-
 private:
+    void resolveCollision(Entity*);
     void configLevelParam(const LevelParams& p);
-    void registerMessageHandler();
     void initSprite();
     void setSpriteByDirection();
 
@@ -48,7 +46,6 @@ private:
     sf::Color m_color;
     std::vector<std::unique_ptr<Explosion>>& m_explosions;
 
-    Func m_sub;
     ParticleSystem m_footStep;
     int deffer = 5;
     sf::Vector2u m_winSize;

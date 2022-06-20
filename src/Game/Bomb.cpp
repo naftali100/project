@@ -11,9 +11,8 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
     MovingObjects::MovingObjects(dir), m_explosions(explosions), m_winSize(winSize) {
     setPosition(pos);
     initSprite();
-    configLevelParam(p);
-    registerMessageHandler();
-    // color here because it's should done only once
+    
+    MovingObjects::setSpeed(p.m_speed);
     m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors + 1)];
 
     setCollisionTag(CollisionTag::bomb);
@@ -48,16 +47,6 @@ void Bomb::setSpriteByDirection(){
     }else{
         m_sprite.setTexture(TextureHolder::get(Textures::TerroristRunRight));
     }
-}
-
-void Bomb::configLevelParam(const LevelParams& p) {
-    MovingObjects::setSpeed(p.m_speed);
-}
-
-void Bomb::registerMessageHandler() {
-    m_sub = MessageBus::subscribe<LevelParams*>(MessageType::LevelParamsUpdated, [this](LevelParams const* p) {
-        configLevelParam(*p);
-    });
 }
 
 void Bomb::update(const sf::Time& dt) {
@@ -115,16 +104,7 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
         // if intersects, and the whole entity is inside the jail
         if (getGlobalBounds().intersects(e->getGlobalBounds(), tempRect) && tempRect.width == getGlobalBounds().width &&
             tempRect.height == getGlobalBounds().height) {
-            auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color.
-            if (m_color != jail->getColor()) {
-                m_timer.reset();  // calls kill and add explosion
-            }
-            else {
-                MessageBus::notify(MessageType::BombJailed);
-                jail->addBomb(this);
-                arrest();
-                playSound();
-            }
+            resolveCollision(e);
         }
     }
 
@@ -137,6 +117,19 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
     }
 }
 
+void Bomb::resolveCollision(Entity* e){
+    auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color.
+    if (m_color != jail->getColor()) {
+        m_timer.reset();  // calls kill and add explosion
+    }
+    else {
+        MessageBus::notify(MessageType::BombJailed);
+        jail->addBomb(this);
+        arrest();
+        playSound();
+    }
+}
+
 void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     MovingObjects::draw(win, states);
     sf::CircleShape rec;
@@ -144,10 +137,6 @@ void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     rec.setFillColor(m_color);
     win.draw(rec, getTransform());
     m_footStep.draw(win);
-}
-
-Bomb::~Bomb() {
-    m_sub();
 }
 
 void Bomb::playSound(){
