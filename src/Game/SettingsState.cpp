@@ -68,9 +68,9 @@ void SettingsState::imGui() {
 
         level(level1, LevelParams(300, 4, 15, 2, 0, 10, 10, 10, 3, 3), Textures::level1Background);
         ImGui::SameLine();
-        level(level2, LevelParams(500, 4, 20, 3, 0, 9, 9, 8, 5, 5), Textures::level2Background);
+        level(level2, LevelParams(400, 4, 20, 3, 0, 9, 9, 8, 5, 5), Textures::level2Background);
         ImGui::SameLine();
-        level(level3, LevelParams(600, 3, 20, 3, 0, 8, 8, 6, 7, 7), Textures::level3Background);
+        level(level3, LevelParams(500, 3, 20, 3, 0, 8, 8, 6, 7, 7), Textures::level3Background);
         ImGui::SameLine();
         level(level4, LevelParams(600, 3, 25, 4, 0, 7, 7, 4, 9, 9), Textures::level4Background);
         ImGui::SameLine();
