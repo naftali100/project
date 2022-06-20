@@ -30,11 +30,11 @@ void Game::loadResources() const {
     TextureHolder::load(Textures::level3, "textures/level3.png");
     TextureHolder::load(Textures::level4, "textures/level4.png");
     TextureHolder::load(Textures::level5, "textures/level5.png");
-    TextureHolder::load(Textures::level1, "textures/level1Background.jpg");
-    TextureHolder::load(Textures::level2, "textures/level2Background.jpg");
-    TextureHolder::load(Textures::level3, "textures/level3Background.jpg");
-    TextureHolder::load(Textures::level4, "textures/level4Background.jpg");
-    TextureHolder::load(Textures::level5, "textures/level5Background.jpg");
+    TextureHolder::load(Textures::level1Background, "textures/level1Background.jpg");
+    TextureHolder::load(Textures::level2Background, "textures/level2Background.jpg");
+    TextureHolder::load(Textures::level3Background, "textures/level3Background.jpg");
+    TextureHolder::load(Textures::level4Background, "textures/level4Background.jpg");
+    TextureHolder::load(Textures::level5Background, "textures/level5Background.jpg");
     TextureHolder::load(Textures::Smoke, "textures/smoke.png");
     TextureHolder::load(Textures::SoldierBackground, "textures/bg-1.jpg");
     TextureHolder::load(Textures::Stars, "textures/stars.png");
