@@ -9,7 +9,7 @@ void SettingsState::init() {
     auto btnXPos = ((float)m_stateManager.getWin().getSize().x / 2) - sf::util::getGlobalCenter(m_OKBtn).x;
     m_OKBtn.setPosition({btnXPos, 100});
 
-    m_OKBtn.setFunction([this]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager, m_params)); });
+    m_OKBtn.setFunction([this]() { m_stateManager.pushState(std::make_unique<GameState>(m_stateManager, m_params, m_texture)); });
     LOGV;
 }
 
@@ -70,22 +70,27 @@ void SettingsState::imGui() {
             //     m_giftTime m_bombTime m_maxBomb m_bombToScore
         if (ImGui::ImageButton(level1, ImVec2({ 100, 100 }))) {
             m_params = LevelParams(300, 4, 15, 2, 0, 10, 10, 4, 3);
+            m_texture = Textures::level1Background;
         }
         ImGui::SameLine();
         if (ImGui::ImageButton(level2, ImVec2({ 100, 100 }))) {
             m_params = LevelParams(500, 4, 20, 2, 0, 9, 9, 5, 5);
+            m_texture = Textures::level2Background;
         }
         ImGui::SameLine();
         if (ImGui::ImageButton(level3, ImVec2({ 100, 100 }))) {
             m_params = LevelParams(600, 3, 20, 2, 0, 8, 8, 6, 7);
+            m_texture = Textures::level3Background;
         }
             ImGui::SameLine();
         if (ImGui::ImageButton(level4, ImVec2({ 100, 100 }))) {
             m_params = LevelParams(600, 3, 25, 3, 0, 7, 7, 7, 9);
+            m_texture = Textures::level4Background;
         }
         ImGui::SameLine();
         if (ImGui::ImageButton(level5, ImVec2({ 100, 100 }))) {
             m_params = LevelParams(800, 2, 3, 25, 0, 6, 6, 8, 10);
+            m_texture = Textures::level5Background;
         }
 
         setting("bomb speed", "this is the speed in which the bomb will move", &m_params.m_speed, 100, 1000);

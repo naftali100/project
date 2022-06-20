@@ -29,5 +29,6 @@ private:
     sf::RectangleShape m_background;
     gui::Button m_OKBtn{ "OK" };
     LevelParams m_params;
+    Textures::ID m_texture  = Textures::SkyBackground;
 };
 

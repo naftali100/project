@@ -22,7 +22,7 @@ void GameState::init() {
 }
 
 void GameState::initBackground() {
-    m_background.setTexture(&TextureHolder::get(Textures::SkyBackground));
+    m_background.setTexture(&TextureHolder::get(m_backgroundTexture));
     m_background.setSize((sf::Vector2f)getWinSize());
 }
 

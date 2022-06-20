@@ -21,7 +21,8 @@ const int DEFAULT_LIVES = 3;
 class GameState : public State {
 public:
     using State::State;
-    GameState(StateManager& sm, LevelParams LP) : State(sm), m_params(LP) {};
+    GameState(StateManager& sm, LevelParams LP, Textures::ID texture) :
+        State(sm), m_params(LP), m_backgroundTexture(texture) {};
 
     void init() override;
     
@@ -84,6 +85,7 @@ private:
     StatusBar m_sb{m_lives, m_score};
     sf::RectangleShape m_background;
     sf::Sound m_explosionSound{SoundBufferHolder::get(SoundEffect::Explosion)};
+    Textures::ID m_backgroundTexture = Textures::SkyBackground;
 };
 
 #endif  // __GAMESTATE_H__
