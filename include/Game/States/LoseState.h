@@ -15,6 +15,7 @@ public:
         m_btn.setFunction([this](){
             m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
         });
+        m_loseSound.setVolume(70);
         m_loseSound.play();
     }
 

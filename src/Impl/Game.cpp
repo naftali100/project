@@ -53,7 +53,7 @@ void Game::loadResources() const {
 
     SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
     SoundBufferHolder::load(SoundEffect::Explosion, "soundEffects/explosion-1.ogg");
-    SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose.ogg");
+    SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose1.ogg");
     SoundBufferHolder::load(SoundEffect::Jailed, "soundEffects/jail-sound.ogg");
 }
 
