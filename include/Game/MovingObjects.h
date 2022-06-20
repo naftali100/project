@@ -10,7 +10,7 @@
 
 class MovingObjects : public Entity {
 public:
-    MovingObjects(const sf::Vector2f& dir, sf::Vector2u winSize);
+    MovingObjects(const sf::Vector2f& dir);
     void setDirection(const sf::Vector2f& v);
 
     virtual void setSpeed(float s) {

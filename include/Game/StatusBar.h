@@ -12,8 +12,7 @@ const int SB_COLS = 9;
 class StatusBar {
 public:
     StatusBar(int& lives, int& score) : m_lives(lives), m_score(score) {
-        m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(),
-            SB_ROWS, SB_COLS, SB_TIME;
+        m_starAnimation.initFramesWithFixedSize(m_stars.getTexture()->getSize(), SB_ROWS, SB_COLS, SB_TIME);
     };
     int getLive();
     void addLive();

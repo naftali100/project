@@ -4,6 +4,7 @@
 
 // CONSTANTS:
 const int CAMERA_SPEED = 300;
+
 enum winResizeStrategy
 {
     LatterBox,  // change the viewport to math new window size
