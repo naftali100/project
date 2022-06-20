@@ -18,7 +18,7 @@ void loadMusic(Music::ID id, const std::string& path){
 }
 
 void Game::loadResources() const {
-    TextureHolder::load(Textures::Bomb, "textures/bomb.png");
+    TextureHolder::load(Textures::Terrorist, "textures/bomb.png");
     TextureHolder::load(Textures::Door, "textures/door-open.png");
     TextureHolder::load(Textures::Explosion, "textures/explosion.png");
     TextureHolder::load(Textures::GameOver, "textures/gameover.jpg");

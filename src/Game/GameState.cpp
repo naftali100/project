@@ -1,6 +1,6 @@
 #include "Game/States/GameState.h"
 
-#include "Game/Bomb.h"
+#include "Game/Terrorist.h"
 #include "Game/Door.h"
 #include "Game/Gift.h"
 #include "Game/Jail.h"
@@ -29,7 +29,7 @@ void GameState::initBackground() {
 void GameState::initState() {
     m_bombSpawnTimer.setRandomInterval(
         [this]() {
-            spawnBomb();
+            spawnTerrorist();
         },
         0, m_params.m_bombSpawnRate);
     m_giftSpawnTimer.setRandomInterval(
@@ -37,8 +37,8 @@ void GameState::initState() {
             spawnGift();
         },
         m_params.m_giftSpawnRate / 2, m_params.m_giftSpawnRate);
-    for (int _ : rng::views::iota(0, m_params.m_maxBomb)) {
-        spawnBomb();
+    for (int _ : rng::views::iota(0, m_params.m_maxTerrorist)) {
+        spawnTerrorist();
     }
 }
 
@@ -94,8 +94,8 @@ void GameState::update(const sf::Time& dt) {
         return;
     }
     m_sb.update(dt);
-    if(m_nonJailedBomb == 1) spawnBomb();
-    if (m_nonJailedBomb < m_params.m_maxBomb) m_bombSpawnTimer.update(dt);
+    if(m_nonJailedTerrorist == 1) spawnTerrorist();
+    if (m_nonJailedTerrorist < m_params.m_maxTerrorist) m_bombSpawnTimer.update(dt);
     m_giftSpawnTimer.update(dt);
 
     for (auto const& i : m_moving) { i->update(dt); }
@@ -157,14 +157,14 @@ void GameState::processCollision(auto const& m, auto const& n) {
     }
 };
 
-void GameState::spawnBomb() {
-    m_moving.push_back(std::make_unique<Bomb>(
+void GameState::spawnTerrorist() {
+    m_moving.push_back(std::make_unique<Terrorist>(
         m_explosions, 
         m_params,
         m_doors.at(Random::rnd(1, (int)m_doors.size()) - 1)->getPosition(),  // random door position
         sf::Vector2f{Random::rnd(-1.0f, 1.0f), Random::rnd(-1.0f, 1.0f)},
         getWinSize()));
-    m_nonJailedBomb++;
+    m_nonJailedTerrorist++;
 }
 
 void GameState::spawnGift() {
@@ -175,22 +175,22 @@ void GameState::spawnGift() {
 }
 
 void GameState::registerMessageHandlers() {
-    m_subscription.push_back(MessageBus::subscribe(MessageType::BombJailed, [this]() { 
-        m_nonJailedBomb--; 
+    m_subscription.push_back(MessageBus::subscribe(MessageType::TerroristJailed, [this]() { 
+        m_nonJailedTerrorist--; 
     }));
-    m_subscription.push_back(MessageBus::subscribe(MessageType::BombTimedout, [this]() {
+    m_subscription.push_back(MessageBus::subscribe(MessageType::TerroristTimedout, [this]() {
         m_lives--;
-        m_nonJailedBomb--;
+        m_nonJailedTerrorist--;
         if(m_lives > 0) m_explosionSound.play();
     }));
-    m_subscription.push_back(MessageBus::subscribe<Bomb*>(MessageType::BombRemoveFromVector, [this](auto bomb) {
+    m_subscription.push_back(MessageBus::subscribe<Terrorist*>(MessageType::TerroristRemoveFromVector, [this](auto bomb) {
         bomb->kill();
         m_score++;
     }));
     m_subscription.push_back(MessageBus::subscribe(MessageType::ScoreGift, [this]() { m_score += 5; }));
     m_subscription.push_back(MessageBus::subscribe(MessageType::LiveGift, [this]() { m_lives++; }));
     m_subscription.push_back(MessageBus::subscribe(MessageType::RemoveTerroristsGift, [this]() {
-        m_nonJailedBomb = 0;
+        m_nonJailedTerrorist = 0;
         rng::for_each(m_moving, [](auto& i) {
             if (i->getCollisionTag() == CollisionTag::bomb)
                 i->kill();

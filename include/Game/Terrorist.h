@@ -10,9 +10,9 @@
 #include "Resources.h"
 #include "ParticleSystem.h"
 
-class Bomb : public MovingObjects {
+class Terrorist : public MovingObjects {
 public:
-    explicit Bomb(std::vector<std::unique_ptr<Explosion>>& m_explosions,
+    explicit Terrorist(std::vector<std::unique_ptr<Explosion>>& m_explosions,
         const LevelParams& p,
         const sf::Vector2f& pos,
         const sf::Vector2f& dir,

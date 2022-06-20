@@ -63,11 +63,11 @@ sf::FloatRect Jail::getGlobalBounds() const {
     return getTransform().transformRect(m_sprite.getGlobalBounds());
 }
 
-void Jail::addBomb(Bomb* b) {
+void Jail::addTerrorist(Terrorist* b) {
     m_bombs.push_back(b);
     if (m_bombs.size() >= m_bombBuffer) {
         for (auto i : m_bombs) {
-            MessageBus::notify<Bomb*>(MessageType::BombRemoveFromVector, i);
+            MessageBus::notify<Terrorist*>(MessageType::TerroristRemoveFromVector, i);
         }
         m_bombs.clear();
     }

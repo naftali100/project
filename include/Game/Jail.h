@@ -4,7 +4,7 @@
 #pragma once
 
 #include "Colors.h"
-#include "Game/Bomb.h"
+#include "Game/Terrorist.h"
 #include "Game/Entity.h"
 #include "LevelParams.h"
 #include "MessageBus.h"
@@ -17,7 +17,7 @@ public:
     void setColor(const sf::Color& c);
     sf::Color getColor() const;
 
-    void addBomb(Bomb* b);
+    void addTerrorist(Terrorist* b);
 
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& target,
@@ -33,7 +33,7 @@ public:
 private:
     sf::Sprite m_sprite{TextureHolder::get(Textures::Jail)};
     sf::Color m_color = Colors::White;
-    std::vector<Bomb*> m_bombs;
+    std::vector<Terrorist*> m_bombs;
     int m_bombBuffer;
     std::vector<Func> m_subs;
     bool m_isJailBreak = false;

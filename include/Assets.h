@@ -26,7 +26,7 @@ enum ID
 namespace Textures {
 enum ID
 {
-    Bomb,
+    Terrorist,
     Btn,
     Door,
     Explosion,

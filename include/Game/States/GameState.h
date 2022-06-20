@@ -30,16 +30,16 @@ public:
     void update(const sf::Time& dt) override;
     void draw(sf::RenderTarget& win) const override;
 
+    ~GameState();
+
+private:
     // spawn
-    void spawnBomb();
+    void spawnTerrorist();
     void spawnGift();
 
     // util
     sf::Vector2u getWinSize();
 
-    ~GameState();
-
-private:
     void initState();
     void initBackground();
     void initWalls();
@@ -73,7 +73,7 @@ private:
     // game data
     int m_lives = DEFAULT_LIVES;
     int m_score = 0;
-    int m_nonJailedBomb = 0;
+    int m_nonJailedTerrorist = 0;
     LevelParams m_params;
 
     Timer m_bombSpawnTimer;

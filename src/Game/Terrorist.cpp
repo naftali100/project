@@ -1,4 +1,4 @@
-#include "Game/Bomb.h"
+#include "Game/Terrorist.h"
 
 #include <mutex>
 
@@ -6,7 +6,7 @@
 #include "Random.h"
 #include "SfmlUtil.h"
 
-Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p, const sf::Vector2f& pos,
+Terrorist::Terrorist(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParams& p, const sf::Vector2f& pos,
            const sf::Vector2f& dir, sf::Vector2u winSize) :
     MovingObjects::MovingObjects(dir), m_explosions(explosions), m_winSize(winSize) {
     setPosition(pos);
@@ -19,7 +19,7 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
 
     m_timer.set(
         [this]() {
-            MessageBus::notify(MessageType::BombTimedout);
+            MessageBus::notify(MessageType::TerroristTimedout);
             kill();
             m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
         },
@@ -30,7 +30,7 @@ Bomb::Bomb(std::vector<std::unique_ptr<Explosion>>& explosions, const LevelParam
 	m_footStep.setParticleSpeed(50.0f);
 }
 
-void Bomb::initSprite() {
+void Terrorist::initSprite() {
     setSpriteByDirection();
     m_animation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.08f);
     m_animation.setFrame(0);
@@ -41,7 +41,7 @@ void Bomb::initSprite() {
     setOrigin(MovingObjects::getSize() / 2.f);
 }
 
-void Bomb::setSpriteByDirection(){
+void Terrorist::setSpriteByDirection(){
     if(m_direction.x < 0){
         m_sprite.setTexture(TextureHolder::get(Textures::TerroristRunLeft));
     }else{
@@ -49,7 +49,7 @@ void Bomb::setSpriteByDirection(){
     }
 }
 
-void Bomb::update(const sf::Time& dt) {
+void Terrorist::update(const sf::Time& dt) {
     if (m_isJailed)
         return;
 
@@ -72,12 +72,12 @@ void Bomb::update(const sf::Time& dt) {
     if (!sf::FloatRect(-10.0, -10.0, m_winSize.x, m_winSize.y).contains(getPosition())){
         kill();
         // this cause the game state to update the amount of non jailed bomb which is wrong if just calling kill because game state not updated about it
-        MessageBus::notify(MessageType::BombJailed); 
+        MessageBus::notify(MessageType::TerroristJailed); 
         LOGE << "bomb out";
     }
 };
 
-void Bomb::handleEvent(const sf::Event& e) {
+void Terrorist::handleEvent(const sf::Event& e) {
     // drag
     switch (e.type) {
         case sf::Event::MouseButtonPressed:
@@ -96,7 +96,7 @@ void Bomb::handleEvent(const sf::Event& e) {
     }
 }
 
-void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
+void Terrorist::handleCollision(Entity* e, const sf::Vector3f& manifold) {
     if (m_isJailed) return;
 
     if (e->getCollisionTag() == CollisionTag::jail) {
@@ -117,20 +117,20 @@ void Bomb::handleCollision(Entity* e, const sf::Vector3f& manifold) {
     }
 }
 
-void Bomb::resolveCollision(Entity* e){
+void Terrorist::resolveCollision(Entity* e){
     auto jail = dynamic_cast<Jail*>(e);  // needed for getting jail's color.
     if (m_color != jail->getColor()) {
         m_timer.reset();  // calls kill and add explosion
     }
     else {
-        MessageBus::notify(MessageType::BombJailed);
-        jail->addBomb(this);
+        MessageBus::notify(MessageType::TerroristJailed);
+        jail->addTerrorist(this);
         arrest();
         playSound();
     }
 }
 
-void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
+void Terrorist::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     MovingObjects::draw(win, states);
     sf::CircleShape rec;
     rec.setRadius(20);
@@ -139,7 +139,7 @@ void Bomb::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     m_footStep.draw(win);
 }
 
-void Bomb::playSound(){
+void Terrorist::playSound(){
     static sf::Sound m_sound{SoundBufferHolder::get(SoundEffect::Jailed)};
     m_sound.play();
 }

@@ -24,7 +24,7 @@ struct LevelParams {
     float m_timeoutTimer = TIME_OUT_TIMER;
     float m_giftTime = GIFT_TIME;
     int m_bombTime = BOMB_TIME;
-    int m_maxBomb = MAX_BOMB;
+    int m_maxTerrorist = MAX_BOMB;
     int m_bombToScore = BOMB_TO_SCORE;
 
     bool operator==(const LevelParams& other) const {
@@ -35,7 +35,7 @@ struct LevelParams {
         other.m_bombSpawnRate == m_bombSpawnRate &&
         other.m_giftSpawnRate == m_giftSpawnRate &&
         other.m_speed == m_speed
-        && other.m_maxBomb == m_maxBomb
+        && other.m_maxTerrorist == m_maxTerrorist
         && other.m_bombToScore == m_bombToScore
         ;
     }

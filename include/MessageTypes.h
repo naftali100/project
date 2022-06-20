@@ -6,9 +6,9 @@ enum class MessageType
 {
     // add here non-Gift enums
     MessageId,
-    BombJailed,
-    BombTimedout,
-    BombRemoveFromVector,
+    TerroristJailed,
+    TerroristTimedout,
+    TerroristRemoveFromVector,
     // add here gift enums only
     ScoreGift,
     RemoveTerroristsGift,

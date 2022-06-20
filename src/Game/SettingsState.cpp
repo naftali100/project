@@ -80,7 +80,7 @@ void SettingsState::imGui() {
         setting("spawn rate", "the maximum possible amount of time to pass before new bomb is spawned", &m_params.m_bombSpawnRate, 1, 10);
         setting("bomb timeout", "bomb inital timeout timer", &m_params.m_bombTime, 1, 10);
         setting("color amount", "amount of different bomb and jail colors", &m_params.m_colors, 2, 4);
-        setting("non jailed at same time", "max amount of non jailed bomb on the board at the same time", &m_params.m_maxBomb, 5, 10);
+        setting("non jailed at same time", "max amount of non jailed bomb on the board at the same time", &m_params.m_maxTerrorist, 5, 10);
         setting("bomb to score", "how much bomb you need to jail before they clean and you get the score", &m_params.m_bombToScore, 3, 10);
 
         auto size = ImGui::GetWindowSize();
