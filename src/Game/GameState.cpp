@@ -76,7 +76,7 @@ void GameState::addWall(const sf::Vector2f& pos, const sf::Vector2f& size){
 void GameState::initDoors() {
     addDoor({200, 250});
     addDoor({500, 250});
-    addDoor({1000, 250});
+    addDoor({800, 250});
 }
 
 void GameState::addDoor(const sf::Vector2f& pos) {

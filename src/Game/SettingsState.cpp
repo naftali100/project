@@ -66,15 +66,15 @@ void SettingsState::imGui() {
         level4.setTexture(TextureHolder::get(Textures::level4));
         level5.setTexture(TextureHolder::get(Textures::level5));
 
-        level(level1, LevelParams(300, 4, 15, 1, 0, 10, 10, 10, 3, 3), Textures::level1Background);
+        level(level1, LevelParams(300, 4, 15, 2, 0, 10, 10, 10, 3, 3), Textures::level1Background);
         ImGui::SameLine();
-        level(level2, LevelParams(500, 4, 20, 2, 0, 9, 9, 8, 5, 5), Textures::level2Background);
+        level(level2, LevelParams(500, 4, 20, 3, 0, 9, 9, 8, 5, 5), Textures::level2Background);
         ImGui::SameLine();
-        level(level3, LevelParams(600, 3, 20, 2, 0, 8, 8, 6, 7, 7), Textures::level3Background);
+        level(level3, LevelParams(600, 3, 20, 3, 0, 8, 8, 6, 7, 7), Textures::level3Background);
         ImGui::SameLine();
-        level(level4, LevelParams(600, 3, 25, 3, 0, 7, 7, 4, 9, 9), Textures::level4Background);
+        level(level4, LevelParams(600, 3, 25, 4, 0, 7, 7, 4, 9, 9), Textures::level4Background);
         ImGui::SameLine();
-        level(level5, LevelParams(800, 2, 25, 3, 0, 6, 6, 3, 10, 10), Textures::level5Background);
+        level(level5, LevelParams(800, 2, 25, 4, 0, 6, 6, 3, 10, 10), Textures::level5Background);
 
         setting("bomb speed", "this is the speed in which the bomb will move", &m_params.m_speed, 100, 1000);
         setting("spawn rate", "the maximum possible amount of time to pass before new bomb is spawned", &m_params.m_bombSpawnRate, 1, 10);

@@ -138,7 +138,8 @@ void Terrorist::draw(sf::RenderTarget& win, sf::RenderStates states) const {
     rec.setRadius(20);
     rec.setFillColor(m_color);
     win.draw(rec, getTransform());
-    m_footStep.draw(win);
+    if(!m_isJailed)
+        m_footStep.draw(win);
 }
 
 void Terrorist::playSound(){
