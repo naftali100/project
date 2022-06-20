@@ -1,7 +1,5 @@
 #include "Game/Terrorist.h"
 
-#include <mutex>
-
 #include "Game/Jail.h"
 #include "Random.h"
 #include "SfmlUtil.h"
