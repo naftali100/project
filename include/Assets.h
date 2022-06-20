@@ -45,6 +45,12 @@ enum ID
     Test,
     Smoke,
     Wall,
+    //levels:
+    level1,
+    level2,
+    level3,
+    level4,
+    level5,
     MAX
 };  // add textures here
 }  // namespace Textures
