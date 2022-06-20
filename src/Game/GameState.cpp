@@ -45,7 +45,7 @@ void GameState::initState() {
 void GameState::initJail() {
     auto winSize = getWinSize();
     auto jailSize = Jail(m_params, Colors::Red, {0, 0}).getSize();
-    sf::Vector2f startPoint{jailSize.x / 2, winSize.y - (jailSize.y / 2.f)};
+    sf::Vector2f startPoint{(jailSize.x / 2) + 100, winSize.y - (jailSize.y / 2.f) - 100};
 
     for (auto i : std::views::iota(0, m_params.m_colors + 1)) {
         addJail({(i * jailSize.x) + startPoint.x + 10, startPoint.y}, Colors::STD_COLORS[i]);
