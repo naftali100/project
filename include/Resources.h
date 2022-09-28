@@ -11,6 +11,7 @@ class Texture;
 class Font;
 class Shader;
 class SoundBuffer;
+class Music;
 }  // namespace sf
 
 // Forward declaration and a few type definitions
