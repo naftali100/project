@@ -24,7 +24,7 @@ public:
     };
 
     template <typename T>
-    static Func subscribe(const std::function<void(const T&)>& func) {
+    static Func subscribe(const FuncT<T>& func) {
         m_subscribersWithArg<T>.push_back({++getInstance().m_id, func});
         return [id = getInstance().m_id]() { unsubscribe<T>(id); };
     };
