@@ -45,6 +45,7 @@ enum ID
     TerroristRunRight,
     Test,
     Wall,
+    Loading,
     //levels:
     level1,
     level2,
