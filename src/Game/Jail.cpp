@@ -2,7 +2,7 @@
 
 #include "Colors.h"
 
-Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos) : m_bombBuffer(p.m_bombToScore) {
+Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos) : m_terroristBuffer(p.m_terroristToScore) {
     setPosition(pos);
     setColor(color);
     setCollisionTag(CollisionTag::jail);
@@ -14,7 +14,7 @@ Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos
     setOrigin(getSize() / 2.f);
 
     m_subs.push_back(MessageBus::subscribe(MessageType::FreeTerroristsGift, [this]() {
-        for (auto i : m_bombs) {
+        for (auto i : m_terrorists) {
             i->release();
         }
     }));
@@ -23,8 +23,8 @@ Jail::Jail(const LevelParams& p, const sf::Color& color, const sf::Vector2f& pos
 void Jail::update(const sf::Time& dt) {
     // MovingObjects::update(dt);
     m_jailBreakTimer.update(dt);
-    // for(auto& bomb: m_bombs)
-    //     bomb->move(m_direction * m_speed * dt.asSeconds());
+    // for(auto& terrorist: m_terrorists)
+    //     terrorist->move(m_direction * m_speed * dt.asSeconds());
 };
 
 void Jail::freeAll() {
@@ -36,7 +36,7 @@ void Jail::freeAll() {
             m_sprite.setTextureRect({0, 0, 500, 250});
         },
         3.f);
-    for (auto& terrorist : m_bombs) terrorist->release();
+    for (auto& terrorist : m_terrorists) terrorist->release();
 }
 
 bool Jail::isBroken() const {
@@ -64,12 +64,12 @@ sf::FloatRect Jail::getGlobalBounds() const {
 }
 
 void Jail::addTerrorist(Terrorist* b) {
-    m_bombs.push_back(b);
-    if (m_bombs.size() >= m_bombBuffer) {
-        for (auto i : m_bombs) {
+    m_terrorists.push_back(b);
+    if (m_terrorists.size() >= m_terroristBuffer) {
+        for (auto i : m_terrorists) {
             MessageBus::notify<Terrorist*>(MessageType::TerroristRemoveFromVector, i);
         }
-        m_bombs.clear();
+        m_terrorists.clear();
     }
 }
 

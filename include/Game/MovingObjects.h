@@ -27,7 +27,7 @@ public:
         m_shouldDie = true;
     }
 
-    // bomb and gifts handle collision in the same way
+    // terrorist and gifts handle collision in the same way
     void handleCollision(Entity* e, const sf::Vector3f& manifold) override;
 
     void update(const sf::Time& dt) override;

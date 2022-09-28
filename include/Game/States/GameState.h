@@ -76,7 +76,7 @@ private:
     int m_nonJailedTerrorist = 0;
     LevelParams m_params;
 
-    Timer m_bombSpawnTimer;
+    Timer m_terroristSpawnTimer;
     Timer m_giftSpawnTimer;
     StatusBar m_sb{m_lives, m_score};
     sf::RectangleShape m_background;

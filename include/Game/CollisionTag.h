@@ -6,6 +6,6 @@ enum class CollisionTag
     wall,
     jail,
     enemy,
-    bomb,
+    terrorist,
     none
 };

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __BOMB_H__
-#define __BOMB_H__
+#ifndef __TERRORIST_H__
+#define __TERRORIST_H__
 
 #include "Explosion.h"
 #include "Game/LevelParams.h"
@@ -51,4 +51,4 @@ private:
     sf::Vector2u m_winSize;
 };
 
-#endif  // __BOMB_H__
+#endif  // __TERRORIST_H__

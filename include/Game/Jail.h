@@ -33,8 +33,8 @@ public:
 private:
     sf::Sprite m_sprite{TextureHolder::get(Textures::Jail)};
     sf::Color m_color = Colors::White;
-    std::vector<Terrorist*> m_bombs;
-    int m_bombBuffer;
+    std::vector<Terrorist*> m_terrorists;
+    int m_terroristBuffer;
     std::vector<Func> m_subs;
     bool m_isJailBreak = false;
     Timer m_jailBreakTimer;

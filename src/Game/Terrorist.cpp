@@ -13,7 +13,7 @@ Terrorist::Terrorist(std::vector<std::unique_ptr<Explosion>>& explosions, const 
     MovingObjects::setSpeed(p.m_speed);
     m_color = Colors::STD_COLORS[Random::rnd(0, p.m_colors)];
 
-    setCollisionTag(CollisionTag::bomb);
+    setCollisionTag(CollisionTag::terrorist);
 
     m_timer.setTimeout(
         [this]() {
@@ -21,7 +21,7 @@ Terrorist::Terrorist(std::vector<std::unique_ptr<Explosion>>& explosions, const 
             kill();
             m_explosions.push_back(std::make_unique<Explosion>(getPosition()));
         },
-        p.m_bombTime);
+        p.m_terroristTime);
 
     m_footStep.setGravity(-m_direction.x, -m_direction.y);
     m_footStep.setDissolutionRate(5);
@@ -73,9 +73,9 @@ void Terrorist::update(const sf::Time& dt) {
 
     if (!sf::FloatRect(-10.0, -10.0, m_winSize.x, m_winSize.y).contains(getPosition())){
         kill();
-        // this cause the game state to update the amount of non jailed bomb which is wrong if just calling kill because game state not updated about it
+        // this cause the game state to update the amount of non jailed terrorist which is wrong if just calling kill because game state not updated about it
         MessageBus::notify(MessageType::TerroristJailed); 
-        LOGE << "bomb out";
+        LOGE << "terrorist out";
     }
 };
 
