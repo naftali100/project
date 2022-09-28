@@ -13,7 +13,6 @@ LoadingState::LoadingState(StateManager& sm) : State(sm), m_loadingThread(&Loadi
     m_spinnerSprite.scale(2, 2);
     m_spinnerSprite.setColor(sf::Color::Black);
 
-    m_spinnerAnimation.setSprite(m_spinnerSprite);
     m_spinnerAnimation.initFramesWithFixedSize(TextureHolder::get(Textures::Loading).getSize(), 4, 12, 0.05);
     m_spinnerAnimation.setFrame(0);
     m_spinnerSprite.setPosition((m_stateManager.getWin().getSize().x - m_spinnerSprite.getGlobalBounds().width) / 2, 200);
