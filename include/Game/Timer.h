@@ -13,7 +13,6 @@ public:
     void update(const sf::Time&);
     void setInterval(const Func& function, float interval);
     void setRandomInterval(const Func& function, float intervalMin, float intervalMax);
-    void stop();
 
     void pause();
     void resume();
