@@ -3,59 +3,12 @@
 #include "Colors.h"
 #include "Config.h"
 #include "Game/States/WelcomeState.h"
-#include "Resources.h"
+#include "Game/States/LoadingState.h"
 #include "SfmlUtil.h"
 
 Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
 // Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World"), m_stateManager(m_win) {}
 //  Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
-
-void loadMusic(Music::ID id, const std::string& path){
-	std::unique_ptr<sf::Music> music = std::make_unique<sf::Music>();
-	music->openFromFile(path);
-    music->setLoop(true);
-	MusicHolder::set(id, std::move(music));
-}
-
-void Game::loadResources() const {
-    TextureHolder::load(Textures::Terrorist, "textures/bomb.png");
-    TextureHolder::load(Textures::Door, "textures/door-open.png");
-    TextureHolder::load(Textures::Explosion, "textures/explosion.png");
-    TextureHolder::load(Textures::GameOver, "textures/gameover.jpg");
-    TextureHolder::load(Textures::Gift, "textures/gift.png");
-    TextureHolder::load(Textures::Jail, "textures/jail.png");
-    TextureHolder::load(Textures::SkyBackground, "textures/sky.jpg");
-    TextureHolder::load(Textures::level1, "textures/level1.png");
-    TextureHolder::load(Textures::level2, "textures/level2.png");
-    TextureHolder::load(Textures::level3, "textures/level3.png");
-    TextureHolder::load(Textures::level4, "textures/level4.png");
-    TextureHolder::load(Textures::level5, "textures/level5.png");
-    TextureHolder::load(Textures::level1Background, "textures/level1Background.jpg");
-    TextureHolder::load(Textures::level2Background, "textures/level2Background.jpg");
-    TextureHolder::load(Textures::level3Background, "textures/level3Background.jpg");
-    TextureHolder::load(Textures::level4Background, "textures/level4Background.jpg");
-    TextureHolder::load(Textures::level5Background, "textures/level5Background.jpg");
-    TextureHolder::load(Textures::Smoke, "textures/smoke.png");
-    TextureHolder::load(Textures::SoldierBackground, "textures/bg-1.jpg");
-    TextureHolder::load(Textures::Stars, "textures/stars.png");
-    TextureHolder::load(Textures::TerroristRunLeft, "textures/trrorist-final-left-run.png");
-    TextureHolder::load(Textures::TerroristRunRight, "textures/trrorist-final-1.png");
-    TextureHolder::load(Textures::Wall, "textures/wall-final.png");
-    TextureHolder::get(Textures::Wall).setRepeated(true);
-
-    FontHolder::load(Fonts::Main, FONT_PATH);
-    FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
-
-    loadMusic(Music::Background1, "music/b1.ogg");
-	loadMusic(Music::Background2, "music/b2.ogg");
-	loadMusic(Music::Background3, "music/b3.ogg");
-	loadMusic(Music::Background4, "music/b4.ogg");
-
-    SoundBufferHolder::load(SoundEffect::Explosion, "soundEffects/explosion-1.ogg");
-    SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
-    SoundBufferHolder::load(SoundEffect::Jailed, "soundEffects/jail-sound.ogg");
-    SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose1.ogg");
-}
 
 void Game::initImGui() {
     // init ImGui
@@ -81,7 +34,6 @@ void Game::initImGui() {
 void Game::run() {
     LOGV << "game::run - start";
 
-    loadResources();
     initImGui();
 
     m_win.setFramerateLimit(FPS);
@@ -89,8 +41,8 @@ void Game::run() {
     m_win.setKeyRepeatEnabled(false);
 
     // initial state
-    m_stateManager.pushState(std::make_unique<WelcomeState>(m_stateManager));
-
+    m_stateManager.replaceState(std::make_unique<LoadingState>(m_stateManager));
+    
     sf::Clock clock;
     while (m_stateManager.isRunning()) {
         LOGV << "game loop - start";

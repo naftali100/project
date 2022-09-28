@@ -8,7 +8,6 @@ class Game {
 public:
     Game();
     void run();
-    void loadResources() const;
     void initImGui();
 
     void processEvents();
