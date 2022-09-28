@@ -9,6 +9,10 @@ Animation::Animation(const Textures::ID& t, const sf::Vector2f& pos) : m_target(
     m_spriteStorage.setPosition(pos);
 }
 
+void Animation::setSprite(sf::Sprite& s) {
+    m_target = s;
+}
+
 void Animation::addFrame(Frame&& frame) {
     totalLength += frame.duration;
     m_frames.push_back(std::move(frame));
@@ -47,9 +51,9 @@ void Animation::initFramesWithFixedSize(const sf::Vector2u& textureSize, int atl
     int FrameXSize = textureSize.x / atlasCols;
     int FrameYSize = textureSize.y / atlasRows;
 
-    for (int i = 0; i < atlasRows; i++) {
-        for (int j = 0; j < atlasCols; j++) {
-            addFrame({sf::IntRect(j * FrameXSize, i * FrameYSize, FrameXSize, FrameYSize), frameTime});
+    for (int row = 0; row < atlasRows; row++) {
+        for (int col = 0; col < atlasCols; col++) {
+            addFrame({sf::IntRect(col * FrameXSize, row * FrameYSize, FrameXSize, FrameYSize), frameTime});
         }
     }
 }

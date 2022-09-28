@@ -25,7 +25,7 @@ LoadingState::LoadingState(StateManager& sm) : State(sm), m_loadingThread(&Loadi
             m_text.setString("Loading" + dotsString);
             dots++;
         },
-        0.05 * 12);
+        0.05 * 6);
 }
 
 void LoadingState::init() {
