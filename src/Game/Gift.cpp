@@ -11,7 +11,7 @@ Gift::Gift(const sf::Vector2f& pos, const sf::Vector2f& dir)
     MovingObjects::setSpeed(200);
     m_sprite.setTexture(TextureHolder::get(Textures::Gift));
 
-    m_timer.set([this]() { kill(); }, 10);
+    m_timer.setTimeout([this]() { kill(); }, 10);
 
     m_giftAnimation.initFramesWithFixedSize(m_sprite.getTexture()->getSize(), 3, 4, 0.1f);
     m_giftAnimation.setFrame(11);
@@ -48,7 +48,7 @@ void Gift::takeGift() {
         auto gift = getRandGift();
         MessageBus::notify(gift);
         // wait for animation
-        m_timer.set([this]() { kill(); }, m_giftAnimation.getLength());
+        m_timer.setTimeout([this]() { kill(); }, m_giftAnimation.getLength());
     }
 }
 

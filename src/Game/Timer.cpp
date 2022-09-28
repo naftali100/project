@@ -16,14 +16,14 @@ void Timer::reset() {
     *this -= sf::milliseconds(asMilliseconds());
 }
 
-void Timer::set(const Func& function, const float seconds) {
+void Timer::setTimeout(const Func& function, const float seconds) {
     m_isPaused = false;
     m_function = function;
     setTime(sf::seconds(seconds));
 }
 
 void Timer::setInterval(const Func& function, float interval) {
-    set(
+    setTimeout(
         [this, function, interval]() {
             function();
             setTime(sf::seconds(interval));
@@ -32,7 +32,7 @@ void Timer::setInterval(const Func& function, float interval) {
 }
 
 void Timer::setRandomInterval(const Func& function, float intervalMin, float intervalMax){
-    set(
+    setTimeout(
         [this, function, intervalMin, intervalMax]() {
             function();
             setTime(sf::seconds(Random::rnd(intervalMin, intervalMax)));
@@ -43,7 +43,7 @@ void Timer::setRandomInterval(const Func& function, float intervalMin, float int
 void Timer::update(const sf::Time& dt) {
     if (!m_isPaused) {
         *this -= dt;
-        if (*this < sf::seconds(0) && m_function)
+        if (*this <= sf::seconds(0) && m_function)
             m_function();
     }
 }

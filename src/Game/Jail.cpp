@@ -30,7 +30,7 @@ void Jail::update(const sf::Time& dt) {
 void Jail::freeAll() {
     m_isJailBreak = true;
     m_sprite.setTextureRect({0, 250, 500, 500});
-    m_jailBreakTimer.set(
+    m_jailBreakTimer.setTimeout(
         [this]() {
             // m_isJailBreak = false;
             m_sprite.setTextureRect({0, 0, 500, 250});

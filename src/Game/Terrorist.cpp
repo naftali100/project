@@ -15,7 +15,7 @@ Terrorist::Terrorist(std::vector<std::unique_ptr<Explosion>>& explosions, const 
 
     setCollisionTag(CollisionTag::bomb);
 
-    m_timer.set(
+    m_timer.setTimeout(
         [this]() {
             MessageBus::notify(MessageType::TerroristTimedout);
             kill();
