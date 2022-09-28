@@ -13,8 +13,8 @@ class Animation {
 public:
     explicit Animation(sf::Sprite& target);
     Animation(const Textures::ID& t, const sf::Vector2f& pos);
-    void initFramesWithFixedSize(const sf::Vector2u& textureSize,
-        int atlasRows, int atlasCols, float frameTime);
+    void initFramesWithFixedSize(const sf::Vector2u& textureSize, int atlasRows, int atlasCols, float frameTime);
+    void setSprite(sf::Sprite& s);
     void addFrame(Frame&& frame);
     // select frame to show manually
     void setFrame(int index);
