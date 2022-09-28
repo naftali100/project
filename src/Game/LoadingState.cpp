@@ -7,15 +7,31 @@
 LoadingState::LoadingState(StateManager& sm) : State(sm), m_loadingThread(&LoadingState::loadResources, this) {
     m_loadingThread.launch();
     FontHolder::load(Fonts::Main, FONT_PATH);
+    TextureHolder::load(Textures::Loading, "textures/loading.png");
+
+    m_spinnerSprite.setTexture(TextureHolder::get(Textures::Loading));
+    m_spinnerSprite.scale(2, 2);
+    m_spinnerSprite.setColor(sf::Color::Black);
+
+    m_spinnerAnimation.setSprite(m_spinnerSprite);
+    m_spinnerAnimation.initFramesWithFixedSize(TextureHolder::get(Textures::Loading).getSize(), 4, 12, 0.05);
+    m_spinnerAnimation.setFrame(0);
+    m_spinnerSprite.setPosition((m_stateManager.getWin().getSize().x - m_spinnerSprite.getGlobalBounds().width) / 2, 200);
 
     m_timer.setInterval(
         [&]() {
-            static int dots = 0;
+            static int dots = 1;
             std::string dotsString((dots % 4), '.');
             m_text.setString("Loading" + dotsString);
             dots++;
         },
-        0.2);
+        0.05 * 12);
+}
+
+void LoadingState::init() {
+    m_text.setFont(FontHolder::get(Fonts::Main));
+    m_text.setString("Loading");
+    m_text.setOrigin(sf::util::getLocalCenter(m_text));
 }
 
 void loadMusic(Music::ID id, const std::string& path) {
@@ -70,7 +86,9 @@ void LoadingState::loadResources() {
 
 void LoadingState::update(const sf::Time& dt) {
     // all update stuff
+    m_text.setPosition(sf::util::getGlobalCenter(m_spinnerSprite));
     m_timer.update(dt);
+    m_spinnerAnimation.update(dt);
     // m_text.move(dt.asSeconds() * 100, 0);
 
     // check if load finished
@@ -80,12 +98,7 @@ void LoadingState::update(const sf::Time& dt) {
     }
 }
 
-void LoadingState::init() {
-    m_text.setFont(FontHolder::get(Fonts::Main));
-    m_text.setString("Loading");
-    m_text.setPosition(500, 500);
-}
-
 void LoadingState::draw(sf::RenderTarget& win) const {
     win.draw(m_text);
+    win.draw(m_spinnerSprite);
 }

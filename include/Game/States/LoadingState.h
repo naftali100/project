@@ -1,6 +1,7 @@
 #include "State.h"
 
 #include "Game/Timer.h"
+#include "Animation.h"
 
 class LoadingState : public State {
 public:
@@ -25,4 +26,6 @@ private:
     sf::Text m_text;
 
     Timer m_timer;
+    sf::Sprite m_spinnerSprite;
+    Animation m_spinnerAnimation{m_spinnerSprite};
 };
