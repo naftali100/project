@@ -7,13 +7,19 @@ StateManager::StateManager(sf::RenderWindow& win) : m_win(win) {
     LOGV << "state manager constructor - finish";
 }
 
-void StateManager::pushState(StatePtr ptr) {
-    m_states.push(std::move(ptr));
-    m_states.top()->init();
+void StateManager::pushState(StatePtr ptr, bool deffer) {
+    if (deffer) {
+        m_tmpStat = std::move(ptr);
+        m_shouldPush = true;
+    }
+    else {
+        replaceState(std::move(ptr));
+    }
 }
 
 void StateManager::replaceState(StatePtr ptr) {
-    m_states.pop();
+    if (!m_states.empty())
+        m_states.pop();
     m_states.push(std::move(ptr));
     m_states.top()->init();
 }
@@ -44,14 +50,13 @@ void StateManager::update(const sf::Time& td) {
 
     setupImGuiWindow();
 
-    if (!m_states.empty() && m_shouldPop) {
-        m_states.pop();
-        m_shouldPop = false;
-    }
+    doUpdateStack();
+
     if (!m_states.empty()) {
         static bool noDraw = false;
         ImGui::Checkbox("pause", &noDraw);
-        if(!noDraw) m_states.top()->update(td);
+        if (!noDraw)
+            m_states.top()->update(td);
     }
     else
         LOGD << "empty states stack";
@@ -111,14 +116,27 @@ void StateManager::setupImGuiWindow() {
             // ImGui::TextDisabled("what is this?");
             // if(ImGui::IsItemHovered())
             //     ImGui::SetTooltip(
-            //         "my game state manager's default window\nyou can close this by setting show to false\nyou can add "
-            //         "stuff to the window for consistant\nif you close this and add stuff they go to debug window");
+            //         "my game state manager's default window\nyou can close this by setting show to false\nyou can add
+            //         " "stuff to the window for consistant\nif you close this and add stuff they go to debug window");
         }
     }
 }
 
 sf::RenderWindow& StateManager::getWin() {
     return m_win;
+}
+
+void StateManager::doUpdateStack() {
+    if (!m_states.empty() && m_shouldPop) {
+        m_shouldPop = false;
+        m_states.pop();
+    }
+
+    if (m_shouldPush) {
+        m_shouldPush = false;
+        m_states.push(std::move(m_tmpStat));
+        m_states.top()->init();
+    }
 }
 
 // StatePtr StateManager::createState(States::ID stateID) {

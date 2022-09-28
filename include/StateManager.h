@@ -9,7 +9,7 @@ class StateManager {
 public:
     explicit StateManager(sf::RenderWindow& win);
 
-    void pushState(StatePtr);
+    void pushState(StatePtr, bool deffer = true);
     void replaceState(StatePtr);
     void popState();
 
@@ -28,12 +28,17 @@ public:
     void resume();
 
 private:
+    void doUpdateStack();
+
     bool m_showImGuiGameWindow = true;
     sf::RenderWindow& m_win;
     std::stack<StatePtr> m_states;
     bool m_paused = false;
 
-    bool m_shouldPop = false;  // for deferred pop
+    // for deferred stack operations
+    bool m_shouldPop = false;
+    bool m_shouldPush = false;
+    StatePtr m_tmpStat;
 };
 
 #endif
