@@ -6,6 +6,9 @@
 #include "Game/States/LoadingState.h"
 #include "SfmlUtil.h"
 
+#include <imgui.h>
+#include <imgui-SFML.h>
+
 Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World", sf::Style::Fullscreen), m_stateManager(m_win) {}
 // Game::Game() : m_win(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height), "World"), m_stateManager(m_win) {}
 //  Game::Game() : m_win(sf::VideoMode(WIN_SIZE_X, WIN_SIZE_Y), "World"), m_stateManager(m_win) {}
@@ -15,7 +18,7 @@ void Game::initImGui() {
     bool ImGuiInit = ImGui::SFML::Init(m_win, false);
     ImGui::GetIO().Fonts->Clear();
     // TODO: check imgui font range and load hebrew range 0x0590 - 0x05FF
-    ImGui::GetIO().Fonts->AddFontFromFileTTF("fonts/ttf/KlokanTechNotoSans-Regular.ttf", 25.f);
+    ImGui::GetIO().Fonts->AddFontFromFileTTF("resources/fonts/ttf/KlokanTechNotoSans-Regular.ttf", 25.f);
     bool i = ImGui::SFML::UpdateFontTexture();
     // set my style for ImGui
     ImGuiStyle& style = ImGui::GetStyle();

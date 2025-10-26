@@ -11,12 +11,6 @@
 
 #define FPS 60
 
-#if defined(_WIN32) || defined(__CYGWIN__)
-// windows
-#define FONT_PATH "C:/Windows/Fonts/Arial.ttf"
-#elif defined(__linux__)
-// Linux
-#define FONT_PATH "/usr/share/fonts/noto/NotoSansMono-Regular.ttf"
-#endif
+#define FONT_PATH "/usr/share/fonts/google-noto/NotoSansMono-Regular.ttf"
 
 #endif

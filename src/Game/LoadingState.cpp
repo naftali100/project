@@ -4,10 +4,12 @@
 #include "Game/States/WelcomeState.h"
 #include "Resources.h"
 
+#include <SFML/Audio/Music.hpp>
+
 LoadingState::LoadingState(StateManager& sm) : State(sm), m_loadingThread(&LoadingState::loadResources, this) {
     m_loadingThread.launch();
-    FontHolder::load(Fonts::Main, FONT_PATH);
-    TextureHolder::load(Textures::Loading, "textures/loading.png");
+    FontHolder::load(Fonts::Main, "resources/fonts/ttf/KlokanTechNotoSans-Regular.ttf");
+    TextureHolder::load(Textures::Loading, "resources/textures/loading.png");
 
     m_spinnerSprite.setTexture(TextureHolder::get(Textures::Loading));
     m_spinnerSprite.scale(2, 2);
@@ -41,45 +43,46 @@ void loadMusic(Music::ID id, const std::string& path) {
 }
 
 void LoadingState::loadResources() {
-    TextureHolder::load(Textures::Terrorist, "textures/bomb.png");
-    TextureHolder::load(Textures::Door, "textures/door-open.png");
-    TextureHolder::load(Textures::Explosion, "textures/explosion.png");
-    TextureHolder::load(Textures::GameOver, "textures/gameover.jpg");
-    TextureHolder::load(Textures::Gift, "textures/gift.png");
-    TextureHolder::load(Textures::Jail, "textures/jail.png");
-    TextureHolder::load(Textures::SkyBackground, "textures/sky.jpg");
-    TextureHolder::load(Textures::level1, "textures/level1.png");
-    TextureHolder::load(Textures::level2, "textures/level2.png");
-    TextureHolder::load(Textures::level3, "textures/level3.png");
-    TextureHolder::load(Textures::level4, "textures/level4.png");
-    TextureHolder::load(Textures::level5, "textures/level5.png");
-    TextureHolder::load(Textures::level1Background, "textures/level1Background.jpg");
-    TextureHolder::load(Textures::level2Background, "textures/level2Background.jpg");
-    TextureHolder::load(Textures::level3Background, "textures/level3Background.jpg");
-    TextureHolder::load(Textures::level4Background, "textures/level4Background.jpg");
-    TextureHolder::load(Textures::level5Background, "textures/level5Background.jpg");
-    TextureHolder::load(Textures::Smoke, "textures/smoke.png");
-    TextureHolder::load(Textures::SoldierBackground, "textures/bg-1.jpg");
-    TextureHolder::load(Textures::Stars, "textures/stars.png");
-    TextureHolder::load(Textures::TerroristRunLeft, "textures/trrorist-final-left-run.png");
-    TextureHolder::load(Textures::TerroristRunRight, "textures/trrorist-final-1.png");
-    TextureHolder::load(Textures::Wall, "textures/wall-final.png");
+    sf::Lock lock(m_mutex);
+
+    TextureHolder::load(Textures::Terrorist, "resources/textures/bomb.png");
+    TextureHolder::load(Textures::Door, "resources/textures/door-open.png");
+    TextureHolder::load(Textures::Explosion, "resources/textures/explosion.png");
+    TextureHolder::load(Textures::GameOver, "resources/textures/gameover.jpg");
+    TextureHolder::load(Textures::Gift, "resources/textures/gift.png");
+    TextureHolder::load(Textures::Jail, "resources/textures/jail.png");
+    TextureHolder::load(Textures::SkyBackground, "resources/textures/sky.jpg");
+    TextureHolder::load(Textures::level1, "resources/textures/level1.png");
+    TextureHolder::load(Textures::level2, "resources/textures/level2.png");
+    TextureHolder::load(Textures::level3, "resources/textures/level3.png");
+    TextureHolder::load(Textures::level4, "resources/textures/level4.png");
+    TextureHolder::load(Textures::level5, "resources/textures/level5.png");
+    TextureHolder::load(Textures::level1Background, "resources/textures/level1Background.jpg");
+    TextureHolder::load(Textures::level2Background, "resources/textures/level2Background.jpg");
+    TextureHolder::load(Textures::level3Background, "resources/textures/level3Background.jpg");
+    TextureHolder::load(Textures::level4Background, "resources/textures/level4Background.jpg");
+    TextureHolder::load(Textures::level5Background, "resources/textures/level5Background.jpg");
+    TextureHolder::load(Textures::Smoke, "resources/textures/smoke.png");
+    TextureHolder::load(Textures::SoldierBackground, "resources/textures/bg-1.jpg");
+    TextureHolder::load(Textures::Stars, "resources/textures/stars.png");
+    TextureHolder::load(Textures::TerroristRunLeft, "resources/textures/trrorist-final-left-run.png");
+    TextureHolder::load(Textures::TerroristRunRight, "resources/textures/trrorist-final-1.png");
+    TextureHolder::load(Textures::Wall, "resources/textures/wall-final.png");
     TextureHolder::get(Textures::Wall).setRepeated(true);
 
     // FontHolder::load(Fonts::Main, FONT_PATH);
-    FontHolder::load(Fonts::Test, "fonts/ttf/KlokanTechNotoSans-Regular.ttf");
+    FontHolder::load(Fonts::Test, "resources/fonts/ttf/KlokanTechNotoSans-Regular.ttf");
 
-    loadMusic(Music::Background1, "music/b1.ogg");
-    loadMusic(Music::Background2, "music/b2.ogg");
-    loadMusic(Music::Background3, "music/b3.ogg");
-    loadMusic(Music::Background4, "music/b4.ogg");
+    loadMusic(Music::Background1, "resources/music/b1.ogg");
+    loadMusic(Music::Background2, "resources/music/b2.ogg");
+    loadMusic(Music::Background3, "resources/music/b3.ogg");
+    loadMusic(Music::Background4, "resources/music/b4.ogg");
 
-    SoundBufferHolder::load(SoundEffect::Explosion, "soundEffects/explosion-1.ogg");
-    SoundBufferHolder::load(SoundEffect::Gift, "soundEffects/gift1.ogg");
-    SoundBufferHolder::load(SoundEffect::Jailed, "soundEffects/jail-sound.ogg");
-    SoundBufferHolder::load(SoundEffect::Lose, "soundEffects/lose1.ogg");
+    SoundBufferHolder::load(SoundEffect::Explosion, "resources/soundEffects/explosion-1.ogg");
+    SoundBufferHolder::load(SoundEffect::Gift, "resources/soundEffects/gift1.ogg");
+    SoundBufferHolder::load(SoundEffect::Jailed, "resources/soundEffects/jail-sound.ogg");
+    SoundBufferHolder::load(SoundEffect::Lose, "resources/soundEffects/lose1.ogg");
 
-    sf::Lock lock(m_mutex);
     m_threadFinished = true;
 }
 
@@ -91,7 +94,7 @@ void LoadingState::update(const sf::Time& dt) {
     // m_text.move(dt.asSeconds() * 100, 0);
 
     // check if load finished
-    sf::Lock lock(m_mutex);
+    // sf::Lock lock(m_mutex);
     if (m_threadFinished) {
         m_stateManager.replaceState(std::make_unique<WelcomeState>(m_stateManager));
     }

@@ -16,6 +16,20 @@
 - auto include cpp in cmake
 - github actions
 
+## Compile and run
+```
+cmake -B build
+cmake --build build
+./build/sfml-template
+```
+
+#### Debug
+```
+cmake -DCMAKE_BUILD_TYPE=Debug -B build
+cmake --build build
+gdb ./build/sfml-template
+```
+
 Monkeys Spinning Monkeys Kevin MacLeod (incompetech.com)
 Licensed under Creative Commons: By Attribution 3.0 License
 http://creativecommons.org/licenses/by/3.0/

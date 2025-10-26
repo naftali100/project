@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "StateManager.h"
 
 StateManager::StateManager(sf::RenderWindow& win) : m_win(win) {
