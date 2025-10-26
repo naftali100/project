@@ -2,7 +2,7 @@ file(GLOB_RECURSE source_files "${CMAKE_CURRENT_LIST_DIR}/*.cpp")
 list(REMOVE_ITEM source_files "${CMAKE_CURRENT_LIST_DIR}/main.cpp")
 
 add_library(${SOURCES_LIB} OBJECT ${source_files})
-target_link_libraries(${SOURCES_LIB} PUBLIC plog)
+target_link_libraries(${SOURCES_LIB} PUBLIC plog::plog)
 
 target_precompile_headers(${SOURCES_LIB} PUBLIC "${CMAKE_SOURCE_DIR}/include/pch.h")
 
